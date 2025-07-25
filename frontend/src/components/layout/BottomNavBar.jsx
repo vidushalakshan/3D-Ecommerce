@@ -31,8 +31,7 @@ const BottomNavBar = () => {
                     hover: {},
                     active: {},
                   }}
-                  className={`group relative h-[24px] overflow-hidden text-[#2a2d34] font-medium text-[15px] 
-                    ${isActive ? "text-[#D10024]" : "hover:text-[#D10024]"}`}
+                  className={`group relative h-[24px] overflow-hidden text-[#2a2d34] font-medium text-[15px] ${isActive ? "text-[#D10024]" : "hover:text-[#D10024]"}`}
                 >
                   {/* Slide-up text effect */}
                   <span className="whitespace-nowrap block transition-all duration-300 group-hover:-translate-y-full">
