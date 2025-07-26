@@ -3,6 +3,7 @@ import NavBar from "@/components/layout/NavBar"
 import BottomNavBar from "@/components/layout/BottomNavBar"
 import Collection from "@/components/pages/collection/Collection"
 import NewProduct from "@/components/pages/newProduct/NewProduct"
+import Hotdeal from "@/components/pages/hotDeal/Hotdeal"
 
 const page = () => {
   return (
@@ -12,6 +13,7 @@ const page = () => {
       <BottomNavBar />
       <Collection />
       <NewProduct />
+      <Hotdeal />
     </div>
   )
 }
