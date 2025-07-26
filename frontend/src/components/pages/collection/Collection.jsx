@@ -1,5 +1,5 @@
 import Image from "next/image";
-import images from "../../constants/images";
+import images from "../../../constants/images";
 
 const CollectionCard = ({ imgSrc, title }) => {
   return (
