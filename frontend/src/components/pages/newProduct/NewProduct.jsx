@@ -3,6 +3,8 @@ import Image from "next/image";
 import images from "@/constants/images";
 import { motion, useAnimation } from "framer-motion";
 import { useState, useEffect } from "react";
+import { MdKeyboardArrowLeft } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 const products = [
   {
@@ -80,7 +82,9 @@ const ProductCard = ({ product }) => {
           View Details
         </button>
       </div>
-      <span className="text-white text-[10px] bg-red-600 py-2 px-3 rounded absolute right-4">NEW</span>
+      <span className="text-white text-[10px] bg-red-600 py-2 px-3 rounded absolute right-4">
+        NEW
+      </span>
     </div>
   );
 };
@@ -101,7 +105,7 @@ const NewProduct = () => {
   }, [isPaused, controls]);
 
   return (
-    <section className="max-w-7xl mx-auto text-gray-950 px-4 overflow-hidden">
+    <section className="max-w-7xl mx-auto text-gray-950 overflow-hidden">
       <h1 className="text-gray-950 text-2xl font-bold pt-20">NEW PRODUCTS</h1>
       <motion.div
         className="flex flex-nowrap gap-6 pt-10 cursor-pointer"
@@ -113,6 +117,10 @@ const NewProduct = () => {
           <ProductCard key={index} product={product} />
         ))}
       </motion.div>
+      <div className="flex justify-end items-center  gap-4 mt-6 text-gray-500 ">
+        <MdKeyboardArrowLeft className="w-[30px] h-[30px] border rounded-4xl hover:text-gray-800 hover:cursor-pointer"/>
+        <MdKeyboardArrowRight className="w-[30px] h-[30px] border rounded-4xl hover:text-gray-800 hover:cursor-pointer"/>
+      </div>
     </section>
   );
 };
