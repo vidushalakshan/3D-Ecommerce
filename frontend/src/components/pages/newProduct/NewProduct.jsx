@@ -49,7 +49,7 @@ const products = [
 ];
 
 const ProductCard = ({ product }) => (
-  <div className="flex-shrink-0 relative flex flex-col items-center border p-4 w-[280px] rounded-lg shadow-lg text-center mx-2 hover:border-2 border-red-800">
+  <div className="flex-shrink-0 relative flex flex-col items-center border-2 border-gray-400 p-4 w-[280px] rounded-lg shadow-lg text-center mx-2 hover:border-2 hover:border-red-800">
     <div className="flex justify-center items-center h-[200px]">
       <Image
         src={product.image}
@@ -145,7 +145,7 @@ const NewProduct = () => {
           ))}
         </motion.div>
       </div>
-      <div className="absolute bottom-0 right-13  "> 
+      <div className="absolute bottom-0 right-13 opacity-90 "> 
         <button
           onClick={moveLeft}
           className="transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 hover:cursor-pointer mr-2"
