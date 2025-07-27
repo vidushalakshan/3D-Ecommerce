@@ -105,15 +105,17 @@ const TopSelling = () => {
   const column2 = [...products].reverse();
   const column3 = [...products];
   const column4 = [...products].reverse();
+  const column5 = [...products];
 
   return (
     <section className="max-w-7xl mx-auto text-gray-950 relative">
-      <h1 className="text-gray-950 text-2xl font-bold pt-15">TOP SELLING</h1>
-      <div className="flex justify-around mt-10 gap-32 h-[500px] overflow-hidden">
+       <h1 className="text-gray-950 text-2xl font-bold pt-20">TOP SELLING</h1>
+      <div className="flex justify-around mt-10 gap- h-[500px] overflow-hidden">
         <Column products={column1} delay={0} />
         <Column products={column2} delay={5} />
         <Column products={column3} delay={10} />
         <Column products={column4} delay={15} />
+        <Column products={column5} delay={15} />
       </div>
     </section>
   );

@@ -15,7 +15,7 @@ const TopNavBar = () => {
           </div>
           <div className="flex items-center gap-2">
             <MdEmail color="#D10024" size={15} />
-            <span className="text-[13px]">email@example.com</span>
+            <span className="text-[13px]">infoelctro@gmail.com</span>
           </div>
           <div className="flex items-center gap-2">
             <IoLocationSharp color="#D10024" size={15} />

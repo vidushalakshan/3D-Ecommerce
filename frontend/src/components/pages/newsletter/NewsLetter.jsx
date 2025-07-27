@@ -16,7 +16,7 @@ const NewsLetter = () => {
         <h2 className="text-[27px] font-bold">
           <span className="font-normal">Sign Up for the </span>NEWSLETTER
         </h2>
-
+        
         {/* Subtitle */}
         <p className="text-gray-600 text-[16px] mt-4 text-center max-w-md">
           Subscribe to our newsletter for the latest updates and offers.
