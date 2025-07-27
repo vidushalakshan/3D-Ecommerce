@@ -70,30 +70,41 @@ const ProductCard = ({ product }) => (
   </div>
 );
 
-const Column = ({ products, delay }) => (
-  <motion.div
-    className="flex flex-col gap-4"
-    animate={{ y: ["0%", "-100%"] }}
-    transition={{
-      repeat: Infinity,
-      repeatType: "loop",
-      duration: 15,
-      ease: "linear",
-      delay,
-    }}
-  >
-    {/* Duplicate products for smooth looping */}
-    {[...products, ...products].map((product, index) => (
-      <ProductCard key={index} product={product} />
-    ))}
-  </motion.div>
-);
+const Column = ({ products, delay }) => {
+  // Calculate the total height of all products plus gaps
+  const itemHeight = 100; // h-[100px]
+  const gapSize = 16; // gap-4 = 1rem = 16px
+  const totalHeight = (products.length * (itemHeight + gapSize)) - gapSize;
+  
+  return (
+    <motion.div
+      className="flex flex-col gap-4 will-change-transform"
+      initial={{ y: 0 }}
+      animate={{ y: -totalHeight }}
+      transition={{
+        repeat: Infinity,
+        repeatType: "loop",
+        duration: 20, // Increased duration for smoother effect
+        ease: "linear",
+        delay,
+      }}
+    >
+      {/* Render original and duplicate */}
+      {products.map((product, index) => (
+        <ProductCard key={`original-${index}`} product={product} />
+      ))}
+      {products.map((product, index) => (
+        <ProductCard key={`duplicate-${index}`} product={product} />
+      ))}
+    </motion.div>
+  );
+};
 
 const TopSelling = () => {
   const column1 = products;
-  const column2 = [...products].reverse(); // for variation
-  const column3 = products;
-    const column4 = products.reverse(); ;
+  const column2 = [...products].reverse();
+  const column3 = [...products];
+  const column4 = [...products].reverse();
 
   return (
     <section className="max-w-7xl mx-auto text-gray-950 relative">
