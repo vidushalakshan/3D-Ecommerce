@@ -5,6 +5,7 @@ import Collection from "@/components/pages/collection/Collection"
 import NewProduct from "@/components/pages/newProduct/NewProduct"
 import Hotdeal from "@/components/pages/hotDeal/Hotdeal"
 import TopSelling from "@/components/pages/topselling/TopSelling"
+import NewsLetter from "@/components/pages/newsletter/NewsLetter"
 
 const page = () => {
   return (
@@ -16,6 +17,7 @@ const page = () => {
       <NewProduct />
       <Hotdeal />
       <TopSelling />
+      <NewsLetter />
     </div>
   )
 }
