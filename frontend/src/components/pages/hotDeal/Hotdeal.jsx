@@ -53,11 +53,11 @@ const Hotdeal = () => {
         {/* Text */}
         <div className="text-gray-900">
           <h2 className="text-2xl md:text-4xl font-bold">HOT DEAL THIS WEEK</h2>
-          <p className="text-lg md:text-2xl mt-1">NEW COLLECTION UP TO 50% OFF</p>
+          <p className="text-lg md:text-[25px] mt-2">NEW COLLECTION UP TO 50% OFF</p>
         </div>
 
         {/* Button */}
-        <button className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+        <button className="bg-red-600 text-white px-6 py-2 rounded-4xl font-bold hover:bg-red-700 transition duration-300">
           SHOP NOW
         </button>
       </div>
