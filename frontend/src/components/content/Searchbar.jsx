@@ -50,7 +50,7 @@ export default function SearchBar({
       {/* Search Button */}
       <button
         type="submit"
-        className={`px-6 py-2 bg-[#D10024] text-[#eeeeee] font-bold text-[16px] rounded-r-full hover:bg-red-600 transition ${buttonClassName}`}
+        className={`px-6 py-2 bg-blue-600 text-[#eeeeee] font-bold text-[16px] rounded-r-full hover:bg-blue-700 transition ${buttonClassName}`}
       >
         {buttonText}
       </button>

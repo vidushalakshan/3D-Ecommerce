@@ -16,8 +16,11 @@ const BottomNavBar = () => {
         </div>
         <div className="flex items-center gap-[40px] max-w-7xl mx-auto">
           {navItems.map((item) => {
+            const normalizePath = (path) =>
+              path === "/" ? "/" : path.replace(/\/$/, "");
+
             const isActive =
-              pathname.replace(/\/$/, "") === item.href.replace(/\/$/, "");
+              normalizePath(pathname) === normalizePath(item.href);
 
             return (
               <motion.a
@@ -51,14 +54,14 @@ const BottomNavBar = () => {
                     active: { x: "0%" },
                   }}
                   transition={{ duration: 0.3 }}
-                  className="absolute left-0 -bottom-[6px] w-full h-[8px] bg-[#D10024]"
+                  className="absolute left-0 -bottom-[6px] w-full h-[8px] bg-[#277CD9]"
                 />
               </motion.a>
             );
           })}
         </div>
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
-          <Searchbar className="bg-#277CD9" />
+          <Searchbar />
         </div>
       </div>
     </section>
