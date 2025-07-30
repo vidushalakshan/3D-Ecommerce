@@ -2,11 +2,10 @@ import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 import { CiHeart, CiShoppingCart, CiUser } from "react-icons/ci";
-import { LuBox } from "react-icons/lu";
 
 const TopNavBar = () => {
   return (
-    <section className="bg-[#1E1F29] text-white px-3 py-3 text-sm">
+    <section className="bg-[#1E1F29] shadow-md transition-all duration-300 px-3 py-3 text-sm">
       <div className="flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 max-w-7xl mx-auto">
         {/* Left Side Info */}
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
