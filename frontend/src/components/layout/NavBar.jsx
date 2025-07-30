@@ -1,7 +1,5 @@
 import Searchbar from "../content/Searchbar";
-import { CiHeart } from "react-icons/ci";
-import { CiShoppingCart } from "react-icons/ci";
-import { CiUser } from "react-icons/ci";
+import { CiHeart, CiShoppingCart,CiUser  } from "react-icons/ci";
 
 const NavBar = () => {
   return (
@@ -9,11 +7,13 @@ const NavBar = () => {
       <div className="flex flex-col md:flex-row justify-between items-center md:gap-4 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
           <h1 className="text-5xl font-bold text-[#eeeeee]">
-            Electro<span className="text-[#D10024]">.</span>
+            Electro<span style={{ color: "rgba(39, 124, 217, 1)" }}>.</span>
           </h1>
         </div>
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
-          <Searchbar />
+          <Searchbar  
+            className="bg-#277CD9"
+          />
         </div>
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
           <div>

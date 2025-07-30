@@ -3,7 +3,9 @@ import Image from "next/image";
 import images from "@/constants/images";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
+import { IoEyeOutline } from "react-icons/io5";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { CiHeart } from "react-icons/ci";
 
 const products = [
   {
@@ -54,7 +56,7 @@ const ProductCard = ({ product }) => (
       <Image
         src={product.image}
         alt={product.name}
-        className="w-[200px] h-auto object-contain"
+        className="w-[200px] h-auto object-contain bg-gray-100 p-3 rounded-lg"
       />
     </div>
     <span className="text-[14px] text-gray-500 mt-4 uppercase h-[20px] flex items-center">
@@ -76,12 +78,15 @@ const ProductCard = ({ product }) => (
       <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
         Add to Cart
       </button>
-      <button className="bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
-        View Details
-      </button>
     </div>
-    <span className="text-white text-[10px] bg-red-600 py-2 px-3 rounded absolute right-4">
+    <span className="text-white text-[10px] bg-red-600 py-2 px-3 rounded absolute left-4">
       NEW
+    </span>
+    <span className="text-black text-[10px] bg-white py-2 px-3 rounded-4xl absolute right-4">
+      <CiHeart size={26} />
+    </span>
+        <span className="text-black text-[10px] bg-white py-2 px-3 rounded-4xl absolute top-15 right-4">
+        <IoEyeOutline size={23} />
     </span>
   </div>
 );
@@ -145,7 +150,7 @@ const NewProduct = () => {
           ))}
         </motion.div>
       </div>
-      <div className="absolute bottom-0 right-13 opacity-90 "> 
+      <div className="absolute bottom-0 right-13 opacity-90 ">
         <button
           onClick={moveLeft}
           className="transform -translate-y-1/2 bg-white shadow-lg rounded-full p-2 hover:bg-gray-100 hover:cursor-pointer mr-2"

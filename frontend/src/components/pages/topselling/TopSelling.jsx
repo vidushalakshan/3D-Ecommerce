@@ -110,7 +110,7 @@ const TopSelling = () => {
   return (
     <section className="max-w-7xl mx-auto text-gray-950 relative">
        <h1 className="text-gray-950 text-2xl font-bold pt-20">TOP SELLING</h1>
-      <div className="flex justify-around mt-10 gap- h-[500px] overflow-hidden">
+      <div className="flex justify-around mt-10 gap-32 h-[500px] overflow-hidden">
         <Column products={column1} delay={0} />
         <Column products={column2} delay={5} />
         <Column products={column3} delay={10} />
