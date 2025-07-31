@@ -10,7 +10,7 @@ const socialLinks = [
 
 const NewsLetter = () => {
   return (
-    <section className="bg-white py-20">
+    <section className="bg-white py-20 ">
       <div className="flex flex-col items-center max-w-7xl mx-auto text-gray-950 px-4">
         {/* Title */}
         <h2 className="text-[27px] font-bold">
