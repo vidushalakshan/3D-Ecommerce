@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const BottomNavBar = () => {
   const pathname = usePathname();
   return (
-    <section className="bg-[#15161D] shadow-md transition-all duration-300 px-4 py-4">
+    <section className="bg-[#15161D] shadow-md transition-all duration-300 px-4 py-4 opacity-70 hover:opacity-100">
       <div className="flex flex-col md:flex-row justify-between items-center md:gap-4 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
           <h1 className="text-[35px] font-bold text-[#eeeeee]">
