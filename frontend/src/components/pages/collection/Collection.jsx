@@ -14,7 +14,7 @@ const CollectionCard = ({ imgSrc, title }) => {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-red-600 clip-triangle opacity-90"></div>
+      <div className="absolute inset-0 bg-blue-600 clip-triangle opacity-90"></div>
 
       {/* Text Content */}
       <div className="absolute top-6 left-6 text-white">
