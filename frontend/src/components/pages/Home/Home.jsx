@@ -2,8 +2,8 @@
 import { useState } from "react";
 
 const Home = () => {
-   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const videoSrc = "/video/background.mp4";
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const videoSrc = "/video/background.mp4"; // Adjust the path as necessary
 
   return (
     <section className="relative flex items-center justify-center h-screen bg-black overflow-hidden">
@@ -24,17 +24,24 @@ const Home = () => {
       <div className="absolute top-0 left-0 w-full h-full bg-black/30 z-0" />
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl w-full px-6 py-12 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        {/* Left Side: Text Content */}
-        <div className="text-white space-y-6">
+      <div className="relative z-10 w-full px-6 py-20 flex justify-center items-center">
+        {/* Content Container */}
+        <div className="text-center text-white flex flex-col justify-center items-center space-y-6 max-w-3xl">
           <h2 className="text-4xl md:text-5xl font-bold leading-tight">
             Welcome to TechStore
           </h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-md">
-            Explore our premium selection of electronics – from high-performance
-            laptops to accessories and cameras, all crafted for tech enthusiasts.
+
+          <p className="text-lg md:text-xl text-gray-300">
+            Explore our premium selection of electronics — from high-performance
+            laptops and smart devices to essential accessories and cameras.
           </p>
-          <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-md transition">
+
+          <p className="text-base md:text-lg text-gray-400">
+            Discover the latest technology at competitive prices, backed by fast
+            shipping and reliable customer service.
+          </p>
+
+          <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition duration-300">
             Browse All Products
           </button>
         </div>
