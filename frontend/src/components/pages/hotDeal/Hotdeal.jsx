@@ -4,7 +4,7 @@ import images from "@/constants/images";
 import { useEffect, useState } from "react";
 
 const CountdownItem = ({ value, label }) => (
-  <div className="flex flex-col justify-center items-center bg-red-700 text-white rounded-full w-20 h-20 md:w-24 md:h-24 shadow-md">
+  <div className="flex flex-col justify-center items-center bg-blue-600 text-white rounded-full w-20 h-20 md:w-24 md:h-24 shadow-md">
     <span className="text-lg md:text-2xl font-bold">{value}</span>
     <span className="text-xs md:text-sm font-medium">{label}</span>
   </div>
@@ -57,7 +57,7 @@ const Hotdeal = () => {
         </div>
 
         {/* Button */}
-        <button className="bg-red-600 text-white px-6 py-2 rounded-4xl font-bold hover:bg-red-700 transition duration-300">
+        <button className="bg-blue-600 text-white px-8 py-3 rounded-4xl font-bold hover:bg-blue-800 transition duration-300">
           SHOP NOW
         </button>
       </div>

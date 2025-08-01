@@ -16,6 +16,7 @@ const products = [
     type: "Gaming Laptop",
     model: "G930",
     price: 2018.0,
+    oldPrice: 2500.0,
     isHot: false,
     image: images.collectionLaptop,
   },
@@ -26,6 +27,7 @@ const products = [
     type: "Wireless Headset",
     model: "XM5",
     price: 418.0,
+    oldPrice: 500.0,
     isHot: true,
     image: images.collectionHeadset,
   },
@@ -36,6 +38,7 @@ const products = [
     type: "Flagship Phone",
     model: "S24",
     price: 1199.0,
+    oldPrice: 1299.0,
     isHot: true,
     image: images.collectionLaptop,
   },
@@ -46,6 +49,7 @@ const products = [
     type: "DSLR Camera",
     model: "R6",
     price: 2499.0,
+    oldPrice: 2800.0,
     isHot: false,
     image: images.collectionCamara,
   },
@@ -56,6 +60,7 @@ const products = [
     type: "Rugged Watch",
     model: "Ultra 2",
     price: 799.0,
+    oldPrice: 899.0,
     isHot: true,
     image: images.collectionLaptop,
   },
@@ -126,7 +131,8 @@ const ProductCard = ({ product }) => {
         {product.type}
       </div>
       <div className="text-lg font-semibold text-black">
-        ${product.price.toFixed(2)}
+        ${product.price}
+        <del className="ml-1 text-[15px] text-gray-600">{product.oldPrice}</del>
       </div>
 
       <hr className="w-full border-t border-gray-300 my-3" />
