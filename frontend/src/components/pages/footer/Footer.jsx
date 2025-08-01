@@ -16,15 +16,15 @@ export default function Footer() {
           </p>
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2">
-              <IoLocationSharp color="#D10024" size={15} />
+              <IoLocationSharp color="blue" size={15} />
               No 15 Galle Road, Colombo
             </li>
             <li className="flex items-center gap-2">
-              <BsFillTelephoneFill color="#D10024" size={13} />
+              <BsFillTelephoneFill color="blue" size={13} />
               +94-111324353
             </li>
             <li className="flex items-center gap-2">
-              <MdEmail color="#D10024" size={15} />
+              <MdEmail color="blue" size={15} />
               infoelctro@gmail.com
             </li>
           </ul>
@@ -35,27 +35,27 @@ export default function Footer() {
           <h2 className="text-lg font-bold mb-4">CATEGORIES</h2>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Hot deals
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Laptops
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Smartphones
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Cameras
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Accessories
               </a>
             </li>
@@ -67,27 +67,27 @@ export default function Footer() {
           <h2 className="text-lg font-bold mb-4">INFORMATION</h2>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 About Us
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Contact Us
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Privacy Policy
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Orders and Returns
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Terms & Conditions
               </a>
             </li>
@@ -99,27 +99,27 @@ export default function Footer() {
           <h2 className="text-lg font-bold mb-4">SERVICE</h2>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 My Account
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 View Cart
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Wishlist
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Track My Order
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-red-500">
+              <a href="#" className="hover:text-blue-600">
                 Help
               </a>
             </li>
@@ -132,7 +132,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex  md:flex-row items-center justify-center text-xs text-gray-400">
           <p className="text-center md:text-right">
             ©2025 All rights reserved | Developed by{" "}
-            <span className="text-red-500 font-medium">Vidusha</span>
+            <span className="text-blue-600 font-medium">Vidusha</span>
           </p>
         </div>
       </div>
