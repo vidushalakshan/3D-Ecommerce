@@ -1,9 +1,13 @@
+"use client";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 import { CiHeart, CiShoppingCart, CiUser } from "react-icons/ci";
+import { useClerk, useUser } from "@clerk/nextjs";
 
 const TopNavBar = () => {
+  const { openSignIn } = useClerk();
+  const { isSignedIn } = useUser();
   return (
     <section className="bg-[#1E1F29] shadow-md transition-all duration-300 px-3 py-3 text-sm">
       <div className="flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 max-w-7xl mx-auto">
@@ -31,9 +35,19 @@ const TopNavBar = () => {
           <div>
             <CiShoppingCart size={26} />
           </div>
-          <div>
-            <CiUser size={25} />
-          </div>
+          <button
+  className="hover:cursor-pointer"
+  onClick={() => {
+    if (!isSignedIn) {
+      openSignIn();
+    } else {
+      // Maybe navigate to profile or show a dropdown menu
+     alert("User already signed in");
+    }
+  }}
+>
+  <CiUser size={25} />
+</button>
         </div>
       </div>
     </section>
