@@ -5,15 +5,18 @@ import { navItems } from "../../../public/data/menu";
 import { usePathname } from "next/navigation";
 
 const BottomNavBar = () => {
-  const pathname = usePathname();
+const pathname = usePathname();
+console.log("Current pathname:", pathname);
   return (
     <section className="bg-[#15161D] shadow-md transition-all duration-300 px-4 py-4 opacity-70 hover:opacity-100">
       <div className="flex flex-col md:flex-row justify-between items-center md:gap-4 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
           <h1 className="text-[35px] font-bold text-[#eeeeee]">
             Electro<span style={{ color: "rgba(39, 124, 217, 1)" }}>.</span>
+            
           </h1>
         </div>
+        
         <div className="flex items-center gap-[40px] max-w-7xl mx-auto">
           {navItems.map((item) => {
             const normalizePath = (path) =>

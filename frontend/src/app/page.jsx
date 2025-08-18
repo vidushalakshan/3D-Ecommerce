@@ -6,7 +6,7 @@ import TopSelling from "@/components/pages/topselling/TopSelling"
 import NewsLetter from "@/components/pages/newsletter/NewsLetter"
 import Footer from "@/components/pages/footer/Footer"
 import NavBar from "@/components/layout/NavBar"
-import Home from "@/components/pages/Home/Home"
+import Home from "@/components/pages/home/Home"
 
 const page = () => {
   return (

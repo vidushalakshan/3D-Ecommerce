@@ -41,7 +41,7 @@ const Home = () => {
             shipping and reliable customer service.
           </p>
 
-          <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition duration-300">
+          <button onClick={() => {}} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition duration-300">
             Browse All Products
           </button>
         </div>

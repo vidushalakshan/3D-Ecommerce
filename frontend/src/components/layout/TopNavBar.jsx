@@ -49,7 +49,7 @@ const TopNavBar = () => {
   <CiUser size={25} />
 </button>
         </div>
-      </div>
+      </div>  
     </section>
   );
 };
