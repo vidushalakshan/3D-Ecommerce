@@ -15,3 +15,14 @@ export async function POST(request) {
         return NextResponse.json({ error: err.message }, { status: 500 });
     }
 }
+
+//Get all products
+export async function GET() {
+    try {
+        await connectDB();
+        const products = await Product.find({});
+        return NextResponse.json(products);
+    } catch (err) {
+        return NextResponse.json({ error: err.message }, { status: 500 });
+    }
+}
