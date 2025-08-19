@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { MdCategory } from "react-icons/md";
 
 const ProductSchema = new mongoose.Schema({
     name: {
