@@ -93,8 +93,6 @@ export async function POST(req) {
   }
 }
 
-
-
 //Get all products
 export async function GET() {
     try {
