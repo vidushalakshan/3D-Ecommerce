@@ -2,12 +2,9 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { IoEyeOutline } from "react-icons/io5";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { CiHeart } from "react-icons/ci";
-import { FiShoppingCart, FiMessageCircle } from "react-icons/fi";
 import ProductCard from "@/components/common/ProductCard";
-import images from "@/constants/images"; // Adjust this path accordingly
+import images from "@/constants/images"; 
 
 const products = [
   {

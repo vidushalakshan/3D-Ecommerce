@@ -1,9 +1,17 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Home = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoSrc = "/video/background.mp4"; // Adjust the path as necessary
+  
+const router = useRouter();
+
+  const handleClick = () => {
+    router.push("/allCategories"); // Navigate to the All Categories page
+    window.scrollTo(0, 0); // Scroll to the top of the page
+  }
 
   return (
     <section className="relative flex items-center justify-center h-screen bg-black overflow-hidden">
@@ -41,7 +49,7 @@ const Home = () => {
             shipping and reliable customer service.
           </p>
 
-          <button onClick={() => {}} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition duration-300">
+          <button onClick={handleClick} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition duration-300">
             Browse All Products
           </button>
         </div>

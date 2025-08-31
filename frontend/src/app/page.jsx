@@ -1,12 +1,12 @@
 import TopNavBar from "@/components/layout/TopNavBar"
-import Collection from "@/components/pages/collection/Collection"
-import NewProduct from "@/components/pages/newProduct/NewProduct"
-import Hotdeal from "@/components/pages/hotDeal/Hotdeal"
-import TopSelling from "@/components/pages/topselling/TopSelling"
-import NewsLetter from "@/components/pages/newsletter/NewsLetter"
-import Footer from "@/components/pages/footer/Footer"
 import NavBar from "@/components/layout/NavBar"
-import Home from "@/components/pages/home/Home"
+import Collection from "@/app/pages/collection/Collection"
+import NewProduct from "@/app/pages/newProduct/NewProduct"
+import Hotdeal from "@/app/pages/hotDeal/Hotdeal"
+import TopSelling from "@/app/pages/topselling/TopSelling"
+import NewsLetter from "@/app/pages/newsletter/NewsLetter"
+import Footer from "@/app/pages/footer/Footer"
+import Home from "./pages/home/Home"
 
 const page = () => {
   return (
