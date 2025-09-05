@@ -7,19 +7,23 @@ import TopSelling from "@/app/pages/topselling/TopSelling"
 import NewsLetter from "@/app/pages/newsletter/NewsLetter"
 import Footer from "@/app/pages/footer/Footer"
 import Home from "./pages/home/Home"
+import AdminDashboard from "./pages/admin-dashboard/AdminDashboard"
 
 const page = () => {
   return (
+    // <div>
+    //   <TopNavBar />
+    //   <NavBar />
+    //   <Home />
+    //   <Collection />
+    //   <NewProduct />
+    //   <Hotdeal />
+    //   <TopSelling />
+    //   <NewsLetter />
+    //   <Footer />
+    // </div>
     <div>
-      <TopNavBar />
-      <NavBar />
-      <Home />
-      <Collection />
-      <NewProduct />
-      <Hotdeal />
-      <TopSelling />
-      <NewsLetter />
-      <Footer />
+      <AdminDashboard />
     </div>
   )
 }
