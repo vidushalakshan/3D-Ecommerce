@@ -14,22 +14,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html>
-      <head />
-      <body>
+    <ClerkProvider>
+      <html lang="en" className={inter.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <ClerkProvider>
-            <html lang="en" className={inter.className}>
-              <body>{children}</body>
-            </html>
-          </ClerkProvider>
+          <body>{children}</body>
         </ThemeProvider>
-      </body>
-    </html>
+      </html>
+    </ClerkProvider>
   );
 }
