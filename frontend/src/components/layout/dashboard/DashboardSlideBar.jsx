@@ -1,4 +1,4 @@
-"use client";  // important for client-only UI
+"use client";
 
 import {
   Sidebar,
@@ -25,8 +25,12 @@ const items = [
 
 export default function DashboardSlideBar() {
   return (
-    <Sidebar>
-      <SidebarHeader />
+    <Sidebar collapsible="icon" >  
+      <SidebarHeader>
+        <SidebarMenuItem>
+          
+        </SidebarMenuItem>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
