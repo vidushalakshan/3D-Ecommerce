@@ -1,5 +1,6 @@
-import DashboardNav from "@/components/layout/dashboard/DashboardNav";
-import DashboardSlideBar from "@/components/layout/dashboard/DashboardSlideBar";
+import DashboardNav from "@/app/dashboard/DashboardNav";
+import DashboardSlideBar from "@/app/dashboard/DashboardSlideBar";
+import Homepage from "@/app/dashboard/Homepage";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import React, { Children } from "react";
 
@@ -10,6 +11,7 @@ const AdmonDashboard = ({ Children }) => {
         <DashboardSlideBar />
         <main className="w-full">
           <DashboardNav />
+          <Homepage />
           <div className="p-4">{Children}</div>
         </main>
       </SidebarProvider>

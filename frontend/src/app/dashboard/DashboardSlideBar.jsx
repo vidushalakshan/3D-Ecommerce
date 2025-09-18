@@ -16,20 +16,18 @@ import Link from "next/link";
 import { Home, Box, ShoppingCart, Users, Settings } from "lucide-react";
 
 const items = [
-  { title: "Home", url: "/", icon: Home },
-  { title: "Products", url: "/products", icon: Box },
-  { title: "Orders", url: "/orders", icon: ShoppingCart },
-  { title: "Customers", url: "/customers", icon: Users },
-  { title: "Settings", url: "/settings", icon: Settings },
+  { title: "Home", url: "/dashboard", icon: Home },
+  { title: "Products", url: "/dashboard/products", icon: Box },
+  { title: "Orders", url: "/dashboard/orders", icon: ShoppingCart },
+  { title: "Customers", url: "/dashboard/customers", icon: Users },
+  { title: "Settings", url: "/dashboard/settings", icon: Settings },
 ];
 
 export default function DashboardSlideBar() {
   return (
-    <Sidebar collapsible="icon" >  
+    <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarMenuItem>
-          
-        </SidebarMenuItem>
+        <SidebarMenuItem></SidebarMenuItem>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

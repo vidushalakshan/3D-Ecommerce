@@ -8,6 +8,7 @@ import NewsLetter from "@/app/pages/newsletter/NewsLetter"
 import Footer from "@/app/pages/footer/Footer"
 import Home from "./pages/home/Home"
 import AdminDashboard from "./pages/admin-dashboard/AdminDashboard"
+import DashboardLayout from "./dashboard/layout"
 
 const page = () => {
   return (
@@ -23,7 +24,7 @@ const page = () => {
     //   <Footer />
     // </div>
     <div>
-      <AdminDashboard />
+      <DashboardLayout />
     </div>
   )
 }
