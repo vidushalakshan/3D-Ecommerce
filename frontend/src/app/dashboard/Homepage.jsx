@@ -1,5 +1,15 @@
 "use client";
-import { Bar, BarChart, YAxis, CartesianGrid, XAxis } from "recharts";
+import React, { useState, useMemo } from "react";
+import {
+  Bar,
+  BarChart,
+  YAxis,
+  CartesianGrid,
+  XAxis,
+  Label,
+  Pie,
+  PieChart,
+} from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
@@ -8,9 +18,14 @@ import {
   ChartLegendContent,
 } from "../../components/ui/chart";
 import { Calendar } from "../../components/ui/calendar";
-import { useState } from "react";
-import { color } from "framer-motion";
+import { TrendingUp } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+} from "../../components/ui/card";
 
+// Bar chart config
 const chartConfig = {
   desktop: {
     label: "Products",
@@ -22,6 +37,7 @@ const chartConfig = {
   },
 };
 
+// Bar chart data
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
@@ -31,11 +47,37 @@ const chartData = [
   { month: "June", desktop: 214, mobile: 140 },
 ];
 
+// Pie chart data
+const chartDataa = [
+  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
+  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
+  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
+  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
+  { browser: "other", visitors: 190, fill: "var(--color-other)" },
+];
+
+// Pie chart config
+const chartConfigg = {
+  visitors: { label: "Visitors" },
+  chrome: { label: "Chrome", color: "var(--chart-1)" },
+  safari: { label: "Safari", color: "var(--chart-2)" },
+  firefox: { label: "Firefox", color: "var(--chart-3)" },
+  edge: { label: "Edge", color: "var(--chart-4)" },
+  other: { label: "Other", color: "var(--chart-5)" },
+};
+
 const Homepage = () => {
-const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
+
+  // ✅ FIX: Use chartDataa for visitors total
+  const totalVisitors = useMemo(() => {
+    return chartDataa.reduce((acc, curr) => acc + curr.visitors, 0);
+  }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-2 ">
+      {/* Bar Chart */}
+      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-2">
         <ChartContainer config={chartConfig} className="h-[400px] w-full">
           <BarChart accessibilityLayer data={chartData}>
             <CartesianGrid vertical={false} />
@@ -54,7 +96,9 @@ const [date, setDate] = useState(new Date());
           </BarChart>
         </ChartContainer>
       </div>
-      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-1 ">
+
+      {/* Calendar */}
+      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-1">
         <Calendar
           mode="single"
           selected={date}
@@ -63,7 +107,71 @@ const [date, setDate] = useState(new Date());
           style={{ "--calendar-accent": "var(--chart-4)" }}
         />
       </div>
-      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-1 "></div>
+
+      {/* Pie Chart */}
+      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-1">
+        <Card className="flex flex-col">
+          <CardContent className="flex-1 pb-0">
+            <ChartContainer
+              config={chartConfigg}
+              className="mx-auto aspect-square max-h-[250px]"
+            >
+              <PieChart>
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Pie
+                  data={chartDataa}
+                  dataKey="visitors"
+                  nameKey="browser"
+                  innerRadius={60}
+                  strokeWidth={5}
+                >
+                  <Label
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                          >
+                            <tspan
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                              className="fill-foreground text-3xl font-bold"
+                            >
+                              {totalVisitors.toLocaleString()}
+                            </tspan>
+                            <tspan
+                              x={viewBox.cx}
+                              y={(viewBox.cy || 0) + 24}
+                              className="fill-muted-foreground"
+                            >
+                              Visitors
+                            </tspan>
+                          </text>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter className="flex-col gap-2 text-sm">
+            <div className="flex items-center gap-2 leading-none font-medium">
+              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+            </div>
+            <div className="text-muted-foreground leading-none">
+              Showing total visitors for the last 6 months
+            </div>
+          </CardFooter>
+        </Card>
+      </div>
     </div>
   );
 };
