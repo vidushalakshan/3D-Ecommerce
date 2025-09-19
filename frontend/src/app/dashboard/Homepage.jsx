@@ -7,6 +7,9 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "../../components/ui/chart";
+import { Calendar } from "../../components/ui/calendar";
+import { useState } from "react";
+import { color } from "framer-motion";
 
 const chartConfig = {
   desktop: {
@@ -15,9 +18,10 @@ const chartConfig = {
   },
   mobile: {
     label: "Orders",
-    color: "var(--chart-2)",
+    color: "var(--chart-4)",
   },
 };
+
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
@@ -28,6 +32,7 @@ const chartData = [
 ];
 
 const Homepage = () => {
+const [date, setDate] = useState(new Date());
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-2 ">
@@ -48,6 +53,15 @@ const Homepage = () => {
             <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
           </BarChart>
         </ChartContainer>
+      </div>
+      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-1 ">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="rounded-lg border w-full h-auto"
+          style={{ "--calendar-accent": "var(--chart-4)" }}
+        />
       </div>
       <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-1 "></div>
     </div>
