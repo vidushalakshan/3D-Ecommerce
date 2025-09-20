@@ -9,6 +9,8 @@ import {
   Label,
   Pie,
   PieChart,
+  Area,
+  AreaChart,
 } from "recharts";
 import {
   ChartContainer,
@@ -16,29 +18,26 @@ import {
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
-} from "../../components/ui/chart";
-import { Calendar } from "../../components/ui/calendar";
+} from "@/components/ui/chart";
+import { Calendar } from "@/components/ui/calendar";
 import { TrendingUp } from "lucide-react";
 import {
   Card,
   CardContent,
   CardFooter,
-} from "../../components/ui/card";
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 // Bar chart config
-const chartConfig = {
-  desktop: {
-    label: "Products",
-    color: "var(--chart-1)",
-  },
-  mobile: {
-    label: "Orders",
-    color: "var(--chart-4)",
-  },
+const barConfig = {
+  desktop: { label: "Products", color: "var(--chart-1)" },
+  mobile: { label: "Orders", color: "var(--chart-4)" },
 };
 
 // Bar chart data
-const chartData = [
+const barData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
   { month: "March", desktop: 237, mobile: 120 },
@@ -48,7 +47,7 @@ const chartData = [
 ];
 
 // Pie chart data
-const chartDataa = [
+const pieData = [
   { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
   { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
   { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
@@ -57,7 +56,7 @@ const chartDataa = [
 ];
 
 // Pie chart config
-const chartConfigg = {
+const pieConfig = {
   visitors: { label: "Visitors" },
   chrome: { label: "Chrome", color: "var(--chart-1)" },
   safari: { label: "Safari", color: "var(--chart-2)" },
@@ -66,20 +65,26 @@ const chartConfigg = {
   other: { label: "Other", color: "var(--chart-5)" },
 };
 
+// Area chart config
+const areaConfig = {
+  desktop: { label: "Desktop", color: "var(--chart-1)" },
+  mobile: { label: "Mobile", color: "var(--chart-2)" },
+};
+
 const Homepage = () => {
   const [date, setDate] = useState(new Date());
 
-  // ✅ FIX: Use chartDataa for visitors total
+  // total visitors for Pie Chart
   const totalVisitors = useMemo(() => {
-    return chartDataa.reduce((acc, curr) => acc + curr.visitors, 0);
+    return pieData.reduce((acc, curr) => acc + curr.visitors, 0);
   }, []);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       {/* Bar Chart */}
       <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-2">
-        <ChartContainer config={chartConfig} className="h-[400px] w-full">
-          <BarChart accessibilityLayer data={chartData}>
+        <ChartContainer config={barConfig} className="h-[400px] w-full">
+          <BarChart accessibilityLayer data={barData}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"
@@ -98,7 +103,7 @@ const Homepage = () => {
       </div>
 
       {/* Calendar */}
-      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-1">
+      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-1 xl:col-span-1 2xl:col-span-1">
         <Calendar
           mode="single"
           selected={date}
@@ -109,11 +114,11 @@ const Homepage = () => {
       </div>
 
       {/* Pie Chart */}
-      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-1">
+      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-1 xl:col-span-1 2xl:col-span-1">
         <Card className="flex flex-col">
           <CardContent className="flex-1 pb-0">
             <ChartContainer
-              config={chartConfigg}
+              config={pieConfig}
               className="mx-auto aspect-square max-h-[250px]"
             >
               <PieChart>
@@ -122,7 +127,7 @@ const Homepage = () => {
                   content={<ChartTooltipContent hideLabel />}
                 />
                 <Pie
-                  data={chartDataa}
+                  data={pieData}
                   dataKey="visitors"
                   nameKey="browser"
                   innerRadius={60}
@@ -168,6 +173,92 @@ const Homepage = () => {
             </div>
             <div className="text-muted-foreground leading-none">
               Showing total visitors for the last 6 months
+            </div>
+          </CardFooter>
+        </Card>
+      </div>
+
+      {/* Area Chart with Gradient */}
+      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-2 xl:col-span-1 2xl:col-span-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Traffic Overview</CardTitle>
+            <CardDescription>
+              Showing total visitors for the last 6 months
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={areaConfig}>
+              <AreaChart
+                accessibilityLayer
+                data={barData}
+                margin={{ left: 12, right: 12 }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  axisLine={false}
+                  tickMargin={8}
+                  tickFormatter={(value) => value.slice(0, 3)}
+                />
+                <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+                <defs>
+                  <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                      offset="5%"
+                      stopColor="var(--color-desktop)"
+                      stopOpacity={0.8}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="var(--color-desktop)"
+                      stopOpacity={0.1}
+                    />
+                  </linearGradient>
+                  <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+                    <stop
+                      offset="5%"
+                      stopColor="var(--color-mobile)"
+                      stopOpacity={0.8}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor="var(--color-mobile)"
+                      stopOpacity={0.1}
+                    />
+                  </linearGradient>
+                </defs>
+                <Area
+                  dataKey="mobile"
+                  type="natural"
+                  fill="url(#fillMobile)"
+                  stroke="var(--color-mobile)"
+                  fillOpacity={0.4}
+                  stackId="a"
+                />
+                <Area
+                  dataKey="desktop"
+                  type="natural"
+                  fill="url(#fillDesktop)"
+                  stroke="var(--color-desktop)"
+                  fillOpacity={0.4}
+                  stackId="a"
+                />
+              </AreaChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter>
+            <div className="flex w-full items-start gap-2 text-sm">
+              <div className="grid gap-2">
+                <div className="flex items-center gap-2 leading-none font-medium">
+                  Trending up by 5.2% this month{" "}
+                  <TrendingUp className="h-4 w-4" />
+                </div>
+                <div className="text-muted-foreground flex items-center gap-2 leading-none">
+                  January – June 2024
+                </div>
+              </div>
             </div>
           </CardFooter>
         </Card>
