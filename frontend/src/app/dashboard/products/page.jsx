@@ -1,5 +1,7 @@
+"use client";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
+
 
 const DashoboardProduct = () => {
   return (
@@ -68,12 +70,12 @@ const DashoboardProduct = () => {
         </div>
         <div className="mb-4">
           <Label htmlFor="picture" className="mb-4">
-            Product Name
+            Product Image
           </Label>
           <Input
-            type="text"
+            type="file"
             placeholder="Product Name"
-          className="w-full max-w-xl"
+          className="w-full max-w-xl hover:cursor-pointer"
           />
         </div>
         <div className="mb-4">
@@ -87,6 +89,7 @@ const DashoboardProduct = () => {
           />
         </div>
       </div>
+      
     </div>
   );
 };
