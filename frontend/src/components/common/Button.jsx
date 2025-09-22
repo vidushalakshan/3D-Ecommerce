@@ -33,7 +33,7 @@ export const Button = ({
     variant === "primary"
       ? "before:absolute before:top-0 before:left-0 before:h-full before:w-0 hover:before:w-full before:rounded-full before:bg-[#F1F1F1] before:z-0 before:transition-all before:duration-500 before:ease-in-out before:shadow-[0_4px_12px_rgba(33,137,255,0.3)]"
       : variant === "bgBlack"
-      ? "before:absolute before:top-0 before:left-0 before:h-full before:w-0 hover:before:w-full before:rounded-full before:bg-[#29027d] before:z-0 before:transition-all before:duration-500 before:ease-in-out before:shadow-[0_4px_12px_rgba(33,137,255,0.4)]"
+      ? "before:absolute before:top-0 before:left-0 before:h-full before:w-0 hover:before:w-full before:rounded-full before:bg-[#a142f5] before:z-0 before:transition-all before:duration-500 before:ease-in-out before:shadow-[0_4px_12px_rgba(33,137,255,0.4)]"
       : "";
 
   return (

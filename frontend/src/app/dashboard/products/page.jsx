@@ -1,11 +1,19 @@
 "use client";
+import { useState } from "react";
 import { Button } from "@/components/common/Button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { FiEdit2, FiTrash2, FiDollarSign, FiTag, FiInfo } from "react-icons/fi";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../../components/ui/dialog";
 
 // ✅ Example products data
-const products = [
+const initialProducts = [
   {
     id: 1,
     name: "iPhone 15",
@@ -161,64 +169,90 @@ const ProductsTable = ({ products, onEdit, onDelete }) => {
 
 // ✅ Main DashboardProduct Component
 const DashboardProduct = () => {
+  const [products, setProducts] = useState(initialProducts);
+
   const handleEdit = (product) => {
     console.log("Edit product:", product);
   };
 
   const handleDelete = (id) => {
-    console.log("Delete product with id:", id);
+    setProducts(products.filter((p) => p.id !== id));
+  };
+
+  const handleAddProduct = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const newProduct = {
+      id: Date.now(),
+      name: form.name.value,
+      category: form.category.value,
+      type: form.type.value,
+      price: Number(form.price.value),
+      oldPrice: Number(form.oldPrice.value),
+      isHot: form.isHot.value.toLowerCase() === "true",
+      image: "https://via.placeholder.com/80",
+      description: form.description.value,
+    };
+    setProducts([...products, newProduct]);
+    form.reset();
   };
 
   return (
-    <div>
+    <div className="flex flex-col p-6">
       <h1 className="text-2xl font-bold mb-4">Products</h1>
 
-      {/* Product Form */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 m-5">
-        <div className="mb-4">
-          <Label>Product Name</Label>
-          <Input type="text" placeholder="Product Name" className="w-full max-w-xl" />
-        </div>
-        <div className="mb-4">
-          <Label>Product Category</Label>
-          <Input type="text" placeholder="Product Category" className="w-full max-w-xl" />
-        </div>
-        <div className="mb-4">
-          <Label>Product Type</Label>
-          <Input type="text" placeholder="Product Type" className="w-full max-w-xl" />
-        </div>
-        <div className="mb-4">
-          <Label>Product Price</Label>
-          <Input type="text" placeholder="Product Price" className="w-full max-w-xl" />
-        </div>
-        <div className="mb-4">
-          <Label>Product Old Price</Label>
-          <Input type="text" placeholder="Product Old Price" className="w-full max-w-xl" />
-        </div>
-        <div className="mb-4">
-          <Label>Product isHot</Label>
-          <Input type="text" placeholder="true/false" className="w-full max-w-xl" />
-        </div>
-        <div className="mb-4">
-          <Label>Product Image</Label>
-          <Input type="file" className="w-full max-w-xl hover:cursor-pointer" />
-        </div>
-        <div className="mb-4">
-          <Label>Product Description</Label>
-          <Input type="text" placeholder="Product Description" className="w-full max-w-xl" />
-        </div>
-      </div>
-
-      {/* Add Product Button */}
-      <div className="flex items-center justify-end mr-10">
-        <Button
-          variant="bgBlack"
-          size="medium"
-          className="ml-5 mb-5 hover:cursor-pointer"
-        >
-          Add Product
-        </Button>
-      </div>
+      {/* ✅ Add Product Modal */}
+      <Dialog className="relative">
+        <DialogTrigger asChild >
+          <Button
+            variant="bgBlack"
+            size="medium"
+            className="mr-5 mb-5 w-fit hover:cursor-pointer"
+          >
+            + Add Product
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Add New Product</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleAddProduct} className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+            <div className="mb-4">
+              <Label>Product Name</Label>
+              <Input name="name" type="text" placeholder="Product Name" required />
+            </div>
+            <div className="mb-4">
+              <Label>Product Category</Label>
+              <Input name="category" type="text" placeholder="Product Category" required />
+            </div>
+            <div className="mb-4">
+              <Label>Product Type</Label>
+              <Input name="type" type="text" placeholder="Product Type" required />
+            </div>
+            <div className="mb-4">
+              <Label>Product Price</Label>
+              <Input name="price" type="number" placeholder="Product Price" required />
+            </div>
+            <div className="mb-4">
+              <Label>Product Old Price</Label>
+              <Input name="oldPrice" type="number" placeholder="Product Old Price" />
+            </div>
+            <div className="mb-4">
+              <Label>Product isHot</Label>
+              <Input name="isHot" type="text" placeholder="true/false" />
+            </div>
+            <div className="mb-4 col-span-2">
+              <Label>Product Description</Label>
+              <Input name="description" type="text" placeholder="Product Description" />
+            </div>
+            <div className="col-span-2 flex justify-end">
+              <Button variant="bgBlack" size="medium" type="submit" className="hover:cursor-pointer">
+                Save Product
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
 
       {/* ✅ Products Table */}
       <ProductsTable products={products} onEdit={handleEdit} onDelete={handleDelete} />
