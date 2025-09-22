@@ -1,7 +1,7 @@
 "use client";
+import { Button } from "@/components/common/Button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-
 
 const DashoboardProduct = () => {
   return (
@@ -45,7 +45,7 @@ const DashoboardProduct = () => {
           <Input
             type="text"
             placeholder="Product Price"
-           className="w-full max-w-xl"
+            className="w-full max-w-xl"
           />
         </div>
         <div className="mb-4">
@@ -55,7 +55,7 @@ const DashoboardProduct = () => {
           <Input
             type="text"
             placeholder="Product Old Price"
-          className="w-full max-w-xl"
+            className="w-full max-w-xl"
           />
         </div>
         <div className="mb-4">
@@ -65,7 +65,7 @@ const DashoboardProduct = () => {
           <Input
             type="text"
             placeholder="Product isHot"
-          className="w-full max-w-xl"
+            className="w-full max-w-xl"
           />
         </div>
         <div className="mb-4">
@@ -75,7 +75,7 @@ const DashoboardProduct = () => {
           <Input
             type="file"
             placeholder="Product Name"
-          className="w-full max-w-xl hover:cursor-pointer"
+            className="w-full max-w-xl hover:cursor-pointer"
           />
         </div>
         <div className="mb-4">
@@ -85,11 +85,19 @@ const DashoboardProduct = () => {
           <Input
             type="text"
             placeholder="Product Description"
-             className="w-full max-w-xl"
+            className="w-full max-w-xl"
           />
         </div>
       </div>
-      
+      <div className="flex items-center justify-end mr-10">
+        <Button
+          variant="bgBlack"
+          size="medium"
+          className="ml-5 mb-5 hover:cursor-pointer"
+        >
+          Add Product
+        </Button>
+      </div>
     </div>
   );
 };

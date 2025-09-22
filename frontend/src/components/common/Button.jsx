@@ -26,14 +26,14 @@ export const Button = ({
   const variantStyles = {
     primary: "bg-[#2189ff] text-white hover:text-black",
     secondary: "border-2 border-blue-600 text-blue-600 hover:bg-blue-50",
-    bgBlack: "bg-[#2f302f] text-white hover:text-white",
+    bgBlack: "bg-[#67027d] text-white hover:text-white",
   };
 
   const hoverBgAnimation =
     variant === "primary"
       ? "before:absolute before:top-0 before:left-0 before:h-full before:w-0 hover:before:w-full before:rounded-full before:bg-[#F1F1F1] before:z-0 before:transition-all before:duration-500 before:ease-in-out before:shadow-[0_4px_12px_rgba(33,137,255,0.3)]"
       : variant === "bgBlack"
-      ? "before:absolute before:top-0 before:left-0 before:h-full before:w-0 hover:before:w-full before:rounded-full before:bg-[#4d4f4e] before:z-0 before:transition-all before:duration-500 before:ease-in-out before:shadow-[0_4px_12px_rgba(33,137,255,0.4)]"
+      ? "before:absolute before:top-0 before:left-0 before:h-full before:w-0 hover:before:w-full before:rounded-full before:bg-[#29027d] before:z-0 before:transition-all before:duration-500 before:ease-in-out before:shadow-[0_4px_12px_rgba(33,137,255,0.4)]"
       : "";
 
   return (
