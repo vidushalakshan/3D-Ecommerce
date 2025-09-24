@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/common/Button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-import { FiEdit2, FiTrash2, FiMail, FiUser } from "react-icons/fi";
+import { FiTrash2, FiMail, FiUser } from "react-icons/fi";
 import {
   Dialog,
   DialogContent,
@@ -60,13 +60,6 @@ const UsersTable = ({ users, onEdit, onDelete }) => {
                 {/* Actions */}
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex justify-end space-x-3">
-                    <button
-                      onClick={() => onEdit(user)}
-                      className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300"
-                      title="Edit"
-                    >
-                      <FiEdit2 className="h-5 w-5" />
-                    </button>
                     <button
                       onClick={() => onDelete(user._id)}
                       className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
