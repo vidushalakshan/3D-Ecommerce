@@ -23,3 +23,14 @@ export async function POST(req) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+    await connectDB();
+    const users = await User.find().select("-password").limit(50);
+    return NextResponse.json({ users });
+  } catch (err) {
+    console.error("GET /api/auth/register error:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
