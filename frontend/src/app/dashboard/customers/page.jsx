@@ -13,7 +13,7 @@ import {
 } from "../../../components/ui/dialog";
 
 // ✅ UsersTable Component
-const UsersTable = ({ users, onEdit, onDelete }) => {
+const UsersTable = ({ users,  onDelete }) => {
   return (
     <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-md">
       <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -131,15 +131,6 @@ const DashboardUser = () => {
 
       {/* ✅ Add User Modal */}
       <Dialog className="relative">
-        <DialogTrigger asChild>
-          <Button
-            variant="bgBlack"
-            size="medium"
-            className="mr-5 mb-5 w-fit hover:cursor-pointer"
-          >
-            + Add User
-          </Button>
-        </DialogTrigger>
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>Add New User</DialogTitle>
