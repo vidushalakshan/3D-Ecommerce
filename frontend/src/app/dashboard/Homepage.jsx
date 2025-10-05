@@ -114,12 +114,12 @@ const Homepage = () => {
       </div>
 
       {/* Pie Chart */}
-      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-1 xl:col-span-1 2xl:col-span-1">
+      <div className="bg-primary-foreground p-4 rounded-lg lg:col-span-1 xl:col-span-1 2xl:col-span-1 flex items-center">
         <Card className="flex flex-col">
           <CardContent className="flex-1 pb-0">
             <ChartContainer
               config={pieConfig}
-              className="mx-auto aspect-square max-h-[250px]"
+              className="mx-auto w-[300px] aspect-square max-h-[450px]"
             >
               <PieChart>
                 <ChartTooltip
