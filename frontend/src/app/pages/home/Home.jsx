@@ -14,7 +14,7 @@ const router = useRouter();
   }
 
   return (
-    <section className="relative flex items-center justify-center h-screen bg-black overflow-hidden">
+    <section className="relative flex items-center justify-center h-screen bg-[#1E1F29]  overflow-hidden">
       {/* Fullscreen Background Video */}
       <video
         className={`absolute top-0 left-0 w-full h-full object-cover z-0 transition-opacity duration-500 ${

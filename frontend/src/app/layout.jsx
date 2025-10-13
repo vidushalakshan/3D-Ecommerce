@@ -17,8 +17,6 @@ export default function RootLayout({ children }) {
         <ClerkProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
             disableTransitionOnChange
           >
             {children}

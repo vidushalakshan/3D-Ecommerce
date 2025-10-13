@@ -1,74 +1,41 @@
 "use client";
-import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import ProductCard from "@/components/common/ProductCard";
-import images from "@/constants/images"; 
-
-const products = [
-  {
-    id: 1,
-    category: "Laptop",
-    name: "Acer Predator",
-    type: "Gaming Laptop",
-    model: "G930",
-    price: 2018.0,
-    oldPrice: 2500.0,
-    isHot: false,
-    image: images.collectionLaptop,
-  },
-  {
-    id: 2,
-    category: "Headphone",
-    name: "Sony WH-1000XM5",
-    type: "Wireless Headset",
-    model: "XM5",
-    price: 418.0,
-    oldPrice: 500.0,
-    isHot: true,
-    image: images.collectionHeadset,
-  },
-  {
-    id: 3,
-    category: "Smartphone",
-    name: "Samsung Galaxy S24",
-    type: "Flagship Phone",
-    model: "S24",
-    price: 1199.0,
-    oldPrice: 1299.0,
-    isHot: true,
-    image: images.collectionLaptop,
-  },
-  {
-    id: 4,
-    category: "Camera",
-    name: "Canon EOS R6",
-    type: "DSLR Camera",
-    model: "R6",
-    price: 2499.0,
-    oldPrice: 2800.0,
-    isHot: false,
-    image: images.collectionCamara,
-  },
-  {
-    id: 5,
-    category: "Smartwatch",
-    name: "Apple Watch Ultra",
-    type: "Rugged Watch",
-    model: "Ultra 2",
-    price: 799.0,
-    oldPrice: 899.0,
-    isHot: true,
-    image: images.collectionLaptop,
-  },
-];
 
 const NewProduct = () => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [x, setX] = useState(0);
+  const [hydrated, setHydrated] = useState(false);
   const cardWidth = 320;
-  const totalWidth = products.length * cardWidth;
   const intervalRef = useRef(null);
+
+  const API_BASE_URL = "/api/products";
+  const totalWidth = products.length * cardWidth;
+
+  // ✅ Always call hooks first (never conditionally)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(API_BASE_URL);
+        if (!response.ok) throw new Error("Failed to fetch products");
+        const data = await response.json();
+        setProducts(data);
+        setError(null);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setError("Failed to load products. Please try again.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  useEffect(() => setHydrated(true), []);
 
   const startAutoScroll = () => {
     if (intervalRef.current) return;
@@ -86,9 +53,11 @@ const NewProduct = () => {
   };
 
   useEffect(() => {
-    startAutoScroll();
-    return () => stopAutoScroll();
-  }, []);
+    if (products.length > 0) {
+      startAutoScroll();
+      return () => stopAutoScroll();
+    }
+  }, [products.length]);
 
   const moveLeft = () => {
     stopAutoScroll();
@@ -99,6 +68,39 @@ const NewProduct = () => {
     stopAutoScroll();
     setX((prev) => prev - cardWidth);
   };
+
+  // ✅ Now safe to conditionally render after hooks
+  if (!hydrated) {
+    return (
+      <section className="max-w-7xl mx-auto py-10 text-center">
+        <p className="text-gray-600">Loading...</p>
+      </section>
+    );
+  }
+
+  if (loading) {
+    return (
+      <section className="max-w-7xl mx-auto py-10 text-center">
+        <p className="text-gray-600">Loading products...</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="max-w-7xl mx-auto py-10 text-center">
+        <p className="text-red-500">{error}</p>
+      </section>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <section className="max-w-7xl mx-auto py-10 text-center">
+        <p className="text-gray-600">No new products available.</p>
+      </section>
+    );
+  }
 
   return (
     <section className="max-w-7xl mx-auto py-10 overflow-hidden relative">
@@ -111,7 +113,10 @@ const NewProduct = () => {
           transition={{ ease: "linear", duration: 0 }}
         >
           {[...products, ...products].map((product, index) => (
-            <ProductCard key={index} product={product} />
+            <ProductCard
+              key={`${product.id || index}-${index}`}
+              product={product}
+            />
           ))}
         </motion.div>
       </div>

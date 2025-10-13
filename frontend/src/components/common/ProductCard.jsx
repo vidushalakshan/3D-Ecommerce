@@ -41,9 +41,11 @@ const ProductCard = ({ product }) => {
       {/* Product Image */}
       <div className="relative flex justify-center items-center h-[180px] mb-4 w-full">
         <Image
-          src={product.image}
+          src={product.image || "/uploads/default.jpg"}
           alt={product.name}
-          className="w-[180px] h-auto object-contain p-3 bg-white rounded-md"
+          width={180}
+          height={180}
+          className="object-contain p-3 bg-white rounded-md"
         />
         {/* Hover Add to Cart Button */}
         <div
@@ -73,7 +75,9 @@ const ProductCard = ({ product }) => {
       </div>
       <div className="text-lg font-semibold text-black">
         ${product.price}
-        <del className="ml-1 text-[15px] text-gray-600">${product.oldPrice}</del>
+        <del className="ml-1 text-[15px] text-gray-600">
+          ${product.oldPrice}
+        </del>
       </div>
 
       <hr className="w-full border-t border-gray-300 my-3" />
