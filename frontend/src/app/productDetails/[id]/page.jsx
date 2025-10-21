@@ -67,9 +67,9 @@ const ProductDetails = () => {
         </div>
 
         {/* Product Details */}
-        <div className="flex flex-col justify-center text-black">
+        <div className="flex flex-col justify-center text-gray-400">
           <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
-          <p className="text-gray-700 mb-4">{product.description}</p>
+          <p className="text-gray-300 mb-4">{product.description}</p>
 
           <div className="mb-3 text-lg">
             <span className="font-semibold">Model:</span> {product.model}
