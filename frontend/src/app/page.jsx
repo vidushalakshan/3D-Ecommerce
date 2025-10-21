@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import TopNavBar from "@/components/layout/TopNavBar";
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/app/pages/footer/Footer";
+import DashboardHome from "./dashboard/page";
 
 // ✅ Dynamically import all client-fetching sections
 const Home = dynamic(() => import("./pages/home/Home"), { ssr: false });
@@ -35,6 +36,9 @@ const Page = () => {
       <NewsLetter />
       <Footer />
     </div>
+    // <div>
+    //   <DashboardHome />
+    // </div>
   );
 };
 

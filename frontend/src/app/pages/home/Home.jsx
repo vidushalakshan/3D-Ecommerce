@@ -6,11 +6,11 @@ const Home = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const videoSrc = "/video/background.mp4"; // Adjust the path as necessary
   
-const router = useRouter();
+  const router = useRouter();
 
   const handleClick = () => {
     router.push("/allCategories"); // Navigate to the All Categories page
-    window.scrollTo(0, 0); // Scroll to the top of the page
+    // window.scrollTo(0, 0); // Scroll to the top of the page
   }
 
   return (

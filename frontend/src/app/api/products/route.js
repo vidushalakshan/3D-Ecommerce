@@ -7,14 +7,12 @@ import fs from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
 
-// Disable Next.js bodyParser
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Convert Fetch Request to Node-like IncomingMessage
 function toNodeRequest(req) {
   const contentLength = req.headers.get("content-length");
   const contentType = req.headers.get("content-type");
@@ -27,60 +25,50 @@ function toNodeRequest(req) {
   return nodeReq;
 }
 
+const parseForm = async (req) => {
+  await connectDB();
+  const uploadDir = path.join(process.cwd(), "public/uploads");
+  await fs.mkdir(uploadDir, { recursive: true });
+
+  const form = formidable({
+    multiples: false,
+    uploadDir: uploadDir,
+    keepExtensions: true,
+    maxFileSize: 5 * 1024 * 1024,
+    filter: ({ mimetype }) => mimetype && mimetype.startsWith("image/"),
+  });
+
+  const [fields, files] = await new Promise((resolve, reject) => {
+    form.parse(toNodeRequest(req), (err, fields, files) => {
+      if (err) reject(err);
+      else resolve([fields, files]);
+    });
+  });
+
+  const normalizedFields = Object.fromEntries(
+    Object.entries(fields).map(([key, value]) => [key, value[0]])
+  );
+
+  if (normalizedFields.price) normalizedFields.price = Number(normalizedFields.price);
+  if (normalizedFields.oldPrice) normalizedFields.oldPrice = Number(normalizedFields.oldPrice);
+  if (normalizedFields.isHot) normalizedFields.isHot = normalizedFields.isHot === "true";
+
+  return { normalizedFields, files, uploadDir };
+};
+
 export async function POST(req) {
   try {
-    // Connect to MongoDB
-    await connectDB();
+    const { normalizedFields, files, uploadDir } = await parseForm(req);
 
-    // Define upload directory
-    const uploadDir = path.join(process.cwd(), "public/uploads");
-    await fs.mkdir(uploadDir, { recursive: true }); // Ensure directory exists
-
-    // Configure formidable
-    const form = formidable({
-      multiples: false,
-      uploadDir: uploadDir,
-      keepExtensions: true, // Preserve file extension
-      maxFileSize: 5 * 1024 * 1024, // Limit file size to 5MB
-      filter: ({ mimetype }) => {
-        // Only allow images
-        return mimetype && mimetype.startsWith("image/");
-      },
-    });
-
-    // Parse form data
-    const [fields, files] = await new Promise((resolve, reject) => {
-      form.parse(toNodeRequest(req), (err, fields, files) => {
-        if (err) reject(err);
-        else resolve([fields, files]);
-      });
-    });
-
-    // Normalize fields
-    const normalizedFields = Object.fromEntries(
-      Object.entries(fields).map(([key, value]) => [key, value[0]])
-    );
-
-    // Type casting
-    if (normalizedFields.price) normalizedFields.price = Number(normalizedFields.price);
-    if (normalizedFields.oldPrice) normalizedFields.oldPrice = Number(normalizedFields.oldPrice);
-    if (normalizedFields.isHot) normalizedFields.isHot = normalizedFields.isHot === "true";
-
-    // Handle image file
-    let imagePath = "/uploads/default.jpg"; // Default image path
+    let imagePath = "/uploads/default.jpg";
     if (files.image) {
       const file = files.image[0];
       const uniqueFileName = `${randomUUID()}${path.extname(file.originalFilename)}`;
       const newFilePath = path.join(uploadDir, uniqueFileName);
-
-      // Move file to permanent location
       await fs.rename(file.filepath, newFilePath);
-
-      // Store relative path for public access
       imagePath = `/uploads/${uniqueFileName}`;
     }
 
-    // Create product in MongoDB
     const newProduct = await Product.create({
       ...normalizedFields,
       image: imagePath,
@@ -93,13 +81,56 @@ export async function POST(req) {
   }
 }
 
-//Get all products
-export async function GET() {
-    try {
-        await connectDB();
-        const products = await Product.find({});
-        return NextResponse.json(products);
-    } catch (err) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+export async function PUT(req) {
+  try {
+    const { normalizedFields, files, uploadDir } = await parseForm(req);
+    const { id } = normalizedFields; // Expect id in formData for edit
+    if (!id) throw new Error("Product ID required for update");
+
+    let imagePath = normalizedFields.existingImage || "/uploads/default.jpg"; // Send existingImage from frontend if no new file
+    if (files.image) {
+      const file = files.image[0];
+      const uniqueFileName = `${randomUUID()}${path.extname(file.originalFilename)}`;
+      const newFilePath = path.join(uploadDir, uniqueFileName);
+      await fs.rename(file.filepath, newFilePath);
+      imagePath = `/uploads/${uniqueFileName}`;
     }
+
+    const updated = await Product.findByIdAndUpdate(
+      id,
+      { ...normalizedFields, image: imagePath },
+      { new: true, runValidators: true }
+    );
+
+    if (!updated) throw new Error("Product not found");
+
+    return NextResponse.json({ message: "Product updated", product: updated });
+  } catch (err) {
+    console.error("Error updating product:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function GET() {
+  try {
+    await connectDB();
+    const products = await Product.find({});
+    return NextResponse.json(products);
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  try {
+    await connectDB();
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    if (!id) throw new Error("ID required");
+
+    await Product.findByIdAndDelete(id);
+    return NextResponse.json({ message: "Product deleted" });
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
 }

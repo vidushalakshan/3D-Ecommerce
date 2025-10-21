@@ -1,14 +1,21 @@
 // components/ProductCard.jsx
-
 "use client";
 import Image from "next/image";
 import { useState } from "react";
 import { CiHeart } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";
 import { FiShoppingCart, FiMessageCircle } from "react-icons/fi";
+import { useRouter } from "next/navigation";
+import { Button } from "./Button";
 
 const ProductCard = ({ product }) => {
   const [hovered, setHovered] = useState(false);
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/productDetails/${product._id}`);
+    // window.scrollTo(0, 0);
+  };
 
   return (
     <div
@@ -34,7 +41,7 @@ const ProductCard = ({ product }) => {
           <CiHeart color="black" size={20} />
         </span>
         <span className="bg-white p-1 rounded-full border border-black">
-          <IoEyeOutline color="black" size={20} />
+          <IoEyeOutline color="black" size={20} onClick={handleClick} />
         </span>
       </div>
 
@@ -53,12 +60,12 @@ const ProductCard = ({ product }) => {
             hovered ? "flex" : "hidden"
           }`}
         >
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-white hover:text-black border border-white hover:border-black transition-all duration-200">
+          <Button className="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-white hover:text-black border border-white hover:border-black transition-all duration-200">
             <div className="flex items-center gap-2">
               <FiShoppingCart size={18} />
               Add to Cart
             </div>
-          </button>
+          </Button>
         </div>
       </div>
 
