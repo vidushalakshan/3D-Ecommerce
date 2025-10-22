@@ -25,20 +25,20 @@ const NewsLetter = dynamic(() => import("@/app/pages/newsletter/NewsLetter"), {
 
 const Page = () => {
   return (
-    <div className="bg-white">
-      <TopNavBar />
-      <NavBar />
-      <Home />
-      <Collection />
-      <NewProduct />
-      <Hotdeal />
-      <TopSelling />
-      <NewsLetter />
-      <Footer />
-    </div>
-    // <div>
-    //   <DashboardHome />
+    // <div className="bg-white">
+    //   <TopNavBar />
+    //   <NavBar />
+    //   <Home />
+    //   <Collection />
+    //   <NewProduct />
+    //   <Hotdeal />
+    //   <TopSelling />
+    //   <NewsLetter />
+    //   <Footer />
     // </div>
+    <div>
+      <DashboardHome />
+    </div>
   );
 };
 

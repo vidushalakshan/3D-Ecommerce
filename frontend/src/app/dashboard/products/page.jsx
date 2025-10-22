@@ -24,7 +24,7 @@ const ProductsTable = ({ products, onEdit, onDelete }) => {
     }).format(amount);
 
   return (
-    <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-md">
+    <div className="overflow-y-scroll bg-white dark:bg-gray-800 rounded-xl h-[500px] shadow-md">
       <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
         <thead className="bg-gray-50 dark:bg-gray-700">
           <tr>
@@ -49,7 +49,7 @@ const ProductsTable = ({ products, onEdit, onDelete }) => {
           </tr>
         </thead>
 
-        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700 ">
           {products.length > 0 ? (
             products.map((product, index) => (
               <tr
