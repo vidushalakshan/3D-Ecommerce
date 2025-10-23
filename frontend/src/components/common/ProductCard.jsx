@@ -45,15 +45,18 @@ const ProductCard = ({ product }) => {
         </span>
       </div>
 
-      {/* Product Image */}
-      <div className="relative flex justify-center items-center h-[180px] mb-4 w-full">
+      <div className="absolute items-center">
         <Image
           src={product.image || "/uploads/default.jpg"}
           alt={product.name}
           width={180}
           height={180}
-          className="object-contain p-3 bg-white rounded-md"
+          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
         />
+      </div>
+
+      {/* Product Image */}
+      <div className="relative flex w-full justify-center overflow-hidden items-center h-[180px] mb-4">
         {/* Hover Add to Cart Button */}
         <div
           className={`absolute inset-0 flex-col items-center justify-center gap-2 transition-opacity duration-300 ${
@@ -70,17 +73,17 @@ const ProductCard = ({ product }) => {
       </div>
 
       {/* Product Info */}
-      <div className="flex justify-between w-full px-2 text-sm text-black ">
+      <div className="flex justify-between w-full px-2 text-sm text-black z-10 h-[40px]">
         <span className="text-blue-600 font-semibold">{product.name}</span>
         <span className="text-black">Model {product.model}</span>
       </div>
 
-      <hr className="w-full border-t border-gray-300 my-3" />
+      <hr className="w-full border-t border-gray-300 my-3 z-10" />
 
-      <div className="uppercase font-bold text-sm tracking-wider mb-1 text-black">
+      <div className="uppercase font-bold text-sm tracking-wider mb-1 text-black z-10 h-[60px]">
         {product.type}
       </div>
-      <div className="text-lg font-semibold text-black">
+      <div className="text-lg font-semibold text-black z-10">
         ${product.price}
         <del className="ml-1 text-[15px] text-gray-600">
           ${product.oldPrice}
