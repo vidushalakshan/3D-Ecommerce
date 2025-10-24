@@ -23,8 +23,6 @@ const Home = () => {
         src={videoSrc}
         autoPlay
         muted
-        playsInline
-        loop
         onCanPlayThrough={() => setIsVideoLoaded(true)}
       />
 

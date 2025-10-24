@@ -4,7 +4,7 @@ import images from "../../../constants/images";
 const CollectionCard = ({ imgSrc, title }) => {
   return (
   
-    <div className="relative  w-[350px] h-[250px] overflow-hidden group shadow-lg">
+    <div className="relative  w-[350px] h-[250px] overflow-hidden group shadow-lg rounded-4xl">
       {/* Image */}
       <Image
         src={imgSrc}
@@ -29,7 +29,7 @@ const CollectionCard = ({ imgSrc, title }) => {
 
 const Collection = () => {
   return (
-    <section className="flex  justify-between items-center flex-wrap pt-10 max-w-7xl mx-auto">
+    <section className="flex  justify-between items-center flex-wrap pt-10 max-w-7xl mx-auto rounded-full">
       <CollectionCard imgSrc={images.collectionLaptop} title="Laptop Collection" />
       <CollectionCard imgSrc={images.collectionHeadset} title={`Accessories Collection`}/>
       <CollectionCard imgSrc={images.collectionCamara} title="Cameras Collection" />
