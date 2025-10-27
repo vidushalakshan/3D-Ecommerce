@@ -8,6 +8,7 @@ import { useClerk, useUser } from "@clerk/nextjs";
 import { useCart } from "../../contexts/cardContext";
 import { useState } from "react";
 import CartDrawer from "../cart/cartDrawer";
+import { motion, AnimatePresence } from "framer-motion";
 
 const TopNavBar = () => {
   const { openSignIn } = useClerk();
@@ -28,7 +29,7 @@ const TopNavBar = () => {
               <span className="text-[13px]">+94-111324353</span>
             </div>
             <div className="flex items-center gap-2">
-              <MdEmail color="#277CD9" size={!isSignedIn ? 13 : 13} />
+              <MdEmail color="#277CD9" size={13} />
               <span className="text-[13px]">infoelctro@gmail.com</span>
             </div>
             <div className="flex items-center gap-2">
@@ -40,18 +41,18 @@ const TopNavBar = () => {
           {/* Right Side: Icons */}
           <div className="flex items-center gap-5">
             {/* Wishlist */}
-            <button className="hover:text-pink-400 transition">
+            <button className="hover:text-blue-400 transition">
               <CiHeart size={26} />
             </button>
 
             {/* Cart with Badge */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative hover:text-pink-400 transition"
+              className="relative hover:text-blue-400 transition"
             >
               <CiShoppingCart size={26} />
               {cartItemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
                   {cartItemCount}
                 </span>
               )}
@@ -63,11 +64,10 @@ const TopNavBar = () => {
                 if (!isSignedIn) {
                   openSignIn();
                 } else {
-                  // Optional: open profile dropdown or navigate
                   alert(`Welcome back, ${user?.firstName || "User"}!`);
                 }
               }}
-              className="hover:text-pink-400 transition"
+              className="hover:text-blue-400 transition"
             >
               <CiUser size={25} />
             </button>
@@ -75,8 +75,37 @@ const TopNavBar = () => {
         </div>
       </section>
 
-      {/* Cart Drawer */}
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      {/* Animated Cart Drawer */}
+      <AnimatePresence>
+        {isCartOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/60 z-40"
+              onClick={() => setIsCartOpen(false)}
+            />
+
+            {/* Drawer - Slide from Right */}
+            <motion.aside
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+              }}
+              className="fixed right-0 top-0 h-full w-full max-w-md bg-[#1a1a1a] text-white z-50 overflow-y-auto shadow-2xl"
+            >
+              <CartDrawer onClose={() => setIsCartOpen(false)} />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 };
