@@ -43,8 +43,8 @@ const TopNavBar = () => {
           {/* Right Side: Icons */}
           <div className="flex items-center gap-5">
             {/* Wishlist */}
-            <button className="hover:text-blue-400 transition">
-              <LiaHeart size={20} />
+            <button className="hover:text-blue-400 transition border-1 rounded-full border-gray-600 p-3">
+              <LiaHeart className="" size={20} />
             </button>
 
             {/* Cart with Badge */}

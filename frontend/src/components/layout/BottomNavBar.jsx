@@ -1,22 +1,34 @@
 "use client";
 import Searchbar from "../content/Searchbar";
-import { motion } from "framer-motion";
 import { navItems } from "../../../public/data/menu";
 import { usePathname } from "next/navigation";
+import { useClerk, useUser } from "@clerk/nextjs";
+import { useCart } from "../../contexts/cardContext";
+import { useState } from "react";
+import CartDrawer from "../cart/cartDrawer";
+import { motion, AnimatePresence } from "framer-motion";
+import { LiaHeart } from "react-icons/lia";
+import { PiBag } from "react-icons/pi";
+import { HiOutlineUser } from "react-icons/hi2";
 
 const BottomNavBar = () => {
-const pathname = usePathname();
-console.log("Current pathname:", pathname);
+  const { openSignIn } = useClerk();
+  const { isSignedIn, user } = useUser();
+  const { items } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const pathname = usePathname();
+  console.log("Current pathname:", pathname);
   return (
     <section className="bg-[#15161D] shadow-md transition-all duration-300 px-4 py-4 opacity-70 hover:opacity-100">
       <div className="flex flex-col md:flex-row justify-between items-center md:gap-4 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
           <h1 className="text-[35px] font-bold text-[#eeeeee]">
             Electro<span style={{ color: "rgba(39, 124, 217, 1)" }}>.</span>
-            
           </h1>
         </div>
-        
+
         <div className="flex items-center gap-[40px] max-w-7xl mx-auto">
           {navItems.map((item) => {
             const normalizePath = (path) =>
@@ -62,11 +74,76 @@ console.log("Current pathname:", pathname);
               </motion.a>
             );
           })}
+          <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
+            <Searchbar />
+          </div>
         </div>
-        <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
-          <Searchbar />
+
+        <div className="flex items-center gap-5">
+          {/* Wishlist */}
+          <button className="hover:text-blue-400 transition border-1 rounded-full border-gray-600 p-3">
+            <LiaHeart size={20} />
+          </button>
+
+          {/* Cart with Badge */}
+          <button
+            onClick={() => setIsCartOpen(true)}
+            className="relative hover:text-blue-400 transition border-1 rounded-full border-gray-600 p-3"
+          >
+            <PiBag size={20} />
+            {cartItemCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                {cartItemCount}
+              </span>
+            )}
+          </button>
+
+          {/* User Profile */}
+          <button
+            onClick={() => {
+              if (!isSignedIn) {
+                openSignIn();
+              } else {
+                alert(`Welcome back, ${user?.firstName || "User"}!`);
+              }
+            }}
+            className="hover:text-blue-400 transition border-1 rounded-full border-gray-600 p-3"
+          >
+            <HiOutlineUser size={20} />
+          </button>
         </div>
       </div>
+      {/* Animated Cart Drawer */}
+      <AnimatePresence>
+        {isCartOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/60 z-40"
+              onClick={() => setIsCartOpen(false)}
+            />
+
+            {/* Drawer - Slide from Right */}
+            <motion.aside
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+              }}
+              className="fixed right-0 top-0 h-full w-full max-w-md bg-[#1a1a1a] text-white z-50 overflow-y-auto shadow-2xl"
+            >
+              <CartDrawer onClose={() => setIsCartOpen(false)} />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
