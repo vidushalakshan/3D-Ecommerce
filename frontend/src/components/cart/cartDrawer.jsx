@@ -103,7 +103,7 @@ const ItemsList = ({ items, onRemove, onQty }) => (
 );
 
 /* SINGLE ROW */
-const CartRow = ({ item, onRemove,onQty }) => (
+const CartRow = ({ item, onRemove, onQty }) => (
   <motion.div
     layout
     initial={{ opacity: 0, scale: 0.95 }}

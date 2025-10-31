@@ -3,12 +3,14 @@
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
-import { CiHeart, CiShoppingCart, CiUser } from "react-icons/ci";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { useCart } from "../../contexts/cardContext";
 import { useState } from "react";
 import CartDrawer from "../cart/cartDrawer";
 import { motion, AnimatePresence } from "framer-motion";
+import { LiaHeart } from "react-icons/lia";
+import { PiBag } from "react-icons/pi";
+import { HiOutlineUser } from "react-icons/hi2";
 
 const TopNavBar = () => {
   const { openSignIn } = useClerk();
@@ -42,7 +44,7 @@ const TopNavBar = () => {
           <div className="flex items-center gap-5">
             {/* Wishlist */}
             <button className="hover:text-blue-400 transition">
-              <CiHeart size={26} />
+              <LiaHeart size={20} />
             </button>
 
             {/* Cart with Badge */}
@@ -50,9 +52,9 @@ const TopNavBar = () => {
               onClick={() => setIsCartOpen(true)}
               className="relative hover:text-blue-400 transition"
             >
-              <CiShoppingCart size={26} />
+              <PiBag  size={20} />
               {cartItemCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                <span className="absolute -top-1.5 -right-1 bg-blue-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-medium">
                   {cartItemCount}
                 </span>
               )}
@@ -69,7 +71,7 @@ const TopNavBar = () => {
               }}
               className="hover:text-blue-400 transition"
             >
-              <CiUser size={25} />
+              <HiOutlineUser size={20} />
             </button>
           </div>
         </div>

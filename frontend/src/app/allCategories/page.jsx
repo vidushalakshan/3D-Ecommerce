@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import ProductCard from '@/components/common/ProductCard';
 import images from '@/constants/images';
+import NavBar from '@/components/layout/NavBar';
 
 const products = [
   {
@@ -79,6 +80,7 @@ export default function ProductsCollection() {
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <NavBar />
       <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
         <h1 className="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-12 animate-fade-in">
           Products Collection

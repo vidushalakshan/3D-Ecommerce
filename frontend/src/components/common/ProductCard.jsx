@@ -7,20 +7,20 @@ import { IoEyeOutline } from "react-icons/io5";
 import { FiShoppingCart, FiMessageCircle } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { Button } from "./Button";
-import { useCart } from "../../contexts/cardContext";   // IMPORT
+import { useCart } from "../../contexts/cardContext"; // IMPORT
 
 const ProductCard = ({ product }) => {
   const [hovered, setHovered] = useState(false);
   const router = useRouter();
-  const { addItem } = useCart();                     // DESTRUCTURE
+  const { addItem } = useCart(); // DESTRUCTURE
 
   const handleClick = () => {
     router.push(`/productDetails/${product._id}`);
   };
 
   const handleAddToCart = (e) => {
-    e.stopPropagation();          // prevent card click
-    addItem(product);             // NOW WORKS
+    e.stopPropagation(); // prevent card click
+    addItem(product); // NOW WORKS
   };
 
   return (
@@ -30,13 +30,33 @@ const ProductCard = ({ product }) => {
       onMouseLeave={() => setHovered(false)}
     >
       {/* Badges */}
+      {/* Badges */}
       <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
-        <span className="bg-blue-600 text-white text-[10px] font-semibold py-1 px-2 rounded-full">
-          NEW
+        {/* NEW Badge – Clean, Modern, Matching HOT */}
+        <span className="bg-gradient-to-r from-blue-500 to-blue-700 text-white text-[10px] font-semibold py-1 px-2 rounded-full shadow-md border border-blue-800 flex items-center gap-1">
+          <span className="w-3 h-3">
+            <svg
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="drop-shadow-sm"
+            >
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+          </span>
+          <span>NEW</span>
         </span>
+
+        {/* HOT Badge – Fiery & Animated */}
         {product.isHot && (
-          <span className="bg-white text-black text-[10px] font-semibold py-1 px-2 rounded-full border border-black">
-            HOT
+          <span className="bg-gradient-to-r from-orange-500 to-red-600 text-white text-[10px] font-semibold py-1 pl-1.5 pr-2 rounded-full shadow-md border border-red-700 flex items-center gap-1 animate-pulse">
+            <span className="w-3 h-3 animate-bounce">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 23c-1.43 0-2.67-.79-3.32-1.95a4.05 4.05 0 0 1 3.32-6.35 4.05 4.05 0 0 1 3.32 6.35A3.66 3.66 0 0 1 12 23z" />
+                <path d="M15.52 14.5a3.5 3.5 0 0 1-3.52-3.5c0-2.02 1.66-3.67 3.73-3.5 1.24.1 2.27 1.13 2.27 2.38 0 1.32-1.07 2.62-2.48 2.62z" />
+                <path d="M8.48 14.5a3.5 3.5 0 0 0 3.52-3.5c0-2.02-1.66-3.67-3.73-3.5C7.03 7.6 6 8.63 6 9.88c0 1.32 1.07 2.62 2.48 2.62z" />
+              </svg>
+            </span>
+            <span>HOT</span>
           </span>
         )}
       </div>
@@ -44,18 +64,18 @@ const ProductCard = ({ product }) => {
       {/* Icons */}
       <div className="absolute top-3 right-3 flex flex-col gap-2 z-10">
         <span className="p-1 rounded-full border border-black bg-white">
-          <CiHeart size={20} />
+          <CiHeart color="black" size={20} />
         </span>
         <span
           className="bg-white p-1 rounded-full border border-black cursor-pointer"
           onClick={handleClick}
         >
-          <IoEyeOutline size={20} />
+          <IoEyeOutline color="black" size={20} />
         </span>
       </div>
 
       {/* Image + Hover Button */}
-      <div className="relative w-full h-[180px] mb-4 overflow-hidden rounded">
+      <div className="relative w-[180px] h-[180px] mb-4 overflow-hidden rounded">
         <Image
           src={product.image || "/uploads/default.jpg"}
           alt={product.name}
