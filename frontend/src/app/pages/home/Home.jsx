@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/common/Button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -22,6 +23,7 @@ const Home = () => {
         }`}
         src={videoSrc}
         autoPlay
+        loop
         muted
         onCanPlayThrough={() => setIsVideoLoaded(true)}
       />
@@ -32,24 +34,24 @@ const Home = () => {
       {/* Main Content */}
       <div className="relative z-10 w-full px-6 py-20 flex justify-center items-center">
         {/* Content Container */}
-        <div className="text-center text-white flex flex-col justify-center items-center space-y-6 max-w-3xl">
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+        <div className="text-center flex flex-col justify-center items-center space-y-6 max-w-3xl">
+          <h2 className="text-4xl md:text-5xl text-[#4e59ed] font-bold leading-tight">
             Welcome to TechStore
           </h2>
 
-          <p className="text-lg md:text-xl text-gray-300">
+          <p className="text-lg md:text-xl text-white">
             Explore our premium selection of electronics — from high-performance
             laptops and smart devices to essential accessories and cameras.
           </p>
 
-          <p className="text-base md:text-lg text-gray-400">
+          <p className="text-base md:text-lg text-white">
             Discover the latest technology at competitive prices, backed by fast
             shipping and reliable customer service.
           </p>
 
-          <button onClick={handleClick} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition duration-300">
+          <Button onClick={handleClick} className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg transition duration-300">
             Browse All Products
-          </button>
+          </Button>
         </div>
       </div>
     </section>
