@@ -22,7 +22,7 @@ const TopNavBar = () => {
 
   return (
     <>
-      <section className="bg-[#1E1F29] shadow-md text-white px-3 py-3 text-sm">
+      <section className="bg-[#1E1F29] shadow-md text-white px-3 py-3 text-sm ">
         <div className="flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4 max-w-7xl mx-auto">
           {/* Left Side: Contact Info */}
           <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
