@@ -126,7 +126,7 @@ const ProductCard = ({ product }) => {
               handleAddToCart(e);
               router.push("/checkout");
             }}
-            className="flex items-center gap-1.5 text-blue-600 hover:text-blue-800 font-medium transition-colors"
+            className="flex items-center gap-1.5 text-blue-600 hover:text-blue-800 hover:cursor-pointer font-medium transition-colors"
           >
             <FiShoppingCart size={14} />
             Buy Now
