@@ -16,6 +16,7 @@ export const Button = ({
     "relative overflow-hidden rounded-full font-medium leading-none flex items-center justify-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 transition-colors duration-50";
 
   const sizeStyles = {
+    lowSmall:"px-4 py-3 text-sm",
     small:
       // "px-[17px] px-[10px] py-[10px] py-[14px] text-[10px] text-[16px]",
       "px-4.5 py-3.5 text-[10px] text-[16px]",

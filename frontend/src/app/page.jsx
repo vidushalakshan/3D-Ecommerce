@@ -28,7 +28,7 @@ const Page = () => {
     <div className="bg-white">
       <NavBar />
       <Home />
-      <Collection />
+      {/* <Collection /> */}
       <NewProduct />
       <Hotdeal />
       <TopSelling />
