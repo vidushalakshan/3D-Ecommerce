@@ -4,6 +4,7 @@ import TopNavBar from "@/components/layout/TopNavBar";
 import NavBar from "@/components/layout/NavBar";
 import Footer from "@/app/pages/footer/Footer";
 import DashboardHome from "./dashboard/page";
+import Promote from "./pages/promote/Promote";
 
 // ✅ Dynamically import all client-fetching sections
 const Home = dynamic(() => import("./pages/home/Home"), { ssr: false });
@@ -30,6 +31,7 @@ const Page = () => {
       <Home />
       {/* <Collection /> */}
       <NewProduct />
+      <Promote />
       <Hotdeal />
       <TopSelling />
       <NewsLetter />
