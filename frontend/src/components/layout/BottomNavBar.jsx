@@ -74,7 +74,7 @@ const BottomNavBar = () => {
               </motion.a>
             );
           })}
-          <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4">
+          <div className="flex flex-col max-md:hidden max-lg:hidden md:hidden xl:block sm:flex-row flex-wrap items-center gap-4">
             <Searchbar />
           </div>
         </div>
