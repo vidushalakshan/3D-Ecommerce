@@ -30,12 +30,12 @@ const Page = () => {
       <NavBar />
       <Home />
       {/* <Collection /> */}
-      <NewProduct />
+      {/* <NewProduct />
       <Promote />
       <Hotdeal />
       <TopSelling />
       <NewsLetter />
-      <Footer />
+      <Footer /> */}
     </div>
     // <div>
     //   <DashboardHome />
