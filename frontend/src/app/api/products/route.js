@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/config/db";
-import Product from "../../../lib/models/ProductModel";
+import Product from "../../../models/ProductModel";
 import formidable from "formidable";
 import { Readable } from "stream";
 import fs from "fs/promises";

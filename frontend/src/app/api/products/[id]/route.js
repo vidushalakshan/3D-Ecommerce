@@ -1,5 +1,5 @@
 import { connectDB } from "@/lib/config/db";
-import Product from "@/lib/models/ProductModel";
+import Product from "@/models/ProductModel";
 import { NextResponse } from "next/server";
 
 // ✅ Get single product by ID

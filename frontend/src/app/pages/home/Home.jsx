@@ -35,16 +35,16 @@ const Home = () => {
       <div className="relative z-10 w-full px-6 py-20 flex justify-center items-center">
         {/* Content Container */}
         <div className="text-center flex flex-col justify-center items-center space-y-6 max-w-3xl">
-          <h2 className="text-4xl md:text-5xl text-[#4e59ed] font-bold leading-tight">
+          <h2 className="text-4xl max-sm:text-4xl md:text-5xl text-[#4e59ed] font-bold leading-tight">
             Welcome to TechStore
           </h2>
 
-          <p className="text-lg md:text-xl text-white">
+          <p className="max-sm:hidden md:text-xl text-white">
             Explore our premium selection of electronics — from high-performance
             laptops and smart devices to essential accessories and cameras.
           </p>
 
-          <p className="text-base md:text-lg text-white">
+          <p className="text-base max-sm:text-[17px] md:text-lg text-white">
             Discover the latest technology at competitive prices, backed by fast
             shipping and reliable customer service.
           </p>

@@ -2,13 +2,20 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCart } from "../../contexts/cardContext";
-import { FiTrash2, FiX, FiDownload, FiArrowRight } from "react-icons/fi";
+import { FiTrash2, FiX, FiDownload, FiArrowRight, FiShoppingCart } from "react-icons/fi";
 import { Button } from "../common/Button";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function CartDrawer({ onClose }) {
+  const router = useRouter();
   const { items, removeItem, updateQuantity, total } = useCart();
+
+  const handleCheckout = () => {
+    onClose(); // Close the drawer
+    router.push("/checkout"); // Navigate to checkout page
+  };
 
   return (
     <>
@@ -57,7 +64,7 @@ export default function CartDrawer({ onClose }) {
 
           <Button
             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium flex items-center justify-center gap-2"
-            onClick={() => alert("Checkout coming soon!")}
+            onClick={handleCheckout}
           >
             Order now
             <FiArrowRight size={18} />

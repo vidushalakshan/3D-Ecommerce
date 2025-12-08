@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import ProductCard from '@/components/common/ProductCard';
-import images from '@/constants/images';
+import * as images from '../../constants/images';
 import NavBar from '@/components/layout/NavBar';
 
 const products = [

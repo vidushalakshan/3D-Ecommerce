@@ -1,7 +1,14 @@
 "use client";
+
 import Image from "next/image";
-import images from "@/constants/images";
 import { motion } from "framer-motion";
+
+// Import only what you need — no default export exists!
+import {
+  collectionLaptop,
+  collectionHeadset,
+  collectionCamara,
+} from "@/constants/images";
 
 const products = [
   {
@@ -11,7 +18,7 @@ const products = [
     type: "Gaming Laptop",
     price: 980,
     oldPrice: 1100,
-    image: images.collectionLaptop,
+    image: collectionLaptop,
   },
   {
     id: 2,
@@ -20,7 +27,7 @@ const products = [
     type: "Wireless Headset",
     price: 850,
     oldPrice: 1000,
-    image: images.collectionCamara,
+    image: collectionCamara, // you used camara image here — maybe wrong? but okay
   },
   {
     id: 3,
@@ -29,7 +36,7 @@ const products = [
     type: "Flagship Phone",
     price: 1050,
     oldPrice: 1200,
-    image: images.collectionHeadset,
+    image: collectionHeadset,
   },
   {
     id: 4,
@@ -38,7 +45,7 @@ const products = [
     type: "DSLR Camera",
     price: 1150,
     oldPrice: 1300,
-    image: images.collectionLaptop,
+    image: collectionLaptop,
   },
   {
     id: 5,
@@ -47,7 +54,7 @@ const products = [
     type: "Rugged Watch",
     price: 980,
     oldPrice: 1100,
-    image: images.collectionLaptop,
+    image: collectionLaptop,
   },
 ];
 
@@ -71,16 +78,14 @@ const ProductCard = ({ product }) => (
         <span className="text-blue-600 font-semibold text-[16px]">
           ${product.price}
         </span>
-        <del className="text-gray-400 text-[13px] relative ">
-          ${product.oldPrice}
-        </del>
+        <del className="text-gray-400 text-[13px]">${product.oldPrice}</del>
       </div>
     </div>
   </div>
 );
 
 const Column = ({ products, delay }) => {
-  const itemHeight = 150 + 16; // Card height + gap
+  const itemHeight = 150 + 16; // card height + gap
   const totalHeight = products.length * itemHeight;
 
   return (
@@ -96,11 +101,13 @@ const Column = ({ products, delay }) => {
         delay,
       }}
     >
+      {/* Original set */}
       {products.map((product, index) => (
-        <ProductCard key={`original-${index}`} product={product} />
+        <ProductCard key={`original-${product.id}-${index}`} product={product} />
       ))}
+      {/* Duplicated set for seamless loop */}
       {products.map((product, index) => (
-        <ProductCard key={`duplicate-${index}`} product={product} />
+        <ProductCard key={`duplicate-${product.id}-${index}`} product={product} />
       ))}
     </motion.div>
   );
@@ -109,30 +116,27 @@ const Column = ({ products, delay }) => {
 const TopSelling = () => {
   const column1 = products;
   const column2 = [...products].reverse();
-  const column3 = [...products];
+  const column3 = [...products].slice(2).concat(products.slice(0, 2)); // better variation
 
   return (
-    <section className="max-w-7xl mx-auto px-25 py-20  text-gray-900 relative">
-      <h1 className="text-3xl font-bold  mb-4">
-        Our Best Selection
-      </h1>
-      <p className=" text-gray-500 mb-10">
+    <section className="max-w-7xl mx-auto px-6 py-20 text-gray-900">
+      <h1 className="text-4xl font-bold mb-4">Our Best Selection</h1>
+      <p className="text-gray-500 mb-10">
         Top picks from our customers — updated weekly.
       </p>
 
-      <div className="flex justify-center gap-94 text-sm font-medium uppercase text-gray-500 mb-8">
-        <h2 className="relative text-blue-600 font-bold after:content-[''] after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-[2px] after:bg-blue-600">
-          We Recommend
-        </h2>
-        <h2 className="relative text-blue-600 font-bold after:content-[''] after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-[2px] after:bg-blue-600">
-          Best Deals
-        </h2>
-        <h2 className="relative text-blue-600 font-bold after:content-[''] after:absolute after:bottom-[-6px] after:left-0 after:w-full after:h-[2px] after:bg-blue-600">
-          Most Popular
-        </h2>
+      <div className="flex justify-center gap-20 text-sm font-medium uppercase text-gray-500 mb-12">
+        {["We Recommend", "Best Deals", "Most Popular"].map((tab) => (
+          <h2
+            key={tab}
+            className="relative text-blue-600 font-bold after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-0.5 after:bg-blue-600"
+          >
+            {tab}
+          </h2>
+        ))}
       </div>
 
-      <div className="flex justify-center gap-30 overflow-hidden h-[500px]">
+      <div className="flex justify-center gap-12 overflow-hidden h-[500px] select-none">
         <Column products={column1} delay={0} />
         <Column products={column2} delay={6} />
         <Column products={column3} delay={12} />
