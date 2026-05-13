@@ -6,6 +6,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineMail, HiOutlineLockClosed, HiOutlineUser, HiArrowRight } from "react-icons/hi";
 
+import { Button } from "@/components/common/Button";
+
 export default function RegisterForm() {
   const { signUp, setActive, isLoaded } = useSignUp();
   const [firstName, setFirstName] = useState("");
@@ -138,14 +140,14 @@ export default function RegisterForm() {
               )}
             </AnimatePresence>
 
-            <button
+            <Button
               type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 group"
+              loading={loading}
+              fullWidth
+              icon={HiArrowRight}
             >
-              {loading ? "Creating Account..." : "Create Account"}
-              {!loading && <HiArrowRight className="group-hover:translate-x-1 transition-transform" />}
-            </button>
+              Create Account
+            </Button>
           </form>
 
           <p className="text-center mt-8 text-sm text-gray-500">

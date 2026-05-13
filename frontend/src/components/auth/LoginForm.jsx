@@ -6,6 +6,8 @@ import { isSuperAdmin } from "@/lib/clerk";
 import { motion, AnimatePresence } from "framer-motion";
 import { HiOutlineMail, HiOutlineLockClosed, HiArrowRight } from "react-icons/hi";
 
+import { Button } from "@/components/common/Button";
+
 export default function LoginForm() {
   const { signIn, setActive, isLoaded } = useSignIn();
   const [email, setEmail] = useState("");
@@ -124,14 +126,14 @@ export default function LoginForm() {
               )}
             </AnimatePresence>
 
-            <button
+            <Button
               type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-lg shadow-blue-600/20 active:scale-95 disabled:opacity-50 disabled:active:scale-100 flex items-center justify-center gap-2 group"
+              loading={loading}
+              fullWidth
+              icon={HiArrowRight}
             >
-              {loading ? "Verifying..." : "Sign In"}
-              {!loading && <HiArrowRight className="group-hover:translate-x-1 transition-transform" />}
-            </button>
+              Sign In
+            </Button>
           </form>
 
           <div className="relative my-8">
@@ -143,9 +145,11 @@ export default function LoginForm() {
             </div>
           </div>
 
-          <button
+          <Button
             onClick={handleGoogleLogin}
-            className="w-full bg-white/5 border border-white/10 text-white font-bold py-4 rounded-2xl hover:bg-white/10 transition-all flex items-center justify-center gap-3 active:scale-95"
+            variant="glass"
+            fullWidth
+            className="gap-3"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -154,7 +158,7 @@ export default function LoginForm() {
               <path fill="currentColor" d="M12 6.75c1.62 0 3.08.56 4.23 1.65l3.17-3.17C17.46 3.01 14.97 2 12 2 7.63 2 3.93 4.42 2.11 7.07l3.73 2.84C6.71 8.29 9.14 6.75 12 6.75z" />
             </svg>
             Google
-          </button>
+          </Button>
 
           <p className="text-center mt-8 text-sm text-gray-500">
             Don't have an account?{" "}

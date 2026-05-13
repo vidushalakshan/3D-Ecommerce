@@ -1,84 +1,149 @@
 "use client";
 import { Button } from "@/components/common/Button";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { HiBolt, HiCpuChip, HiSparkles } from "react-icons/hi2";
 
 const Home = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const videoSrc = "/video/background.mp4"; // Adjust the path as necessary
-  
+  const videoSrc = "/video/background.mp4"; 
   const router = useRouter();
+  const containerRef = useRef(null);
+
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
+  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   const handleClick = () => {
-    router.push("/allCategories"); // Navigate to the All Categories page
-    // window.scrollTo(0, 0); // Scroll to the top of the page
+    router.push("/allCategories");
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+    }
+  };
+
   return (
-    <section className="relative flex items-center justify-center min-h-[90vh] bg-[#0a0a0a] overflow-hidden">
-      {/* Fullscreen Background Video */}
-      <video
-        className={`absolute top-0 left-0 w-full h-full object-cover z-0 transition-opacity duration-1000 ${
-          isVideoLoaded ? "opacity-40" : "opacity-0"
-        }`}
-        src={videoSrc}
-        autoPlay
-        loop
-        muted
-        onCanPlayThrough={() => setIsVideoLoaded(true)}
-      />
+    <section ref={containerRef} className="relative flex items-center justify-center min-h-screen bg-[#020202] overflow-hidden">
+      <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
+        <video
+          className={`w-full h-full object-cover transition-opacity duration-[2000ms] ${
+            isVideoLoaded ? "opacity-30" : "opacity-0"
+          }`}
+          src={videoSrc}
+          autoPlay
+          loop
+          muted
+          playsInline
+          onCanPlayThrough={() => setIsVideoLoaded(true)}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020202] via-transparent to-[#020202]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#020202] via-transparent to-[#020202]" />
+      </motion.div>
 
-      {/* Decorative Gradients */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/60 via-transparent to-black/80 z-0" />
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600/20 blur-[120px] rounded-full z-0" />
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-600/10 blur-[120px] rounded-full z-0" />
-
-      {/* Main Content */}
-      <div className="relative z-10 w-full max-w-7xl px-6 py-24 flex flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="space-y-8 max-w-4xl"
+      <div className="absolute inset-0 pointer-events-none overflow-hidden hidden lg:block">
+        <motion.div 
+          animate={{ y: [0, -20, 0], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[25%] left-[10%] p-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl"
         >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-4">
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-            <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">Next Generation Tech</span>
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-500/20 rounded-xl text-blue-400"><HiCpuChip size={24}/></div>
+            <div>
+              <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Processor</p>
+              <p className="text-sm font-bold text-white">X-Core Quantum</p>
+            </div>
           </div>
+        </motion.div>
 
-          <h2 className="text-5xl md:text-7xl lg:text-8xl text-white font-extrabold leading-[1.1] tracking-tighter">
-            Elevate Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Digital</span> Lifestyle
-          </h2>
-
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Experience the future of electronics with our curated collection of high-performance devices, designed for the modern explorer.
-          </p>
-
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 pt-8">
-            <button 
-              onClick={handleClick} 
-              className="group relative px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/20 hover:bg-blue-500 transition-all active:scale-95 flex items-center gap-2 overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-              <span>Explore Collection</span>
-              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </button>
-            
-            <button className="px-8 py-4 bg-white/5 text-white font-bold rounded-2xl border border-white/10 hover:bg-white/10 transition-all backdrop-blur-md">
-              Watch Demo
-            </button>
+        <motion.div 
+          animate={{ y: [0, 20, 0], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-[30%] right-[12%] p-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl"
+        >
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-purple-500/20 rounded-xl text-purple-400"><HiBolt size={24}/></div>
+            <div>
+              <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Efficiency</p>
+              <p className="text-sm font-bold text-white">99.9% Ultrafast</p>
+            </div>
           </div>
         </motion.div>
       </div>
 
-      {/* Bottom Fade */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-white to-transparent z-10" />
+      <motion.div 
+        style={{ y: y2, opacity }}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative z-10 w-full max-w-7xl px-8 flex flex-col items-center text-center"
+      >
+        <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 backdrop-blur-2xl mb-8">
+          <HiSparkles className="text-blue-400 animate-pulse" />
+          <span className="text-[11px] font-black text-blue-400 uppercase tracking-[0.3em]">The Future of Interaction</span>
+        </motion.div>
+
+        <motion.h1 
+          variants={itemVariants}
+          className="text-6xl md:text-8xl lg:text-[10rem] font-black text-white leading-[0.85] tracking-[-0.05em] mb-8 select-none"
+        >
+          DIGITAL<br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-blue-400 to-blue-700">LIFESTYLE</span>
+        </motion.h1>
+
+        <motion.p 
+          variants={itemVariants}
+          className="text-gray-500 text-lg md:text-2xl max-w-2xl mx-auto font-medium leading-relaxed tracking-tight mb-12"
+        >
+          Discover cutting-edge technology designed to amplify your human potential and redefine your daily experience.
+        </motion.p>
+
+        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
+          <Button 
+            onClick={handleClick}
+            variant="secondary"
+            size="xl"
+            icon={HiArrowRight}
+            className="shadow-[0_0_40px_rgba(255,255,255,0.1)]"
+          >
+            Explore Now
+          </Button>
+          
+          <Button 
+            variant="outline"
+            size="xl"
+          >
+            View Story
+          </Button>
+        </motion.div>
+      </motion.div>
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[50vh] bg-gradient-to-t from-blue-600/10 to-transparent blur-[120px] pointer-events-none" />
     </section>
   );
 };
+
+const HiArrowRight = ({ className }) => (
+  <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"></line>
+    <polyline points="12 5 19 12 12 19"></polyline>
+  </svg>
+);
 
 export default Home;

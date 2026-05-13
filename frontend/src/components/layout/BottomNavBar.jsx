@@ -14,6 +14,8 @@ import { HiOutlineUser, HiOutlineArrowRightOnRectangle } from "react-icons/hi2";
 import { useEffect } from "react";
 import { HiOutlineMenuAlt3, HiOutlineX } from "react-icons/hi";
 
+import { Button } from "../common/Button";
+
 const BottomNavBar = () => {
   const { openSignIn } = useClerk();
   const { isSignedIn, user } = useUser();
@@ -89,55 +91,60 @@ const BottomNavBar = () => {
 
             <div className="flex items-center gap-2">
               {/* Wishlist */}
-              <button className="hidden sm:flex p-2.5 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-blue-600 hover:border-blue-600 transition-all">
-                <LiaHeart size={18} />
-              </button>
+              <Button 
+                variant="glass" 
+                size="sm" 
+                className="hidden sm:flex !p-2.5 !rounded-xl"
+                icon={LiaHeart}
+              />
 
               {/* Cart */}
-              <button
+              <Button
                 onClick={() => setIsCartOpen(true)}
-                className="relative p-2.5 rounded-xl bg-white text-black hover:bg-blue-600 hover:text-white transition-all shadow-xl"
+                variant="secondary"
+                size="sm"
+                className="!p-2.5 !rounded-xl relative"
+                icon={PiBag}
               >
-                <PiBag size={18} />
                 {cartItemCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-[10px] font-black text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-black">
+                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-[10px] font-black text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-black z-20">
                     {cartItemCount}
                   </span>
                 )}
-              </button>
+              </Button>
 
               <div className="w-px h-6 bg-white/10 mx-1 hidden sm:block" />
 
-              {/* Auth / Mobile Menu */}
+              {/* Auth Mobile Menu */}
               <div className="flex items-center gap-2">
                 {isSignedIn ? (
                   <SignOutButton>
-                    <button className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-white hover:text-red-500 hover:bg-red-500/10 transition-all">
-                      <HiOutlineArrowRightOnRectangle size={18} />
-                    </button>
+                    <Button variant="glass" size="sm" className="!p-2.5 !rounded-xl" icon={HiOutlineArrowRightOnRectangle} />
                   </SignOutButton>
                 ) : (
-                  <button
+                  <Button
                     onClick={() => openSignIn()}
-                    className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all"
-                  >
-                    <HiOutlineUser size={18} />
-                  </button>
+                    variant="glass"
+                    size="sm"
+                    className="!p-2.5 !rounded-xl"
+                    icon={HiOutlineUser}
+                  />
                 )}
                 
-                <button 
+                <Button 
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="lg:hidden p-2.5 rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-lg shadow-blue-600/20"
-                >
-                  {isMobileMenuOpen ? <HiOutlineX size={18} /> : <HiOutlineMenuAlt3 size={18} />}
-                </button>
+                  variant="primary"
+                  size="sm"
+                  className="lg:hidden !p-2.5 !rounded-xl"
+                  icon={isMobileMenuOpen ? HiOutlineX : HiOutlineMenuAlt3}
+                />
               </div>
             </div>
           </div>
         </motion.nav>
       </div>
 
-      {/* Mobile Drawer Overlay */}
+      {/*Mobile Drawer Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
