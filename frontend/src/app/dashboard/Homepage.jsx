@@ -72,7 +72,11 @@ const areaConfig = {
 };
 
 const Homepage = () => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
+
+  React.useEffect(() => {
+    setDate(new Date());
+  }, []);
 
   // total visitors for Pie Chart
   const totalVisitors = useMemo(() => {

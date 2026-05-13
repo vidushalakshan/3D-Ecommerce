@@ -572,9 +572,11 @@ function SidebarMenuSkeleton({
   ...props
 }) {
   // Random width between 50 to 90%.
-  const width = React.useMemo(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`;
-  }, [])
+  const [width, setWidth] = React.useState("80%"); // Default stable width for SSR
+
+  React.useEffect(() => {
+    setWidth(`${Math.floor(Math.random() * 40) + 50}%`);
+  }, []);
 
   return (
     <div

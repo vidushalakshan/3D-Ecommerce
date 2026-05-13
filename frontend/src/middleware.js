@@ -10,7 +10,7 @@ export default authMiddleware({
     if (auth.userId && url.pathname.startsWith("/admin")) {
       const user = await auth.getUser();
       const isAdmin = user?.primaryEmailAddress?.emailAddress
-        ? require("./src/lib/clerk").isAdminEmail(
+        ? require("./lib/clerk").isAdminEmail(
             user.primaryEmailAddress.emailAddress
           )
         : false;
