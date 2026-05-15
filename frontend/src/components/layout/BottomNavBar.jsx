@@ -209,7 +209,7 @@ const BottomNavBar = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed right-0 top-0 h-full w-full max-w-md bg-[#0a0a0a] border-l border-white/10 z-[201] shadow-2xl pointer-events-auto"
+              className="fixed right-0 top-0 h-full w-full max-w-md bg-black/40 backdrop-blur-3xl border-l border-white/10 z-[201] shadow-2xl pointer-events-auto"
             >
               <CartDrawer onClose={() => setIsCartOpen(false)} />
             </motion.aside>

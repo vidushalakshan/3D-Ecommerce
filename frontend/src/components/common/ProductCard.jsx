@@ -59,7 +59,7 @@ const ProductCard = ({ product }) => {
         willChange: "transform",
       }}
       onClick={handleClick}
-      className="group relative w-full aspect-[4/5] bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-8 transition-all duration-500 hover:border-blue-500/50 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer overflow-hidden"
+      className="group relative w-full h-full min-h-[520px] flex flex-col bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-8 transition-all duration-500 hover:border-blue-500/50 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -85,31 +85,35 @@ const ProductCard = ({ product }) => {
 
       <div 
         style={{ transform: "translateZ(40px)", willChange: "transform" }}
-        className="relative w-full aspect-square mb-6 flex items-center justify-center"
+        className="relative w-full aspect-square mb-6 flex items-center justify-center bg-white/[0.02] rounded-[2rem] border border-white/[0.05]"
       >
         <div className="absolute inset-0 bg-blue-500/5 rounded-full blur-[60px] scale-75 group-hover:scale-110 transition-transform duration-700" />
         <Image
           src={product.image || "/uploads/default.jpg"}
           alt={product.name}
           fill
-          className="object-contain p-4 transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-2"
+          className="object-contain p-4 transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-2 z-10"
+          onError={(e) => {
+            e.target.src = "/uploads/default.jpg";
+            e.target.className = "object-contain p-12 opacity-20 grayscale z-10";
+          }}
         />
       </div>
 
       <div 
         style={{ transform: "translateZ(20px)", willChange: "transform" }}
-        className="space-y-4"
+        className="flex-1 flex flex-col justify-between"
       >
         <div className="space-y-1">
           <p className="text-[10px] text-blue-400 font-black uppercase tracking-[0.2em]">
             {product.type}
           </p>
-          <h3 className="text-xl font-bold text-white line-clamp-1 group-hover:text-blue-400 transition-colors">
+          <h3 className="text-xl font-bold text-white line-clamp-2 min-h-[3.5rem] group-hover:text-blue-400 transition-colors">
             {product.name}
           </h3>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
           <div className="flex flex-col">
              <span className="text-2xl font-black text-white">
                 ${product.price}

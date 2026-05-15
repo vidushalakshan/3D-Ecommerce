@@ -18,14 +18,19 @@ export default function CartDrawer({ onClose }) {
 
   return (
     <>
-      <header className="flex items-center justify-between p-5 border-b border-gray-700 bg-[#1a1a1a] sticky top-0 z-10">
-        <h2 className="text-xl font-bold text-white">Your Cart</h2>
+      <header className="flex items-center justify-between p-6 border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-20">
+        <div>
+          <h2 className="text-2xl font-black text-white italic tracking-tighter">YOUR CART.</h2>
+          <p className="text-[10px] text-blue-400 font-bold uppercase tracking-widest mt-1">
+            {items.length} {items.length === 1 ? 'Item' : 'Items'} Selected
+          </p>
+        </div>
         <button
           onClick={onClose}
-          className="p-2 rounded-full hover:bg-gray-700 transition"
+          className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all duration-300"
           aria-label="Close cart"
         >
-          <FiX size={24} />
+          <FiX size={20} />
         </button>
       </header>
 
@@ -47,22 +52,26 @@ export default function CartDrawer({ onClose }) {
 
       {/* FOOTER */}
       {items.length > 0 && (
-        <footer className="border-t border-gray-700 p-5 bg-[#1e1e1e] space-y-4">
-          <div className="flex justify-between text-lg">
-            <span className="text-gray-300">Total</span>
-            <span className="font-bold text-white">€{total.toFixed(2)}</span>
+        <footer className="border-t border-white/10 p-6 bg-black/80 backdrop-blur-2xl space-y-4">
+          <div className="flex justify-between items-end">
+            <span className="text-gray-400 font-medium">Subtotal</span>
+            <div className="text-right">
+              <span className="block text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1">Total Amount</span>
+              <span className="text-3xl font-black text-white">${total.toFixed(2)}</span>
+            </div>
           </div>
 
-          <p className="text-sm text-gray-400">
-            Free shipping on orders over €250
+          <p className="text-xs text-gray-500 bg-white/5 p-3 rounded-lg border border-white/5">
+            ✨ Free shipping on premium orders over <span className="text-white font-bold">$250</span>
           </p>
 
           <Button
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium flex items-center justify-center gap-2"
+            variant="primary"
+            className="w-full !py-4 !rounded-2xl font-bold flex items-center justify-center gap-3 text-lg"
             onClick={handleCheckout}
           >
-            Order now
-            <FiArrowRight size={18} />
+            PROCEED TO CHECKOUT
+            <FiArrowRight size={20} />
           </Button>
         </footer>
       )}
@@ -120,38 +129,36 @@ const CartRow = ({ item, onRemove, onQty }) => (
     </div>
 
     <div className="flex-1 min-w-0">
-      <h4 className="font-medium text-white line-clamp-2">{item.name}</h4>
-      <p className="text-xs text-gray-400 mt-1">
-        Free shipping on orders over €250
+      <h4 className="font-bold text-white leading-tight text-lg">{item.name}</h4>
+      <p className="text-[10px] text-blue-400 font-black uppercase tracking-widest mt-1">
+        Premium Unit
       </p>
-      <p className="text-lg font-semibold text-white mt-1">
-        €{(item.price * item.quantity).toFixed(2)}
+      <p className="text-xl font-black text-white mt-2">
+        ${item.price.toFixed(2)}
       </p>
     </div>
 
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col items-center gap-2 bg-white/5 p-1 rounded-2xl border border-white/5">
       <button
-        onClick={() => onQty(item._id, item.quantity - 1)}
-        className="w-9 h-9 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center text-lg font-bold text-white"
-        aria-label="Decrease quantity"
+        onClick={() => onQty(item._id, item.quantity + 1)}
+        className="w-8 h-8 rounded-xl hover:bg-white/10 flex items-center justify-center text-white transition-colors"
       >
-        -
+        +
       </button>
-      <span className="w-9 text-center font-medium text-white">
+      <span className="w-8 text-center font-bold text-white text-sm">
         {item.quantity}
       </span>
       <button
-        onClick={() => onQty(item._id, item.quantity + 1)}
-        className="w-9 h-9 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center text-lg font-bold text-white"
-        aria-label="Increase quantity"
+        onClick={() => onQty(item._id, item.quantity - 1)}
+        className="w-8 h-8 rounded-xl hover:bg-white/10 flex items-center justify-center text-white transition-colors"
       >
-        +
+        -
       </button>
     </div>
 
     <button
       onClick={() => onRemove(item._id)}
-      className="ml-2 text-gray-400 hover:text-red-400 transition"
+      className="p-2 rounded-xl bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300"
       aria-label="Remove item"
     >
       <FiTrash2 size={18} />
