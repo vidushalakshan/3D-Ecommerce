@@ -1,9 +1,9 @@
 "use client";
-
 import Image from "next/image";
-import { motion } from "framer-motion";
-
-// Import only what you need — no default export exists!
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React, { useRef, useState, useCallback, memo } from "react";
+import { HiSparkles, HiArrowRight, HiCpuChip, HiBolt, HiShieldCheck } from "react-icons/hi2";
+import { Button } from "@/components/common/Button";
 import {
   collectionLaptop,
   collectionHeadset,
@@ -11,135 +11,229 @@ import {
 } from "@/constants/images";
 
 const products = [
-  {
-    id: 1,
-    category: "Laptop",
-    name: "Acer Predator",
-    type: "Gaming Laptop",
-    price: 980,
-    oldPrice: 1100,
-    image: collectionLaptop,
-  },
-  {
-    id: 2,
-    category: "Headset",
-    name: "Sony WH-1000XM5",
-    type: "Wireless Headset",
-    price: 850,
-    oldPrice: 1000,
-    image: collectionCamara, // you used camara image here — maybe wrong? but okay
-  },
-  {
-    id: 3,
-    category: "Phone",
-    name: "Samsung Galaxy S24",
-    type: "Flagship Phone",
-    price: 1050,
-    oldPrice: 1200,
-    image: collectionHeadset,
-  },
-  {
-    id: 4,
-    category: "Camera",
-    name: "Canon EOS R6",
-    type: "DSLR Camera",
-    price: 1150,
-    oldPrice: 1300,
-    image: collectionLaptop,
-  },
-  {
-    id: 5,
-    category: "Watch",
-    name: "Apple Watch Ultra",
-    type: "Rugged Watch",
-    price: 980,
-    oldPrice: 1100,
-    image: collectionLaptop,
-  },
+  { id: 1, name: "Predator Helios Neo", type: "Gaming Powerhouse", price: 1890, img: collectionLaptop, color: "#2563eb", specs: ["RTX 4080", "32GB RAM", "2TB SSD"] },
+  { id: 2, name: "Sony XM5 Premium", type: "Noise Cancellation", price: 750, img: collectionHeadset, color: "#7c3aed", specs: ["30h Battery", "LDAC", "Smart Touch"] },
+  { id: 3, name: "EOS R6 Cinema", type: "Mirrorless 4K", price: 2100, img: collectionCamara, color: "#3b82f6", specs: ["20MP Sensor", "8K Video", "Dual Card"] },
+  { id: 4, name: "ThinkPad Z13", type: "Business Elite", price: 1550, img: collectionLaptop, color: "#2563eb", specs: ["AMD Ryzen 9", "OLED", "18h Battery"] },
+  { id: 5, name: "Bose Ultra Comfort", type: "Audiophile Grade", price: 650, img: collectionHeadset, color: "#7c3aed", specs: ["Spatial Audio", "CustomTune", "24h Pro"] },
 ];
 
-const ProductCard = ({ product }) => (
-  <div className="flex-shrink-0 relative flex items-center gap-5 border border-gray-300 p-3 h-[150px] w-[280px] rounded-xl shadow-md bg-white hover:shadow-lg transition duration-300">
-    <Image
-      src={product.image}
-      alt={product.name}
-      width={85}
-      height={85}
-      className="object-contain rounded-md"
-    />
-    <div className="flex flex-col justify-center">
-      <span className="text-[12px] text-gray-400 uppercase tracking-wide">
-        {product.type}
-      </span>
-      <h2 className="text-[14px] font-semibold text-gray-800">
-        {product.name}
-      </h2>
-      <div className="flex items-center gap-2 mt-1">
-        <span className="text-blue-600 font-semibold text-[16px]">
-          ${product.price}
-        </span>
-        <del className="text-gray-400 text-[13px]">${product.oldPrice}</del>
-      </div>
-    </div>
-  </div>
-);
-
-const Column = ({ products, delay }) => {
-  const itemHeight = 150 + 16; // card height + gap
-  const totalHeight = products.length * itemHeight;
-
+const InteractiveProductCard = memo(({ product, index, activeIndex }) => {
+  const isActive = index === activeIndex;
+  const distance = Math.abs(index - activeIndex);
+  
   return (
     <motion.div
-      className="flex flex-col gap-4 will-change-transform"
-      initial={{ y: 0 }}
-      animate={{ y: -totalHeight }}
-      transition={{
-        repeat: Infinity,
-        repeatType: "loop",
-        duration: 25,
-        ease: "linear",
-        delay,
+      animate={{
+        scale: isActive ? 1 : 0.75,
+        opacity: isActive ? 1 : 0.15,
+        z: isActive ? 150 : -200,
+        rotateY: (index - activeIndex) * -35,
+        x: (index - activeIndex) * 320,
+        filter: isActive ? "blur(0px)" : "blur(4px)",
       }}
+      transition={{ type: "spring", stiffness: 120, damping: 20 }}
+      className="absolute w-[340px] md:w-[480px] h-[550px] bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[3.5rem] flex flex-col items-center justify-between p-12 text-center shadow-[0_50px_100px_rgba(0,0,0,0.5)] overflow-hidden"
+      style={{ transformStyle: "preserve-3d" }}
     >
-      {/* Original set */}
-      {products.map((product, index) => (
-        <ProductCard key={`original-${product.id}-${index}`} product={product} />
-      ))}
-      {/* Duplicated set for seamless loop */}
-      {products.map((product, index) => (
-        <ProductCard key={`duplicate-${product.id}-${index}`} product={product} />
-      ))}
+      {/* Decorative Cyber Grid Background */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]" />
+      
+      {/* Background Accent Glow */}
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-10 blur-[100px] pointer-events-none"
+        style={{ backgroundColor: product.color }}
+      />
+
+      {/* Header Area */}
+      <div className="relative z-20 w-full flex flex-col items-center gap-2" style={{ transform: "translateZ(30px)" }}>
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-blue-400">
+          <HiSparkles size={12} />
+          <span className="text-[9px] font-black uppercase tracking-[0.3em]">{product.type}</span>
+        </div>
+        <h3 className="text-3xl md:text-4xl font-black text-white italic tracking-tighter uppercase leading-none">
+          {product.name}
+        </h3>
+      </div>
+
+      {/* Main Image Area with Floating Specs */}
+      <div className="relative w-full h-56 flex items-center justify-center" style={{ transform: "translateZ(80px)" }}>
+        <motion.div
+          animate={{ y: isActive ? [0, -15, 0] : 0, rotate: isActive ? [0, 2, 0] : 0 }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          className="relative z-10 w-full h-full"
+        >
+          <Image
+            src={product.img}
+            alt={product.name}
+            fill
+            className="object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.8)]"
+          />
+        </motion.div>
+
+        {/* Floating Spec Tags (Only for active) */}
+        <AnimatePresence>
+          {isActive && (
+            <>
+              <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="absolute -left-4 top-0 p-2 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl text-[8px] text-white font-bold flex items-center gap-1">
+                <HiCpuChip className="text-blue-500" /> {product.specs[0]}
+              </motion.div>
+              <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} className="absolute -right-4 bottom-0 p-2 bg-black/40 backdrop-blur-md border border-white/10 rounded-xl text-[8px] text-white font-bold flex items-center gap-1">
+                <HiBolt className="text-purple-500" /> {product.specs[1]}
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Footer Area */}
+      <div className="relative z-20 w-full space-y-6" style={{ transform: "translateZ(40px)" }}>
+        <div className="flex flex-col items-center gap-1">
+          <span className="text-3xl font-black text-white italic">${product.price}</span>
+          <div className="flex items-center gap-1 text-green-500 text-[9px] font-black uppercase tracking-widest">
+            <HiShieldCheck size={14} /> 1 Year Warranty Included
+          </div>
+        </div>
+
+        <div className="flex justify-center h-14">
+          <AnimatePresence mode="wait">
+            {isActive ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: 10 }}
+                key="active-btn"
+              >
+                <Button variant="primary" size="lg" icon={HiArrowRight} className="shadow-[0_15px_40px_rgba(37,99,235,0.4)]">
+                  ADD TO CART
+                </Button>
+              </motion.div>
+            ) : (
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                key="inactive-label"
+                className="text-[10px] text-white/20 font-black uppercase tracking-[0.4em] hover:text-white/40 transition-colors"
+              >
+                View Details
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </motion.div>
   );
-};
+});
 
 const TopSelling = () => {
-  const column1 = products;
-  const column2 = [...products].reverse();
-  const column3 = [...products].slice(2).concat(products.slice(0, 2)); // better variation
+  const [active, setActive] = useState(2);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+
+  // Auto-play logic
+  React.useEffect(() => {
+    if (!isAutoPlay) return;
+    const timer = setInterval(() => {
+      setActive(prev => (prev + 1) % products.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isAutoPlay]);
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20 text-gray-900">
-      <h1 className="text-4xl font-bold mb-4">Our Best Selection</h1>
-      <p className="text-gray-500 mb-10">
-        Top picks from our customers — updated weekly.
-      </p>
+    <section 
+      onMouseEnter={() => setIsAutoPlay(false)}
+      onMouseLeave={() => setIsAutoPlay(true)}
+      className="relative min-h-screen bg-[#020202] py-24 overflow-hidden flex flex-col items-center justify-center border-y border-white/5"
+    >
+      {/* Background Environment */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[150px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[150px] rounded-full animate-pulse" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay pointer-events-none" />
+      </div>
 
-      <div className="flex justify-center gap-20 text-sm font-medium uppercase text-gray-500 mb-12">
-        {["We Recommend", "Best Deals", "Most Popular"].map((tab) => (
-          <h2
-            key={tab}
-            className="relative text-blue-600 font-bold after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-full after:h-0.5 after:bg-blue-600"
-          >
-            {tab}
+      <div className="max-w-7xl mx-auto px-8 relative z-10 w-full text-center mb-16">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="space-y-4"
+        >
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-3xl text-blue-400">
+            <HiCpuChip className="animate-pulse" />
+            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Hardware Innovation</span>
+          </div>
+          <h2 className="text-6xl md:text-8xl lg:text-[10rem] font-black text-white tracking-tighter italic leading-none uppercase drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            TOP <span className="text-blue-500">SELECTION</span>
           </h2>
+          <div className="flex items-center justify-center gap-4 text-gray-500 font-bold uppercase text-[10px] tracking-[0.2em]">
+            <span className="w-12 h-px bg-white/10" />
+            Performance Tested
+            <span className="w-12 h-px bg-white/10" />
+          </div>
+        </motion.div>
+      </div>
+
+      {/* 3D Showcase Area */}
+      <div 
+        className="relative w-full h-[650px] flex items-center justify-center perspective-[2500px]"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        <div className="relative w-full h-full flex items-center justify-center">
+          <AnimatePresence>
+            {products.map((product, index) => (
+              <InteractiveProductCard 
+                key={product.id} 
+                product={product} 
+                index={index} 
+                activeIndex={active}
+              />
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {/* Floating Navigation Controls */}
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none px-4 lg:px-24">
+          <Button 
+            variant="glass" 
+            size="icon" 
+            onClick={() => setActive(prev => (prev === 0 ? products.length - 1 : prev - 1))}
+            className="pointer-events-auto !w-14 !h-14 !rounded-2xl shadow-2xl group"
+            icon={() => <HiArrowRight className="rotate-180 group-hover:-translate-x-1 transition-transform" size={24} />}
+          />
+          <Button 
+            variant="glass" 
+            size="icon" 
+            onClick={() => setActive(prev => (prev + 1) % products.length)}
+            className="pointer-events-auto !w-14 !h-14 !rounded-2xl shadow-2xl group"
+            icon={() => <HiArrowRight className="group-hover:translate-x-1 transition-transform" size={24} />}
+          />
+        </div>
+      </div>
+
+      {/* Progressive Pagination */}
+      <div className="flex gap-4 mt-12 relative z-50 items-center">
+        {products.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            className="group relative flex flex-col items-center"
+          >
+            <div className={`h-1 rounded-full transition-all duration-700 ${
+              active === i ? "w-16 bg-blue-500 shadow-[0_0_15px_rgba(37,99,235,0.8)]" : "w-6 bg-white/10 group-hover:bg-white/30"
+            }`} />
+            <span className={`absolute -bottom-4 text-[8px] font-black transition-all ${active === i ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}>0{i+1}</span>
+          </button>
         ))}
       </div>
 
-      <div className="flex justify-center gap-12 overflow-hidden h-[500px] select-none">
-        <Column products={column1} delay={0} />
-        <Column products={column2} delay={6} />
-        <Column products={column3} delay={12} />
+      {/* Decorative Floor & Stage Lights */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-[35vh] bg-gradient-to-t from-blue-600/10 to-transparent blur-[120px] pointer-events-none rounded-[100%] opacity-50" />
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      
+      {/* Floating Particle Accents */}
+      <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+        <motion.div animate={{ y: [0, -100, 0], opacity: [0, 0.5, 0] }} transition={{ duration: 8, repeat: Infinity }} className="absolute top-1/4 left-1/4 w-1 h-1 bg-blue-400 rounded-full" />
+        <motion.div animate={{ y: [0, -150, 0], opacity: [0, 0.4, 0] }} transition={{ duration: 12, repeat: Infinity, delay: 2 }} className="absolute top-1/3 right-1/4 w-1 h-1 bg-purple-400 rounded-full" />
       </div>
     </section>
   );
