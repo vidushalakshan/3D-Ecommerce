@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React, { useRef, useState, useCallback } from "react";
 import { HiArrowRight, HiSparkles } from "react-icons/hi2";
 import { Button } from "@/components/common/Button";
 import {
@@ -39,6 +39,29 @@ const collections = [
 
 const Collection = () => {
   const [active, setActive] = useState(0);
+  const cardRef = useRef(null);
+  const [hovering, setHovering] = useState(false);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const handleMouseMove = useCallback((e) => {
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  }, [x, y]);
+
+  const handleMouseEnter = useCallback(() => setHovering(true), []);
+  const handleMouseLeave = useCallback(() => {
+    setHovering(false);
+    x.set(0);
+    y.set(0);
+  }, [x, y]);
 
   return (
     <section className="relative h-screen bg-[#020202] overflow-hidden flex items-center justify-center py-20 px-8">

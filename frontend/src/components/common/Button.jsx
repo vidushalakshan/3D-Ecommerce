@@ -1,6 +1,6 @@
 "use client";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 
 export const Button = ({
   variant = "primary",
@@ -22,7 +22,7 @@ export const Button = ({
   const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15 });
   const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15 });
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = useCallback((e) => {
     if (!btnRef.current) return;
     const rect = btnRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -30,16 +30,15 @@ export const Button = ({
     const distanceX = e.clientX - centerX;
     const distanceY = e.clientY - centerY;
     
-    // Subtle magnetic pull (limit to 10px)
     x.set(distanceX * 0.1);
     y.set(distanceY * 0.1);
-  };
+  }, [x, y]);
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     setIsHovered(false);
     x.set(0);
     y.set(0);
-  };
+  }, [x, y]);
 
   const baseStyles = "relative inline-flex items-center justify-center gap-2 font-black tracking-tight transition-colors duration-300 disabled:opacity-50 overflow-hidden group select-none";
   
@@ -128,7 +127,6 @@ export const Button = ({
         )}
       </div>
 
-      {/* Ripple/Glow effect at click point could be added here if needed */}
     </motion.button>
   );
 };
