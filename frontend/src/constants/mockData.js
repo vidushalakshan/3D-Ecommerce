@@ -1,3 +1,9 @@
+import {
+  collectionLaptop,
+  collectionHeadset,
+  collectionCamara,
+  watchImg,
+} from "./images";
 
 export const MOCK_PRODUCTS = [
   {
@@ -9,7 +15,7 @@ export const MOCK_PRODUCTS = [
     price: 2499,
     oldPrice: 2699,
     isHot: true,
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1000&auto=format&fit=crop",
+    image: collectionLaptop,
     description: "The most powerful MacBook ever."
   },
   {
@@ -21,7 +27,7 @@ export const MOCK_PRODUCTS = [
     price: 999,
     oldPrice: 1099,
     isHot: true,
-    image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=1000&auto=format&fit=crop",
+    image: watchImg, // Using watch as a fallback tech image
     description: "Titanium. So strong. So light. So Pro."
   },
   {
@@ -33,7 +39,7 @@ export const MOCK_PRODUCTS = [
     price: 349,
     oldPrice: 399,
     isHot: false,
-    image: "https://images.unsplash.com/photo-1618366712277-721388040a2a?q=80&w=1000&auto=format&fit=crop",
+    image: collectionHeadset,
     description: "Industry leading noise canceling."
   },
   {
@@ -45,7 +51,7 @@ export const MOCK_PRODUCTS = [
     price: 129,
     oldPrice: 159,
     isHot: true,
-    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?q=80&w=1000&auto=format&fit=crop",
+    image: collectionCamara, // Using camara as fallback for accessory
     description: "Ultra-fast gaming mouse."
   }
 ];

@@ -36,16 +36,13 @@ const InteractiveProductCard = memo(({ product, index, activeIndex }) => {
       className="absolute w-[340px] md:w-[480px] h-[550px] bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[3.5rem] flex flex-col items-center justify-between p-12 text-center shadow-[0_50px_100px_rgba(0,0,0,0.5)] overflow-hidden"
       style={{ transformStyle: "preserve-3d" }}
     >
-      {/* Decorative Cyber Grid Background */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]" />
       
-      {/* Background Accent Glow */}
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-10 blur-[100px] pointer-events-none"
         style={{ backgroundColor: product.color }}
       />
 
-      {/* Header Area */}
       <div className="relative z-20 w-full flex flex-col items-center gap-2" style={{ transform: "translateZ(30px)" }}>
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-blue-400">
           <HiSparkles size={12} />
@@ -56,7 +53,6 @@ const InteractiveProductCard = memo(({ product, index, activeIndex }) => {
         </h3>
       </div>
 
-      {/* Main Image Area with Floating Specs */}
       <div className="relative w-full h-56 flex items-center justify-center" style={{ transform: "translateZ(80px)" }}>
         <motion.div
           animate={{ y: isActive ? [0, -15, 0] : 0, rotate: isActive ? [0, 2, 0] : 0 }}
@@ -71,7 +67,6 @@ const InteractiveProductCard = memo(({ product, index, activeIndex }) => {
           />
         </motion.div>
 
-        {/* Floating Spec Tags (Only for active) */}
         <AnimatePresence>
           {isActive && (
             <>
@@ -86,7 +81,6 @@ const InteractiveProductCard = memo(({ product, index, activeIndex }) => {
         </AnimatePresence>
       </div>
 
-      {/* Footer Area */}
       <div className="relative z-20 w-full space-y-6" style={{ transform: "translateZ(40px)" }}>
         <div className="flex flex-col items-center gap-1">
           <span className="text-3xl font-black text-white italic">${product.price}</span>
@@ -129,7 +123,6 @@ const TopSelling = () => {
   const [active, setActive] = useState(2);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
 
-  // Auto-play logic
   React.useEffect(() => {
     if (!isAutoPlay) return;
     const timer = setInterval(() => {
@@ -144,7 +137,6 @@ const TopSelling = () => {
       onMouseLeave={() => setIsAutoPlay(true)}
       className="relative min-h-screen bg-[#020202] py-24 overflow-hidden flex flex-col items-center justify-center border-y border-white/5"
     >
-      {/* Background Environment */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/10 blur-[150px] rounded-full animate-pulse" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/10 blur-[150px] rounded-full animate-pulse" />
@@ -173,7 +165,6 @@ const TopSelling = () => {
         </motion.div>
       </div>
 
-      {/* 3D Showcase Area */}
       <div 
         className="relative w-full h-[650px] flex items-center justify-center perspective-[2500px]"
         style={{ transformStyle: "preserve-3d" }}
@@ -191,7 +182,6 @@ const TopSelling = () => {
           </AnimatePresence>
         </div>
 
-        {/* Floating Navigation Controls */}
         <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between z-50 pointer-events-none px-4 lg:px-24">
           <Button 
             variant="glass" 
@@ -210,7 +200,6 @@ const TopSelling = () => {
         </div>
       </div>
 
-      {/* Progressive Pagination */}
       <div className="flex gap-4 mt-12 relative z-50 items-center">
         {products.map((_, i) => (
           <button
@@ -226,11 +215,9 @@ const TopSelling = () => {
         ))}
       </div>
 
-      {/* Decorative Floor & Stage Lights */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[140%] h-[35vh] bg-gradient-to-t from-blue-600/10 to-transparent blur-[120px] pointer-events-none rounded-[100%] opacity-50" />
       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      
-      {/* Floating Particle Accents */}
+
       <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
         <motion.div animate={{ y: [0, -100, 0], opacity: [0, 0.5, 0] }} transition={{ duration: 8, repeat: Infinity }} className="absolute top-1/4 left-1/4 w-1 h-1 bg-blue-400 rounded-full" />
         <motion.div animate={{ y: [0, -150, 0], opacity: [0, 0.4, 0] }} transition={{ duration: 12, repeat: Infinity, delay: 2 }} className="absolute top-1/3 right-1/4 w-1 h-1 bg-purple-400 rounded-full" />
