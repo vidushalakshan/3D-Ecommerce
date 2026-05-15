@@ -1,6 +1,6 @@
 "use client";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useState, useRef } from "react";
 
 export const Button = ({
   variant = "primary",
@@ -13,28 +13,62 @@ export const Button = ({
   fullWidth = false,
   ...props
 }) => {
-  const baseStyles = "relative inline-flex items-center justify-center gap-2 font-bold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:active:scale-100 overflow-hidden";
+  const [isHovered, setIsHovered] = useState(false);
+  const btnRef = useRef(null);
+  
+  // Magnetic effect values
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15 });
+
+  const handleMouseMove = (e) => {
+    if (!btnRef.current) return;
+    const rect = btnRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const distanceX = e.clientX - centerX;
+    const distanceY = e.clientY - centerY;
+    
+    // Subtle magnetic pull (limit to 10px)
+    x.set(distanceX * 0.1);
+    y.set(distanceY * 0.1);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    x.set(0);
+    y.set(0);
+  };
+
+  const baseStyles = "relative inline-flex items-center justify-center gap-2 font-black tracking-tight transition-colors duration-300 disabled:opacity-50 overflow-hidden group select-none";
   
   const variants = {
-    primary: "bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-600/20 hover:cursor-pointer",
-    secondary: "bg-white text-black hover:bg-gray-200 shadow-xl shadow-white/5 cursor-pointer",
-    outline: "bg-transparent border-2 border-white/20 text-white hover:bg-white/5 hover:border-white/40 cursor-pointer",
-    glass: "bg-white/5 backdrop-blur-xl border border-white/10 text-white hover:bg-white/10 cursor-pointer",
-    danger: "bg-red-600 text-white hover:bg-red-500 shadow-lg shadow-red-600/20 cursor-pointer",
-    ghost: "bg-transparent text-gray-400 hover:text-white hover:bg-white/5 cursor-pointer"
+    primary: "bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:bg-blue-500",
+    secondary: "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:bg-gray-100",
+    outline: "bg-transparent border-2 border-white/20 text-white hover:bg-white/10 hover:border-white/40",
+    glass: "bg-white/5 backdrop-blur-xl border border-white/10 text-white hover:bg-white/10",
+    danger: "bg-red-600 text-white shadow-[0_0_20px_rgba(220,38,38,0.2)] hover:bg-red-500",
+    ghost: "bg-transparent text-gray-400 hover:text-white hover:bg-white/5",
+    bgBlack: "bg-black text-white border border-white/10 hover:bg-white/5"
   };
 
   const sizes = {
-    sm: "px-4 py-2 text-xs rounded-xl",
-    md: "px-6 py-3 text-sm rounded-2xl",
-    lg: "px-8 py-4 text-base rounded-2xl",
-    xl: "px-10 py-5 text-lg rounded-[2rem]"
+    sm: "px-4 py-2 text-[10px] uppercase tracking-widest rounded-xl",
+    md: "px-6 py-3 text-xs uppercase tracking-widest rounded-2xl",
+    lg: "px-8 py-4 text-sm uppercase tracking-widest rounded-2xl",
+    xl: "px-10 py-5 text-base uppercase tracking-[0.2em] rounded-[2rem]",
+    icon: "w-10 h-10 p-0 rounded-xl"
   };
 
   return (
     <motion.button
+      ref={btnRef}
       onClick={onClick}
       disabled={loading}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
       className={`
         ${baseStyles} 
         ${variants[variant]} 
@@ -42,33 +76,59 @@ export const Button = ({
         ${fullWidth ? "w-full" : ""} 
         ${className}
       `}
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.98 }}
+      style={{
+        x: mouseXSpring,
+        y: mouseYSpring,
+      }}
+      whileHover={{ 
+        scale: 1.02,
+        y: -2,
+        boxShadow: variant === 'primary' ? '0 10px 40px -10px rgba(37,99,235,0.5)' : '0 10px 40px -10px rgba(255,255,255,0.1)'
+      }}
+      whileTap={{ scale: 0.96 }}
+      transition={{ type: "spring", stiffness: 400, damping: 15 }}
       {...props}
     >
-      {/* Shine Effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full hover:animate-[shine_1.5s_infinite] transition-transform pointer-events-none" />
+      {/* Animated Gradient Background on Hover */}
+      <motion.div 
+        className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full"
+        animate={{ 
+          translateX: isHovered ? ["100%", "-100%"] : "-100%" 
+        }}
+        transition={{ 
+          duration: 1.5, 
+          repeat: Infinity, 
+          ease: "linear" 
+        }}
+      />
       
-      <div className={`relative z-10 flex items-center justify-center ${Icon && typeof children === "string" ? "gap-2" : ""}`}>
+      {/* Border Light effect */}
+      <div className="absolute inset-0 rounded-inherit border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+      <div className={`relative z-10 flex items-center justify-center ${Icon && typeof children === "string" ? "gap-2.5" : ""}`}>
         {loading ? (
           <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
         ) : Icon ? (
-          <Icon size={size === "sm" ? 16 : 20} className="shrink-0" />
+          <motion.div
+            animate={{ 
+              x: isHovered ? [0, 2, 0] : 0,
+              scale: isHovered ? 1.1 : 1
+            }}
+            transition={{ duration: 0.3 }}
+            className="flex items-center justify-center"
+          >
+            <Icon size={size === "sm" || size === "icon" ? 16 : 20} className="shrink-0" />
+          </motion.div>
         ) : null}
         
         {typeof children === "string" ? (
-          <span className="whitespace-nowrap">{children}</span>
+          <span className="whitespace-nowrap font-black italic">{children}</span>
         ) : (
           children
         )}
       </div>
-      
-      <style jsx>{`
-        @keyframes shine {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-      `}</style>
+
+      {/* Ripple/Glow effect at click point could be added here if needed */}
     </motion.button>
   );
 };

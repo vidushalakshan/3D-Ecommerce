@@ -93,8 +93,8 @@ const BottomNavBar = () => {
               {/* Wishlist */}
               <Button 
                 variant="glass" 
-                size="sm" 
-                className="hidden sm:flex w-10 h-10 !p-0 !rounded-xl"
+                size="icon" 
+                className="hidden sm:flex"
                 icon={LiaHeart}
               />
 
@@ -102,8 +102,8 @@ const BottomNavBar = () => {
               <Button
                 onClick={() => setIsCartOpen(true)}
                 variant="secondary"
-                size="sm"
-                className="w-10 h-10 !p-0 !rounded-xl relative"
+                size="icon"
+                className="relative"
                 icon={PiBag}
               >
                 {cartItemCount > 0 && (
@@ -119,14 +119,13 @@ const BottomNavBar = () => {
               <div className="flex items-center gap-2">
                 {isSignedIn ? (
                   <SignOutButton>
-                    <Button variant="glass" size="sm" className="w-10 h-10 !p-0 !rounded-xl" icon={HiOutlineArrowRightOnRectangle} />
+                    <Button variant="glass" size="icon" icon={HiOutlineArrowRightOnRectangle} />
                   </SignOutButton>
                 ) : (
                   <Button
                     onClick={() => openSignIn()}
                     variant="glass"
-                    size="sm"
-                    className="w-10 h-10 !p-0 !rounded-xl"
+                    size="icon"
                     icon={HiOutlineUser}
                   />
                 )}
@@ -134,8 +133,8 @@ const BottomNavBar = () => {
                 <Button 
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   variant="primary"
-                  size="sm"
-                  className="lg:hidden w-10 h-10 !p-0 !rounded-xl"
+                  size="icon"
+                  className="lg:hidden"
                   icon={isMobileMenuOpen ? HiOutlineX : HiOutlineMenuAlt3}
                 />
               </div>
