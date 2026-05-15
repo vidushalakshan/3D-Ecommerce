@@ -1,26 +1,14 @@
 // constants/images.js
 
-import collectionCamara from "../../public/images/camara.png";
-import collectionHeadset from "../../public/images/headsetGaming.png";
-import collectionLaptop from "../../public/images/laptopgame.png";
-import hotDealLeft from "../../public/gif/right.gif";
-import pauseImg from "../../public/images/pause.svg";
-import playImg from "../../public/images/play.svg";
-import replayImg from "../../public/images/replay.svg";
-import rightImg from "../../public/images/right.svg";
-import watchImg from "../../public/images/watch.svg";
-import yellowImg from "../../public/model-textures/yellow.jpg";
-
-// Export as named exports
-export {
-  collectionCamara,
-  collectionHeadset,
-  collectionLaptop,
-  hotDealLeft,
-  pauseImg,
-  playImg,
-  replayImg,
-  rightImg,
-  watchImg,
-  yellowImg,
-};
+// Using direct public paths (Recommended for Next.js public folder)
+export const collectionCamara = "/images/camara.png";
+export const collectionHeadset = "/images/headsetGaming.png";
+export const collectionLaptop = "/images/laptopgame.png";
+export const hotDealLeft = "/gif/right.gif";
+export const pauseImg = "/images/pause.svg";
+export const playImg = "/images/play.svg";
+export const replayImg = "/images/replay.svg";
+export const rightImg = "/images/right.svg";
+export const watchImg = "/images/watch.svg";
+export const yellowImg = "/model-textures/yellow.jpg";
+export const defaultImg = "/images/laptopgame.png"; // Fallback image

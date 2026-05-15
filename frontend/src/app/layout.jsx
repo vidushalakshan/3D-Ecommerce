@@ -8,8 +8,8 @@ import Script from "next/script";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "My E-commerce Site",
-  description: "Best online store",
+  title: "3D TECH STORE",
+  description: "Best online 3D technology store",
 };
 
 export default function RootLayout({ children }) {

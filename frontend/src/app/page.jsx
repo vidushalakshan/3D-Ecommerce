@@ -28,7 +28,7 @@ const NewsLetter = dynamic(() => import("@/app/pages/newsletter/NewsLetter"), {
 
 const Page = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-[#020202]">
       <NavBar />
       <Home />
       <NewProduct />

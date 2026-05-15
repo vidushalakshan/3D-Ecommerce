@@ -75,7 +75,7 @@ export default function LoginForm() {
         <div className="bg-white/5 backdrop-blur-2xl border border-white/10 p-10 rounded-[2.5rem] shadow-2xl">
           <div className="text-center mb-10">
             <h1 className="text-4xl font-extrabold text-white tracking-tighter mb-2 italic">
-              ELECTRO<span className="text-blue-500">.</span>
+              3D TECH STORE<span className="text-blue-500">.</span>
             </h1>
             <p className="text-gray-400 font-medium">Welcome back, tech explorer.</p>
           </div>

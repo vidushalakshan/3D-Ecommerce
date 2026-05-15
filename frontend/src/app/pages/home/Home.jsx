@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@/components/common/Button";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { HiBolt, HiCpuChip, HiSparkles } from "react-icons/hi2";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
+import { HiBolt, HiCpuChip, HiSparkles, HiArrowRight } from "react-icons/hi2";
 
 const Home = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -11,41 +11,44 @@ const Home = () => {
   const router = useRouter();
   const containerRef = useRef(null);
 
+  // Scroll Parallax
   const { scrollY } = useScroll();
-  const y1 = useTransform(scrollY, [0, 500], [0, 200]);
-  const y2 = useTransform(scrollY, [0, 500], [0, -150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const yParallax = useTransform(scrollY, [0, 500], [0, 150]);
+  const scaleParallax = useTransform(scrollY, [0, 500], [1, 1.1]);
+  const opacityParallax = useTransform(scrollY, [0, 400], [1, 0]);
 
-  const handleClick = () => {
-    router.push("/allCategories");
-  }
+  // Mouse Parallax
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 100, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 100, damping: 20 });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.3
-      }
-    }
-  };
+  const textX = useTransform(springX, [-0.5, 0.5], ["-30px", "30px"]);
+  const textY = useTransform(springY, [-0.5, 0.5], ["-20px", "20px"]);
+  const rotateX = useTransform(springY, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(springX, [-0.5, 0.5], ["-10deg", "10deg"]);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
-    }
-  };
+  const handleMouseMove = useCallback((e) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    mouseX.set(clientX / innerWidth - 0.5);
+    mouseY.set(clientY / innerHeight - 0.5);
+  }, [mouseX, mouseY]);
 
   return (
-    <section ref={containerRef} className="relative flex items-center justify-center min-h-screen bg-[#020202] overflow-hidden">
-      <motion.div style={{ y: y1 }} className="absolute inset-0 z-0">
+    <section 
+      ref={containerRef} 
+      onMouseMove={handleMouseMove}
+      className="relative flex items-center justify-center min-h-screen bg-[#020202] overflow-hidden"
+    >
+      {/* Immersive Background */}
+      <motion.div 
+        style={{ y: yParallax, scale: scaleParallax }} 
+        className="absolute inset-0 z-0"
+      >
         <video
           className={`w-full h-full object-cover transition-opacity duration-[2000ms] ${
-            isVideoLoaded ? "opacity-30" : "opacity-0"
+            isVideoLoaded ? "opacity-40" : "opacity-0"
           }`}
           src={videoSrc}
           autoPlay
@@ -54,96 +57,96 @@ const Home = () => {
           playsInline
           onCanPlayThrough={() => setIsVideoLoaded(true)}
         />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#020202_90%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#020202] via-transparent to-[#020202]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#020202] via-transparent to-[#020202]" />
       </motion.div>
 
-      <div className="absolute inset-0 pointer-events-none overflow-hidden hidden lg:block">
+      {/* Floating 3D Orbs/Accents */}
+      <div className="absolute inset-0 pointer-events-none perspective-[1000px]">
         <motion.div 
-          animate={{ y: [0, -20, 0], opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[25%] left-[10%] p-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl"
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-500/20 rounded-xl text-blue-400"><HiCpuChip size={24}/></div>
-            <div>
-              <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Processor</p>
-              <p className="text-sm font-bold text-white">X-Core Quantum</p>
-            </div>
-          </div>
-        </motion.div>
-
+          style={{ x: textX, y: textY, rotateX, rotateY }}
+          className="absolute top-[20%] left-[15%] w-32 h-32 bg-blue-500/10 blur-[60px] rounded-full animate-pulse" 
+        />
         <motion.div 
-          animate={{ y: [0, 20, 0], opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-[30%] right-[12%] p-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl"
-        >
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-500/20 rounded-xl text-purple-400"><HiBolt size={24}/></div>
-            <div>
-              <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest">Efficiency</p>
-              <p className="text-sm font-bold text-white">99.9% Ultrafast</p>
-            </div>
-          </div>
-        </motion.div>
+          style={{ x: useTransform(springX, (v) => v * -50), y: useTransform(springY, (v) => v * -40) }}
+          className="absolute bottom-[20%] right-[20%] w-48 h-48 bg-purple-500/10 blur-[80px] rounded-full animate-pulse delay-700" 
+        />
       </div>
 
       <motion.div 
-        style={{ y: y2, opacity }}
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
+        style={{ opacity: opacityParallax, perspective: "1500px" }}
         className="relative z-10 w-full max-w-7xl px-8 flex flex-col items-center text-center"
       >
-        <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 backdrop-blur-2xl mb-8">
+        {/* Floating Badge */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 backdrop-blur-3xl mb-8 shadow-[0_0_30px_rgba(37,99,235,0.1)]"
+        >
           <HiSparkles className="text-blue-400 animate-pulse" />
-          <span className="text-[11px] font-black text-blue-400 uppercase tracking-[0.3em]">The Future of Interaction</span>
+          <span className="text-[11px] font-black text-blue-400 uppercase tracking-[0.4em]">Next-Gen Digital Stage</span>
         </motion.div>
 
-        <motion.h1 
-          variants={itemVariants}
-          className="text-6xl md:text-8xl lg:text-[10rem] font-black text-white leading-[0.85] tracking-[-0.05em] mb-8 select-none"
+        {/* 3D Main Heading */}
+        <motion.div
+           style={{ x: textX, y: textY, rotateX, rotateY, transformStyle: "preserve-3d" }}
+           className="relative"
         >
-          DIGITAL<br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-blue-400 to-blue-700">LIFESTYLE</span>
-        </motion.h1>
+          <h1 className="text-6xl md:text-8xl lg:text-[11rem] font-black text-white leading-[0.8] tracking-tighter mb-8 italic">
+            PROJECT<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-b from-blue-400 to-blue-800 drop-shadow-[0_20px_50px_rgba(37,99,235,0.3)]">
+              MATRIX
+            </span>
+          </h1>
+          
+          {/* Depth Layer for Header */}
+          <div className="absolute inset-0 -z-10 blur-[40px] opacity-20 pointer-events-none select-none">
+             <h1 className="text-6xl md:text-8xl lg:text-[11rem] font-black text-blue-500 leading-[0.8] tracking-tighter italic">
+               PROJECT<br />MATRIX
+             </h1>
+          </div>
+        </motion.div>
 
         <motion.p 
-          variants={itemVariants}
-          className="text-gray-500 text-lg md:text-2xl max-w-2xl mx-auto font-medium leading-relaxed tracking-tight mb-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="text-gray-400 text-lg md:text-2xl max-w-2xl mx-auto font-medium leading-relaxed tracking-tight mb-12"
         >
-          Discover cutting-edge technology designed to amplify your human potential and redefine your daily experience.
+          Immerse yourself in a redefined marketplace where high-performance hardware meets cinematic 3D interaction.
         </motion.p>
 
-        <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-6">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.7 }}
+          className="flex flex-col sm:flex-row items-center gap-6"
+        >
           <Button 
-            onClick={handleClick}
-            variant="secondary"
+            onClick={() => router.push("/allCategories")}
+            variant="primary"
             size="xl"
             icon={HiArrowRight}
-            className="shadow-[0_0_40px_rgba(255,255,255,0.1)]"
+            className="shadow-[0_20px_50px_rgba(37,99,235,0.3)] min-w-[240px]"
           >
-            Explore Now
+            ENTER THE STORE
           </Button>
           
           <Button 
-            variant="outline"
+            variant="glass"
             size="xl"
+            className="min-w-[200px]"
           >
-            View Story
+            WATCH DEMO
           </Button>
         </motion.div>
       </motion.div>
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[50vh] bg-gradient-to-t from-blue-600/10 to-transparent blur-[120px] pointer-events-none" />
+
+      {/* Modern Floor Effect */}
+      <div className="absolute bottom-0 left-0 w-full h-[30vh] bg-gradient-to-t from-blue-600/10 to-transparent blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-12 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
     </section>
   );
 };
-
-const HiArrowRight = ({ className }) => (
-  <svg className={className} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="5" y1="12" x2="19" y2="12"></line>
-    <polyline points="12 5 19 12 12 19"></polyline>
-  </svg>
-);
 
 export default Home;

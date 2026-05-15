@@ -52,8 +52,8 @@ const BottomNavBar = () => {
               className="group flex items-center gap-1.5"
               whileHover={{ scale: 1.02 }}
             >
-              <span className="text-2xl font-black text-white tracking-tighter italic group-hover:text-blue-500 transition-colors">
-                ELECTRO
+              <span className="text-2xl font-black text-white tracking-tighter italic group-hover:text-blue-500 transition-colors uppercase">
+                3D TECH STORE
               </span>
               <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 animate-pulse" />
             </motion.a>
