@@ -49,14 +49,18 @@ export const Button = ({
       {/* Shine Effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full hover:animate-[shine_1.5s_infinite] transition-transform pointer-events-none" />
       
-      <div className="relative z-10 flex items-center gap-2">
+      <div className={`relative z-10 flex items-center justify-center ${Icon && typeof children === "string" ? "gap-2" : ""}`}>
         {loading ? (
           <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
         ) : Icon ? (
-          <Icon size={size === "sm" ? 16 : 20} className="transition-transform group-hover:translate-x-1" />
+          <Icon size={size === "sm" ? 16 : 20} className="shrink-0" />
         ) : null}
         
-        <span className="whitespace-nowrap">{children}</span>
+        {typeof children === "string" ? (
+          <span className="whitespace-nowrap">{children}</span>
+        ) : (
+          children
+        )}
       </div>
       
       <style jsx>{`

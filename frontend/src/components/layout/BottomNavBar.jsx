@@ -89,12 +89,12 @@ const BottomNavBar = () => {
               <Searchbar />
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex justify-center items-center gap-2">
               {/* Wishlist */}
               <Button 
                 variant="glass" 
                 size="sm" 
-                className="hidden sm:flex !p-2.5 !rounded-xl"
+                className="hidden sm:flex w-10 h-10 !p-0 !rounded-xl"
                 icon={LiaHeart}
               />
 
@@ -103,11 +103,11 @@ const BottomNavBar = () => {
                 onClick={() => setIsCartOpen(true)}
                 variant="secondary"
                 size="sm"
-                className="!p-2.5 !rounded-xl relative"
+                className="w-10 h-10 !p-0 !rounded-xl relative"
                 icon={PiBag}
               >
                 {cartItemCount > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-[10px] font-black text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-black z-20">
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-[10px] font-black text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-black z-20">
                     {cartItemCount}
                   </span>
                 )}
@@ -119,14 +119,14 @@ const BottomNavBar = () => {
               <div className="flex items-center gap-2">
                 {isSignedIn ? (
                   <SignOutButton>
-                    <Button variant="glass" size="sm" className="!p-2.5 !rounded-xl" icon={HiOutlineArrowRightOnRectangle} />
+                    <Button variant="glass" size="sm" className="w-10 h-10 !p-0 !rounded-xl" icon={HiOutlineArrowRightOnRectangle} />
                   </SignOutButton>
                 ) : (
                   <Button
                     onClick={() => openSignIn()}
                     variant="glass"
                     size="sm"
-                    className="!p-2.5 !rounded-xl"
+                    className="w-10 h-10 !p-0 !rounded-xl"
                     icon={HiOutlineUser}
                   />
                 )}
@@ -135,7 +135,7 @@ const BottomNavBar = () => {
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   variant="primary"
                   size="sm"
-                  className="lg:hidden !p-2.5 !rounded-xl"
+                  className="lg:hidden w-10 h-10 !p-0 !rounded-xl"
                   icon={isMobileMenuOpen ? HiOutlineX : HiOutlineMenuAlt3}
                 />
               </div>

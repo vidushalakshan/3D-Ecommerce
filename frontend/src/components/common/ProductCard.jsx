@@ -1,18 +1,42 @@
-// components/ProductCard.jsx
 "use client";
 import Image from "next/image";
-import { useState } from "react";
-import { CiHeart } from "react-icons/ci";
-import { IoEyeOutline } from "react-icons/io5";
-import { FiShoppingCart } from "react-icons/fi";
+import { useState, useRef } from "react";
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import { HiOutlineShoppingBag, HiOutlineHeart, HiOutlineEye } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import { Button } from "./Button";
 import { useCart } from "../../contexts/cardContext";
 
 const ProductCard = ({ product }) => {
-  const [hovered, setHovered] = useState(false);
   const router = useRouter();
   const { addItem } = useCart();
+  const cardRef = useRef(null);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e) => {
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   const handleClick = () => {
     router.push(`/productDetails/${product._id}`);
@@ -24,116 +48,91 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div
-      className="relative flex-shrink-0 flex flex-col items-center border border-gray-300 p-4 w-[300px] rounded-xl shadow-md text-center mx-3 bg-white hover:shadow-xl hover:border-blue-500 transition-all duration-300 cursor-pointer group overflow-hidden"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        willChange: "transform",
+      }}
       onClick={handleClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && handleClick()}
+      className="group relative w-full aspect-[4/5] bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-8 transition-all duration-500 hover:border-blue-500/50 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer overflow-hidden"
     >
-      {/* Badges */}
-      <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
-        {/* NEW Badge */}
-        <span className="bg-gradient-to-r from-blue-500 to-blue-700 text-white text-[10px] font-bold py-1 px-2 rounded-full shadow-sm border border-blue-800 flex items-center gap-1 uppercase tracking-wider">
-          <span className="w-3 h-3 drop-shadow">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          </span>
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+      <div className="absolute top-6 left-6 z-20 flex flex-col gap-2">
+        <span className="px-3 py-1 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-blue-600/20">
           New
         </span>
-
-        {/* HOT Badge */}
         {product.isHot && (
-          <span className="bg-gradient-to-r from-orange-500 to-red-600 text-white text-[10px] font-bold py-1 pl-1.5 pr-2 rounded-full shadow-sm border border-red-700 flex items-center gap-1 animate-pulse">
-            <span className="w-3 h-3 animate-bounce">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 23c-1.43 0-2.67-.79-3.32-1.95a4.05 4.05 0 0 1 3.32-6.35 4.05 4.05 0 0 1 3.32 6.35A3.66 3.66 0 0 1 12 23z" />
-                <path d="M15.52 14.5a3.5 3.5 0 0 1-3.52-3.5c0-2.02 1.66-3.67 3.73-3.5 1.24.1 2.27 1.13 2.27 2.38 0 1.32-1.07 2.62-2.48 2.62z" />
-                <path d="M8.48 14.5a3.5 3.5 0 0 0 3.52-3.5c0-2.02-1.66-3.67-3.73-3.5C7.03 7.6 6 8.63 6 9.88c0 1.32 1.07 2.62 2.48 2.62z" />
-              </svg>
-            </span>
+          <span className="px-3 py-1 bg-red-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-red-600/20">
             Hot
           </span>
         )}
       </div>
 
-      {/* Action Icons */}
-      <div className="absolute top-3 right-3 flex flex-col gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <button
-          className="p-2 rounded-full bg-white border border-gray-300 shadow-sm hover:border-gray-500 hover:shadow-md transition-all"
-          onClick={(e) => {
-            e.stopPropagation();
-            // Add to wishlist logic
-          }}
-          aria-label="Add to wishlist"
-        >
-          <CiHeart size={18} />
+      <div className="absolute top-6 right-6 z-20 flex flex-col gap-3 translate-x-12 group-hover:translate-x-0 transition-transform duration-500 ease-out">
+        <button className="p-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-white hover:bg-white hover:text-black transition-all">
+          <HiOutlineHeart size={20} />
+        </button>
+        <button className="p-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 text-white hover:bg-white hover:text-black transition-all">
+          <HiOutlineEye size={20} />
         </button>
       </div>
 
-      {/* Image with Zoom */}
-      <div className="relative w-[180px] h-[180px] mb-4 overflow-hidden rounded-lg">
+      <div 
+        style={{ transform: "translateZ(40px)", willChange: "transform" }}
+        className="relative w-full aspect-square mb-6 flex items-center justify-center"
+      >
+        <div className="absolute inset-0 bg-blue-500/5 rounded-full blur-[60px] scale-75 group-hover:scale-110 transition-transform duration-700" />
         <Image
           src={product.image || "/uploads/default.jpg"}
           alt={product.name}
           fill
-          sizes="(max-width: 768px) 100vw, 300px"
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-          priority={false}
+          className="object-contain p-4 transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-2"
         />
       </div>
 
-      {/* Product Info */}
-      <div className="w-full px-2 text-sm text-gray-800 z-10 space-y-1">
-        <div className="flex justify-between items-start mb-1 h-[50px]">
-          <h3 className="text-blue-600 font-semibold text-left line-clamp-2 leading-tight">
+      <div 
+        style={{ transform: "translateZ(20px)", willChange: "transform" }}
+        className="space-y-4"
+      >
+        <div className="space-y-1">
+          <p className="text-[10px] text-blue-400 font-black uppercase tracking-[0.2em]">
+            {product.type}
+          </p>
+          <h3 className="text-xl font-bold text-white line-clamp-1 group-hover:text-blue-400 transition-colors">
             {product.name}
           </h3>
-          <span className="text-xs text-gray-500">Model {product.model}</span>
         </div>
 
-        <hr className="border-gray-200" />
-
-        <p className="uppercase font-bold text-xs tracking-widest text-gray-700 h-[50px]">
-          {product.type}
-        </p>
-
-        <div className="flex items-center justify-center gap-2 text-lg font-bold">
-          <span className="text-green-600">${product.price}</span>
-          {product.oldPrice && (
-            <del className="text-sm text-gray-400">${product.oldPrice}</del>
-          )}
-        </div>
-
-        <hr className="border-gray-200 my-2" />
-
-        {/* Buttons */}
-        <div className="flex justify-center items-center gap-3 text-xs">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col">
+             <span className="text-2xl font-black text-white">
+                ${product.price}
+             </span>
+             {product.oldPrice && (
+                <span className="text-xs text-gray-500 line-through">
+                   ${product.oldPrice}
+                </span>
+             )}
+          </div>
+          
           <Button
             onClick={handleAddToCart}
-            size="lowSmall"
-            className="bg-blue-600 text-white px-4 py-1.5 rounded-full hover:bg-white hover:text-blue-600 border border-blue-600 transition-all flex items-center gap-1.5 font-medium"
-          >
-            <FiShoppingCart size={14} />
-            Add
-          </Button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              handleAddToCart(e);
-              router.push("/checkout");
-            }}
-            className="flex items-center gap-1.5 text-blue-600 hover:text-blue-800 hover:cursor-pointer font-medium transition-colors"
-          >
-            <FiShoppingCart size={14} />
-            Buy Now
-          </button>
+            variant="primary"
+            size="sm"
+            className="rounded-2xl !p-3 group-hover:scale-110"
+            icon={HiOutlineShoppingBag}
+          />
         </div>
       </div>
-    </div>
+
+      <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+    </motion.div>
   );
 };
 

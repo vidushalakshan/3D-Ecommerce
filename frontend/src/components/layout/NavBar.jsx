@@ -12,9 +12,9 @@ const NavBar = () => {
       const currentY = window.scrollY;
 
       if (currentY > prevScrollY && currentY > 80) {
-        setVisible(false); // scrolling down → hide
+        setVisible(false); 
       } else {
-        setVisible(true); // scrolling up → show
+        setVisible(true);
       }
 
       setPrevScrollY(currentY);

@@ -1,4 +1,3 @@
-// components/cart/cartDrawer.jsx
 "use client";
 
 import Image from "next/image";
@@ -13,13 +12,12 @@ export default function CartDrawer({ onClose }) {
   const { items, removeItem, updateQuantity, total } = useCart();
 
   const handleCheckout = () => {
-    onClose(); // Close the drawer
-    router.push("/checkout"); // Navigate to checkout page
+    onClose(); 
+    router.push("/checkout"); 
   };
 
   return (
     <>
-      {/* HEADER */}
       <header className="flex items-center justify-between p-5 border-b border-gray-700 bg-[#1a1a1a] sticky top-0 z-10">
         <h2 className="text-xl font-bold text-white">Your Cart</h2>
         <button
@@ -31,7 +29,6 @@ export default function CartDrawer({ onClose }) {
         </button>
       </header>
 
-      {/* BODY */}
       <section className="flex-1 overflow-y-auto px-5 pt-4 pb-20">
         <AnimatePresence>
           {items.length === 0 ? (
@@ -45,8 +42,6 @@ export default function CartDrawer({ onClose }) {
             />
           )}
         </AnimatePresence>
-
-        {/* DOWNLOAD SECTION */}
         <DownloadSection />
       </section>
 
@@ -75,7 +70,6 @@ export default function CartDrawer({ onClose }) {
   );
 }
 
-/* EMPTY STATE */
 const EmptyState = () => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -95,7 +89,6 @@ const EmptyState = () => (
   </motion.div>
 );
 
-/* ITEMS LIST */
 const ItemsList = ({ items, onRemove, onQty }) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -109,7 +102,6 @@ const ItemsList = ({ items, onRemove, onQty }) => (
   </motion.div>
 );
 
-/* SINGLE ROW */
 const CartRow = ({ item, onRemove, onQty }) => (
   <motion.div
     layout
@@ -167,7 +159,6 @@ const CartRow = ({ item, onRemove, onQty }) => (
   </motion.div>
 );
 
-/* DOWNLOAD SECTION */
 const DownloadSection = () => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
