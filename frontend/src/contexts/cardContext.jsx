@@ -7,6 +7,8 @@ const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState([]);
+  const [recentlyAdded, setRecentlyAdded] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -33,6 +35,10 @@ export function CartProvider({ children }) {
       }
       return [...prev, { ...product, quantity: 1 }];
     });
+    
+    // Trigger Success Modal
+    setRecentlyAdded(product);
+    setShowModal(true);
   };
 
   const removeItem = (id) => {
@@ -70,6 +76,9 @@ export function CartProvider({ children }) {
         updateQuantity,
         clearCart,
         total,
+        recentlyAdded,
+        showModal,
+        setShowModal
       }}
     >
       {children}

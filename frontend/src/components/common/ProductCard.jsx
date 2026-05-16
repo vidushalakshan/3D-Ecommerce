@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useRef, useCallback } from "react";
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from "framer-motion";
-import { HiOutlineShoppingBag, HiOutlineEye, HiSparkles } from "react-icons/hi2";
+import { HiOutlineShoppingBag, HiOutlineEye, HiSparkles, HiOutlineHeart, HiHeart } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "./Button";
@@ -13,6 +13,7 @@ const ProductCard = ({ product }) => {
   const { addItem } = useCart();
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   // 3D Tilt Values
   const x = useMotionValue(0);
@@ -35,10 +36,8 @@ const ProductCard = ({ product }) => {
     const height = rect.height;
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
   }, [x, y]);
 
   const handleMouseEnter = () => setIsHovered(true);
@@ -49,7 +48,7 @@ const ProductCard = ({ product }) => {
   }, [x, y]);
 
   return (
-    <Link href={`/productDetails/${product._id || product.id}`} className="block h-full group">
+    <div className="block h-full group perspective-[1000px]">
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
@@ -58,8 +57,7 @@ const ProductCard = ({ product }) => {
         style={{
           rotateX,
           rotateY,
-          transformStyle: "preserve-3d",
-          perspective: "1000px"
+          transformStyle: "preserve-3d"
         }}
         className="relative w-full h-full min-h-[500px] flex flex-col bg-[#0a0a0a] border border-white/5 rounded-[2.5rem] p-8 transition-all duration-500 hover:border-blue-500/40 shadow-2xl overflow-hidden"
       >
@@ -75,20 +73,36 @@ const ProductCard = ({ product }) => {
         {/* Ambient Background Glow */}
         <div className="absolute -inset-2 bg-gradient-to-br from-blue-600/20 to-purple-600/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-        {/* Tags Layer */}
-        <div 
-          style={{ transform: "translateZ(50px)" }}
-          className="absolute top-8 left-8 z-20 flex flex-col gap-2"
-        >
-          {product.isHot && (
-            <span className="px-3 py-1 bg-red-600 text-[9px] font-black text-white rounded-full shadow-[0_0_20px_rgba(220,38,38,0.4)] animate-pulse uppercase tracking-widest">
-              Hot
-            </span>
-          )}
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-full">
-            <HiSparkles className="text-blue-400 text-[10px]" />
-            <span className="text-[8px] font-black text-white/60 tracking-widest uppercase">New Arrival</span>
+        {/* Top Control Bar (Heart & Badges) */}
+        <div className="absolute top-8 left-8 right-8 z-30 flex justify-between items-start" style={{ transform: "translateZ(50px)" }}>
+          <div className="flex flex-col gap-2">
+            {product.isHot && (
+              <span className="px-3 py-1 bg-red-600 text-[9px] font-black text-white rounded-full shadow-[0_0_20px_rgba(220,38,38,0.4)] animate-pulse uppercase tracking-widest">
+                Hot
+              </span>
+            )}
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-full">
+              <HiSparkles className="text-blue-400 text-[10px]" />
+              <span className="text-[8px] font-black text-white/60 tracking-widest uppercase">New Arrival</span>
+            </div>
           </div>
+
+          {/* 3D Wishlist Heart */}
+          <motion.button
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.8 }}
+            onClick={(e) => {
+              e.preventDefault();
+              setIsSaved(!isSaved);
+            }}
+            className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${
+              isSaved 
+                ? "bg-red-500 text-white shadow-[0_0_30px_rgba(239,68,68,0.5)] border-red-400" 
+                : "bg-white/5 border border-white/10 text-gray-500 hover:text-white"
+            }`}
+          >
+            {isSaved ? <HiHeart size={20} /> : <HiOutlineHeart size={20} />}
+          </motion.button>
         </div>
 
         {/* Image Stage */}
@@ -99,13 +113,15 @@ const ProductCard = ({ product }) => {
           {/* Subtle Stage Shadow */}
           <div className="absolute bottom-4 w-1/2 h-4 bg-black/40 blur-xl rounded-full" />
           
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            className="object-contain p-6 transition-all duration-700 group-hover:scale-110 group-hover:-rotate-3 drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
-            priority
-          />
+          <Link href={`/productDetails/${product._id || product.id}`} className="relative w-full h-full block">
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              className="object-contain p-6 transition-all duration-700 group-hover:scale-110 group-hover:-rotate-3 drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+              priority
+            />
+          </Link>
 
           {/* Interaction Indicator */}
           <AnimatePresence>
@@ -133,9 +149,11 @@ const ProductCard = ({ product }) => {
             <span className="text-blue-500 text-[9px] font-black uppercase tracking-[0.4em]">
               {product.type}
             </span>
-            <h3 className="text-2xl font-black text-white italic tracking-tighter leading-tight group-hover:text-blue-400 transition-colors">
-              {product.name}
-            </h3>
+            <Link href={`/productDetails/${product._id || product.id}`}>
+              <h3 className="text-2xl font-black text-white italic tracking-tighter leading-tight group-hover:text-blue-400 transition-colors">
+                {product.name}
+              </h3>
+            </Link>
           </div>
 
           <div className="mt-auto flex items-end justify-between border-t border-white/5 pt-6">
@@ -150,7 +168,7 @@ const ProductCard = ({ product }) => {
 
             <div className="flex gap-2">
               <Button
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); addItem(product); }}
+                onClick={(e) => { e.preventDefault(); addItem(product); }}
                 variant="primary"
                 size="icon"
                 className="!rounded-2xl !w-12 !h-12 shadow-[0_10px_30px_rgba(37,99,235,0.4)]"
@@ -164,7 +182,7 @@ const ProductCard = ({ product }) => {
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-500/5 to-transparent pointer-events-none" />
         <div className="absolute bottom-8 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
       </motion.div>
-    </Link>
+    </div>
   );
 };
 

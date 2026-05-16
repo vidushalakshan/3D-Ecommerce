@@ -12,6 +12,8 @@ export const metadata = {
   description: "Best online 3D technology store",
 };
 
+import CartSuccessModal from "@/components/common/CartSuccessModal";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -19,6 +21,7 @@ export default function RootLayout({ children }) {
         <ClerkProvider>
           <CartProvider>
             <ThemeProvider attribute="class" disableTransitionOnChange>
+              <CartSuccessModal />
               {children}
             </ThemeProvider>
           </CartProvider>
