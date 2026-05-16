@@ -45,6 +45,11 @@ const ProductSchema = new mongoose.Schema({
         trim: true,
         minlength: 1,
     },
+    model3D: {
+        type: String,
+        required: false,
+        trim: true,
+    },
     description: {
         type: String,
         required: true,

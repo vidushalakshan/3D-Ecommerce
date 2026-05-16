@@ -2,8 +2,9 @@
 import Image from "next/image";
 import { useState, useRef, useCallback } from "react";
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from "framer-motion";
-import { HiOutlineShoppingBag, HiOutlineHeart, HiOutlineEye, HiSparkles } from "react-icons/hi2";
+import { HiOutlineShoppingBag, HiOutlineEye, HiSparkles } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button } from "./Button";
 import { useCart } from "../../contexts/cardContext";
 
@@ -16,16 +17,16 @@ const ProductCard = ({ product }) => {
   // 3D Tilt Values
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const mouseXSpring = useSpring(x, { stiffness: 100, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 100, damping: 20 });
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
 
   // Glare/Reflection Effect
   const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ["0%", "100%"]);
   const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ["0%", "100%"]);
-  const glareOpacity = useTransform(mouseXSpring, [-0.5, 0, 0.5], [0.1, 0, 0.1]);
+  const glareOpacity = useTransform(mouseXSpring, [-0.5, 0, 0.5], [0.15, 0, 0.15]);
 
   const handleMouseMove = useCallback((e) => {
     if (!cardRef.current) return;
@@ -48,143 +49,122 @@ const ProductCard = ({ product }) => {
   }, [x, y]);
 
   return (
-    <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-      }}
-      onClick={() => router.push(`/productDetails/${product._id}`)}
-      className="group relative w-full h-full min-h-[550px] flex flex-col bg-gradient-to-br from-white/[0.07] to-transparent backdrop-blur-2xl border border-white/10 rounded-[3rem] p-8 transition-all duration-500 hover:border-blue-500/40 cursor-pointer overflow-hidden shadow-2xl"
-    >
-      {/* Dynamic Glare Overlay */}
-      <motion.div 
-        style={{ 
-          background: `radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.15) 0%, transparent 60%)`,
-          opacity: glareOpacity 
+    <Link href={`/productDetails/${product._id || product.id}`} className="block h-full group">
+      <motion.div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+          perspective: "1000px"
         }}
-        className="absolute inset-0 z-10 pointer-events-none"
-      />
-
-      {/* Floating Accent Background */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-blue-600/10 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-      {/* Tags Area */}
-      <div className="absolute top-8 left-8 z-20 flex flex-col gap-2" style={{ transform: "translateZ(30px)" }}>
-        <div className="flex items-center gap-2 px-3 py-1 bg-blue-600/20 backdrop-blur-md border border-blue-500/30 text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-full">
-          <HiSparkles size={12} /> NEW ARRIVAL
-        </div>
-        {product.isHot && (
-          <div className="px-3 py-1 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-red-600/20 w-fit">
-            HOT
-          </div>
-        )}
-      </div>
-
-      {/* Image Showcase */}
-      <div 
-        style={{ transform: "translateZ(60px)", transformStyle: "preserve-3d" }}
-        className="relative w-full aspect-square mb-8 flex items-center justify-center"
+        className="relative w-full h-full min-h-[500px] flex flex-col bg-[#0a0a0a] border border-white/5 rounded-[2.5rem] p-8 transition-all duration-500 hover:border-blue-500/40 shadow-2xl overflow-hidden"
       >
-        {/* Glow behind product */}
-        <div className="absolute inset-0 bg-blue-500/5 rounded-full blur-[80px] scale-50 group-hover:scale-100 transition-transform duration-1000" />
-        
-        <Image
-          src={product.image || "/images/laptopgame.png"}
-          alt={product.name}
-          fill
-          className="object-contain p-6 transition-all duration-700 group-hover:scale-110 group-hover:-rotate-3 z-10"
-          onError={(e) => {
-            e.target.src = "/images/laptopgame.png";
-            e.target.className = "object-contain p-12 opacity-20 grayscale z-10";
+        {/* Dynamic Glare Overlay */}
+        <motion.div 
+          style={{ 
+            background: `radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.2) 0%, transparent 60%)`,
+            opacity: glareOpacity 
           }}
+          className="absolute inset-0 z-10 pointer-events-none"
         />
 
-        {/* Hover View Button Overlay */}
-        <AnimatePresence>
-          {isHovered && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
-            >
-              <div className="flex flex-col items-center gap-3">
-                <motion.div
-                  initial={{ scale: 0.5, rotate: -20 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  exit={{ scale: 0.5, rotate: 20 }}
-                  className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(37,99,235,0.5)] border-4 border-white/20"
-                >
-                  <HiOutlineEye size={32} className="text-white" />
-                </motion.div>
-                <motion.span
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="text-white text-[10px] font-black tracking-[0.4em] uppercase"
-                >
-                  View Details
-                </motion.span>
-              </div>
-            </motion.div>
+        {/* Ambient Background Glow */}
+        <div className="absolute -inset-2 bg-gradient-to-br from-blue-600/20 to-purple-600/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+        {/* Tags Layer */}
+        <div 
+          style={{ transform: "translateZ(50px)" }}
+          className="absolute top-8 left-8 z-20 flex flex-col gap-2"
+        >
+          {product.isHot && (
+            <span className="px-3 py-1 bg-red-600 text-[9px] font-black text-white rounded-full shadow-[0_0_20px_rgba(220,38,38,0.4)] animate-pulse uppercase tracking-widest">
+              Hot
+            </span>
           )}
-        </AnimatePresence>
-      </div>
-
-      {/* Content Area */}
-      <div 
-        style={{ transform: "translateZ(40px)", transformStyle: "preserve-3d" }}
-        className="flex-1 flex flex-col"
-      >
-        <div className="space-y-2 mb-6">
-          <p className="text-[10px] text-blue-400 font-black uppercase tracking-[0.3em]">
-            {product.type}
-          </p>
-          <h3 className="text-2xl font-black text-white italic leading-tight line-clamp-2 group-hover:text-blue-400 transition-colors">
-            {product.name}
-          </h3>
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-white/5 backdrop-blur-md border border-white/10 rounded-full">
+            <HiSparkles className="text-blue-400 text-[10px]" />
+            <span className="text-[8px] font-black text-white/60 tracking-widest uppercase">New Arrival</span>
+          </div>
         </div>
 
-        <div className="mt-auto flex items-end justify-between gap-4">
-          <div className="flex flex-col">
-             <span className="text-3xl font-black text-white italic leading-none mb-1">
-                ${product.price}
-             </span>
-             {product.oldPrice && (
-                <span className="text-xs text-gray-600 line-through font-bold">
-                   ${product.oldPrice}
-                </span>
-             )}
-          </div>
+        {/* Image Stage */}
+        <div 
+          style={{ transform: "translateZ(80px)", transformStyle: "preserve-3d" }}
+          className="relative aspect-square w-full mb-8 flex items-center justify-center"
+        >
+          {/* Subtle Stage Shadow */}
+          <div className="absolute bottom-4 w-1/2 h-4 bg-black/40 blur-xl rounded-full" />
           
-          <div className="flex gap-2">
-            <Button
-              onClick={(e) => { e.stopPropagation(); router.push(`/productDetails/${product._id}`); }}
-              variant="glass"
-              size="sm"
-              className="!rounded-2xl !p-3.5 backdrop-blur-xl border-white/5 hover:bg-white/10"
-              icon={HiOutlineEye}
-            />
-            <Button
-              onClick={(e) => { e.stopPropagation(); addItem(product); }}
-              variant="primary"
-              size="sm"
-              className="!rounded-2xl !p-3.5 shadow-[0_10px_30px_rgba(37,99,235,0.3)] hover:scale-110 active:scale-95"
-              icon={HiOutlineShoppingBag}
-            />
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="object-contain p-6 transition-all duration-700 group-hover:scale-110 group-hover:-rotate-3 drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+            priority
+          />
+
+          {/* Interaction Indicator */}
+          <AnimatePresence>
+            {isHovered && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none"
+              >
+                <div className="w-16 h-16 bg-blue-600/90 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(37,99,235,0.6)]">
+                  <HiOutlineEye className="text-white text-2xl" />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Content Section */}
+        <div 
+          style={{ transform: "translateZ(40px)" }}
+          className="flex-1 flex flex-col gap-4 relative z-20"
+        >
+          <div className="space-y-1">
+            <span className="text-blue-500 text-[9px] font-black uppercase tracking-[0.4em]">
+              {product.type}
+            </span>
+            <h3 className="text-2xl font-black text-white italic tracking-tighter leading-tight group-hover:text-blue-400 transition-colors">
+              {product.name}
+            </h3>
+          </div>
+
+          <div className="mt-auto flex items-end justify-between border-t border-white/5 pt-6">
+            <div className="flex flex-col">
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-black text-white italic leading-none">${product.price}</span>
+                {product.oldPrice && (
+                  <span className="text-xs text-gray-600 line-through italic">${product.oldPrice}</span>
+                )}
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <Button
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); addItem(product); }}
+                variant="primary"
+                size="icon"
+                className="!rounded-2xl !w-12 !h-12 shadow-[0_10px_30px_rgba(37,99,235,0.4)]"
+                icon={HiOutlineShoppingBag}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Cyber Accents */}
-      <div className="absolute bottom-4 right-8 h-px w-12 bg-white/5" />
-      <div className="absolute top-1/2 -right-4 h-24 w-px bg-gradient-to-b from-transparent via-blue-500/20 to-transparent" />
-    </motion.div>
+        {/* Technical Accent Lines */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-500/5 to-transparent pointer-events-none" />
+        <div className="absolute bottom-8 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent pointer-events-none" />
+      </motion.div>
+    </Link>
   );
 };
 

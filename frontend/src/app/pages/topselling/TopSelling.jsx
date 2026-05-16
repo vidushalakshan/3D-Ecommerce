@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from
 import React, { useRef, useState, useCallback, memo } from "react";
 import { HiSparkles, HiArrowRight, HiCpuChip, HiBolt, HiShieldCheck } from "react-icons/hi2";
 import { Button } from "@/components/common/Button";
+import { useRouter } from "next/navigation";
 import {
   collectionLaptop,
   collectionHeadset,
@@ -20,7 +21,7 @@ const products = [
 
 const InteractiveProductCard = memo(({ product, index, activeIndex }) => {
   const isActive = index === activeIndex;
-  const distance = Math.abs(index - activeIndex);
+  const router = useRouter();
   
   return (
     <motion.div
@@ -33,7 +34,8 @@ const InteractiveProductCard = memo(({ product, index, activeIndex }) => {
         filter: isActive ? "blur(0px)" : "blur(4px)",
       }}
       transition={{ type: "spring", stiffness: 120, damping: 20 }}
-      className="absolute w-[340px] md:w-[480px] h-[550px] bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[3.5rem] flex flex-col items-center justify-between p-12 text-center shadow-[0_50px_100px_rgba(0,0,0,0.5)] overflow-hidden"
+      onClick={() => isActive && router.push(`/productDetails/${product.id}`)}
+      className={`absolute w-[340px] md:w-[480px] h-[550px] bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[3.5rem] flex flex-col items-center justify-between p-12 text-center shadow-[0_50px_100px_rgba(0,0,0,0.5)] overflow-hidden ${isActive ? "cursor-pointer" : "cursor-default"}`}
       style={{ transformStyle: "preserve-3d" }}
     >
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]" />
@@ -107,6 +109,7 @@ const InteractiveProductCard = memo(({ product, index, activeIndex }) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 key="inactive-label"
+                onClick={(e) => { e.stopPropagation(); router.push(`/productDetails/${product.id}`); }}
                 className="text-[10px] text-white/20 font-black uppercase tracking-[0.4em] hover:text-white/40 transition-colors"
               >
                 View Details
