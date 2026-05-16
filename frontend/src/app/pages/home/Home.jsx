@@ -7,7 +7,7 @@ import { HiBolt, HiCpuChip, HiSparkles, HiArrowRight } from "react-icons/hi2";
 
 const Home = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-  const videoSrc = "/video/background.mp4"; 
+  const videoSrc = "/video/background.mp4";
   const router = useRouter();
   const containerRef = useRef(null);
 
@@ -36,20 +36,19 @@ const Home = () => {
   }, [mouseX, mouseY]);
 
   return (
-    <section 
-      ref={containerRef} 
+    <section
+      ref={containerRef}
       onMouseMove={handleMouseMove}
       className="relative flex items-center justify-center min-h-screen bg-[#020202] overflow-hidden"
     >
       {/* Immersive Background */}
-      <motion.div 
-        style={{ y: yParallax, scale: scaleParallax }} 
+      <motion.div
+        style={{ y: yParallax, scale: scaleParallax }}
         className="absolute inset-0 z-0"
       >
         <video
-          className={`w-full h-full object-cover transition-opacity duration-[2000ms] ${
-            isVideoLoaded ? "opacity-40" : "opacity-0"
-          }`}
+          className={`w-full h-full object-cover transition-opacity duration-[2000ms] ${isVideoLoaded ? "opacity-40" : "opacity-0"
+            }`}
           src={videoSrc}
           autoPlay
           loop
@@ -63,22 +62,22 @@ const Home = () => {
 
       {/* Floating 3D Orbs/Accents */}
       <div className="absolute inset-0 pointer-events-none perspective-[1000px]">
-        <motion.div 
+        <motion.div
           style={{ x: textX, y: textY, rotateX, rotateY }}
-          className="absolute top-[20%] left-[15%] w-32 h-32 bg-blue-500/10 blur-[60px] rounded-full animate-pulse" 
+          className="absolute top-[20%] left-[15%] w-32 h-32 bg-blue-500/10 blur-[60px] rounded-full animate-pulse"
         />
-        <motion.div 
+        <motion.div
           style={{ x: useTransform(springX, (v) => v * -50), y: useTransform(springY, (v) => v * -40) }}
-          className="absolute bottom-[20%] right-[20%] w-48 h-48 bg-purple-500/10 blur-[80px] rounded-full animate-pulse delay-700" 
+          className="absolute bottom-[20%] right-[20%] w-48 h-48 bg-purple-500/10 blur-[80px] rounded-full animate-pulse delay-700"
         />
       </div>
 
-      <motion.div 
+      <motion.div
         style={{ opacity: opacityParallax, perspective: "1500px" }}
         className="relative z-10 w-full max-w-7xl px-8 flex flex-col items-center text-center"
       >
         {/* Floating Badge */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 backdrop-blur-3xl mb-8 shadow-[0_0_30px_rgba(37,99,235,0.1)]"
@@ -89,40 +88,40 @@ const Home = () => {
 
         {/* 3D Main Heading */}
         <motion.div
-           style={{ x: textX, y: textY, rotateX, rotateY, transformStyle: "preserve-3d" }}
-           className="relative"
+          style={{ x: textX, y: textY, rotateX, rotateY, transformStyle: "preserve-3d" }}
+          className="relative"
         >
           <h1 className="text-6xl md:text-8xl lg:text-[11rem] font-black text-white leading-[0.8] tracking-tighter mb-8 italic">
-            PROJECT<br />
+            SHAPE YOUR<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-b from-blue-400 to-blue-800 drop-shadow-[0_20px_50px_rgba(37,99,235,0.3)]">
-              MATRIX
+              REALITY
             </span>
           </h1>
-          
+
           {/* Depth Layer for Header */}
           <div className="absolute inset-0 -z-10 blur-[40px] opacity-20 pointer-events-none select-none">
-             <h1 className="text-6xl md:text-8xl lg:text-[11rem] font-black text-blue-500 leading-[0.8] tracking-tighter italic">
-               PROJECT<br />MATRIX
-             </h1>
+            <h1 className="text-6xl md:text-8xl lg:text-[11rem] font-black text-blue-500 leading-[0.8] tracking-tighter italic">
+              SHAPE YOUR<br />REALITY
+            </h1>
           </div>
         </motion.div>
 
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
           className="text-gray-400 text-lg md:text-2xl max-w-2xl mx-auto font-medium leading-relaxed tracking-tight mb-12"
         >
-          Immerse yourself in a redefined marketplace where high-performance hardware meets cinematic 3D interaction.
+          Step into a fully interactive 3D marketplace where cutting-edge hardware meets next-generation design. Explore, customize, and experience premium tech like never before.
         </motion.p>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.7 }}
           className="flex flex-col sm:flex-row items-center gap-6"
         >
-          <Button 
+          <Button
             onClick={() => router.push("/allCategories")}
             variant="primary"
             size="xl"
@@ -131,8 +130,8 @@ const Home = () => {
           >
             ENTER THE STORE
           </Button>
-          
-          <Button 
+
+          <Button
             variant="glass"
             size="xl"
             className="min-w-[200px]"

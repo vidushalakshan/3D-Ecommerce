@@ -11,6 +11,7 @@ const ProductCard = ({ product }) => {
   const router = useRouter();
   const { addItem } = useCart();
   const cardRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
 
   // 3D Tilt Values
   const x = useMotionValue(0);
@@ -39,15 +40,18 @@ const ProductCard = ({ product }) => {
     y.set(yPct);
   }, [x, y]);
 
+  const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = useCallback(() => {
     x.set(0);
     y.set(0);
+    setIsHovered(false);
   }, [x, y]);
 
   return (
     <motion.div
       ref={cardRef}
       onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{
         rotateX,
@@ -72,11 +76,11 @@ const ProductCard = ({ product }) => {
       {/* Tags Area */}
       <div className="absolute top-8 left-8 z-20 flex flex-col gap-2" style={{ transform: "translateZ(30px)" }}>
         <div className="flex items-center gap-2 px-3 py-1 bg-blue-600/20 backdrop-blur-md border border-blue-500/30 text-blue-400 text-[9px] font-black uppercase tracking-widest rounded-full">
-          <HiSparkles size={12} /> New Arrvial
+          <HiSparkles size={12} /> NEW ARRIVAL
         </div>
         {product.isHot && (
           <div className="px-3 py-1 bg-red-600 text-white text-[9px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-red-600/20 w-fit">
-            Hot
+            HOT
           </div>
         )}
       </div>
@@ -99,6 +103,37 @@ const ProductCard = ({ product }) => {
             e.target.className = "object-contain p-12 opacity-20 grayscale z-10";
           }}
         />
+
+        {/* Hover View Button Overlay */}
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
+            >
+              <div className="flex flex-col items-center gap-3">
+                <motion.div
+                  initial={{ scale: 0.5, rotate: -20 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0.5, rotate: 20 }}
+                  className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(37,99,235,0.5)] border-4 border-white/20"
+                >
+                  <HiOutlineEye size={32} className="text-white" />
+                </motion.div>
+                <motion.span
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="text-white text-[10px] font-black tracking-[0.4em] uppercase"
+                >
+                  View Details
+                </motion.span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Content Area */}
@@ -127,13 +162,22 @@ const ProductCard = ({ product }) => {
              )}
           </div>
           
-          <Button
-            onClick={(e) => { e.stopPropagation(); addItem(product); }}
-            variant="primary"
-            size="sm"
-            className="!rounded-2xl !p-3.5 shadow-[0_10px_30px_rgba(37,99,235,0.3)] hover:scale-110 active:scale-95"
-            icon={HiOutlineShoppingBag}
-          />
+          <div className="flex gap-2">
+            <Button
+              onClick={(e) => { e.stopPropagation(); router.push(`/productDetails/${product._id}`); }}
+              variant="glass"
+              size="sm"
+              className="!rounded-2xl !p-3.5 backdrop-blur-xl border-white/5 hover:bg-white/10"
+              icon={HiOutlineEye}
+            />
+            <Button
+              onClick={(e) => { e.stopPropagation(); addItem(product); }}
+              variant="primary"
+              size="sm"
+              className="!rounded-2xl !p-3.5 shadow-[0_10px_30px_rgba(37,99,235,0.3)] hover:scale-110 active:scale-95"
+              icon={HiOutlineShoppingBag}
+            />
+          </div>
         </div>
       </div>
 
