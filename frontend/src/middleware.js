@@ -7,7 +7,7 @@ export default authMiddleware({
   async afterAuth(auth, req) {
     const url = req.nextUrl.clone();
 
-    if (auth.userId && url.pathname.startsWith("/admin")) {
+    if (auth.userId && (url.pathname.startsWith("/admin") || url.pathname.startsWith("/dashboard"))) {
       const user = await auth.getUser();
       const isAdmin = user?.primaryEmailAddress?.emailAddress
         ? require("./lib/clerk").isAdminEmail(
@@ -16,7 +16,7 @@ export default authMiddleware({
         : false;
 
       if (!isAdmin) {
-        url.pathname = "/dashboard";
+        url.pathname = "/";
         return Response.redirect(url);
       }
     }

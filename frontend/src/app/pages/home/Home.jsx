@@ -11,13 +11,11 @@ const Home = () => {
   const router = useRouter();
   const containerRef = useRef(null);
 
-  // Scroll Parallax
   const { scrollY } = useScroll();
   const yParallax = useTransform(scrollY, [0, 500], [0, 150]);
   const scaleParallax = useTransform(scrollY, [0, 500], [1, 1.1]);
   const opacityParallax = useTransform(scrollY, [0, 400], [1, 0]);
 
-  // Mouse Parallax
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 100, damping: 20 });
@@ -41,7 +39,6 @@ const Home = () => {
       onMouseMove={handleMouseMove}
       className="relative flex items-center justify-center min-h-screen bg-[#020202] overflow-hidden"
     >
-      {/* Immersive Background */}
       <motion.div
         style={{ y: yParallax, scale: scaleParallax }}
         className="absolute inset-0 z-0"
@@ -60,7 +57,6 @@ const Home = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-[#020202] via-transparent to-[#020202]" />
       </motion.div>
 
-      {/* Floating 3D Orbs/Accents */}
       <div className="absolute inset-0 pointer-events-none perspective-[1000px]">
         <motion.div
           style={{ x: textX, y: textY, rotateX, rotateY }}
@@ -76,7 +72,6 @@ const Home = () => {
         style={{ opacity: opacityParallax, perspective: "1500px" }}
         className="relative z-10 w-full max-w-7xl px-8 flex flex-col items-center text-center"
       >
-        {/* Floating Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -86,7 +81,6 @@ const Home = () => {
           <span className="text-[11px] font-black text-blue-400 uppercase tracking-[0.4em]">Next-Gen Digital Stage</span>
         </motion.div>
 
-        {/* 3D Main Heading */}
         <motion.div
           style={{ x: textX, y: textY, rotateX, rotateY, transformStyle: "preserve-3d" }}
           className="relative"
@@ -98,7 +92,6 @@ const Home = () => {
             </span>
           </h1>
 
-          {/* Depth Layer for Header */}
           <div className="absolute inset-0 -z-10 blur-[40px] opacity-20 pointer-events-none select-none">
             <h1 className="text-6xl md:text-8xl lg:text-[11rem] font-black text-blue-500 leading-[0.8] tracking-tighter italic">
               SHAPE YOUR<br />REALITY
@@ -141,7 +134,6 @@ const Home = () => {
         </motion.div>
       </motion.div>
 
-      {/* Modern Floor Effect */}
       <div className="absolute bottom-0 left-0 w-full h-[30vh] bg-gradient-to-t from-blue-600/10 to-transparent blur-[100px] pointer-events-none" />
       <div className="absolute bottom-12 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
     </section>

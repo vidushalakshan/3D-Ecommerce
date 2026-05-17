@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useClerk, useUser, SignOutButton } from "@clerk/nextjs";
 import { useCart } from "../../contexts/cardContext";
 import { useState } from "react";
+import Image from "next/image";
 import CartDrawer from "../cart/cartDrawer";
 import { motion, AnimatePresence } from "framer-motion";
 import { LiaHeart } from "react-icons/lia";
@@ -89,14 +90,18 @@ const BottomNavBar = () => {
               <Searchbar />
             </div>
 
-            <div className="flex justify-center items-center gap-2">
+            <div className="flex justify-center items-center gap-3">
               {/* Wishlist */}
               <Button 
                 variant="glass" 
                 size="icon" 
-                className="hidden sm:flex"
+                className="hidden sm:flex relative"
                 icon={LiaHeart}
-              />
+              >
+                <span className="absolute -top-1 -right-1 bg-red-600 text-[9px] font-black text-white rounded-full w-4.5 h-4.5 flex items-center justify-center border-2 border-black z-20 shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                  3
+                </span>
+              </Button>
 
               {/* Cart */}
               <Button
@@ -107,7 +112,7 @@ const BottomNavBar = () => {
                 icon={PiBag}
               >
                 {cartItemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-600 text-[10px] font-black text-white rounded-full w-5 h-5 flex items-center justify-center border-2 border-black z-20">
+                  <span className="absolute -top-1 -right-1 bg-blue-600 text-[9px] font-black text-white rounded-full w-4.5 h-4.5 flex items-center justify-center border-2 border-black z-20 shadow-[0_0_15px_rgba(37,99,235,0.5)]">
                     {cartItemCount}
                   </span>
                 )}
@@ -115,12 +120,26 @@ const BottomNavBar = () => {
 
               <div className="w-px h-6 bg-white/10 mx-1 hidden sm:block" />
 
-              {/* Auth Mobile Menu */}
-              <div className="flex items-center gap-2">
+              {/* Auth Hub */}
+              <div className="flex items-center gap-3">
                 {isSignedIn ? (
-                  <SignOutButton>
-                    <Button variant="glass" size="icon" icon={HiOutlineArrowRightOnRectangle} />
-                  </SignOutButton>
+                  <div className="flex items-center gap-3 group">
+                    <div className="hidden sm:flex flex-col items-end">
+                       <span className="text-[8px] font-black text-gray-500 uppercase tracking-widest">Operator</span>
+                       <span className="text-[10px] font-bold text-white uppercase truncate max-w-[100px]">{user.firstName || "Tech User"}</span>
+                    </div>
+                    <SignOutButton>
+                      <button className="relative w-10 h-10 rounded-xl overflow-hidden border border-blue-500/50 shadow-[0_0_15px_rgba(37,99,235,0.3)] hover:scale-110 transition-transform cursor-pointer group">
+                        <Image 
+                          src={user.imageUrl} 
+                          alt="Profile" 
+                          fill 
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    </SignOutButton>
+                  </div>
                 ) : (
                   <Button
                     onClick={() => openSignIn()}

@@ -2,8 +2,17 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import DashboardSlideBar from "./DashboardSlideBar";
 import DashboardNav from "./DashboardNav";
+import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import { isAdminEmail } from "@/lib/clerk";
 
-export default function DashboardLayout({ children }) {
+export default async function DashboardLayout({ children }) {
+  const user = await currentUser();
+
+  if (!user || !isAdminEmail(user?.primaryEmailAddress?.emailAddress)) {
+    redirect("/");
+  }
+
   return (
     <div className="flex">
       <SidebarProvider>
