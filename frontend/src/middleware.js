@@ -1,26 +1,40 @@
-// middleware.js
-import { authMiddleware } from "@clerk/nextjs";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+import { isAdminEmail } from "./lib/clerk";
 
-export default authMiddleware({
-  publicRoutes: ["/", "/login", "/register", "/admin-login"],
-  ignoredRoutes: ["/api/auth/clerk-webhook"],
-  async afterAuth(auth, req) {
-    const url = req.nextUrl.clone();
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/login",
+  "/register",
+  "/admin-login",
+  "/api/auth/clerk-webhook",
+]);
 
-    if (auth.userId && (url.pathname.startsWith("/admin") || url.pathname.startsWith("/dashboard"))) {
-      const user = await auth.getUser();
-      const isAdmin = user?.primaryEmailAddress?.emailAddress
-        ? require("./lib/clerk").isAdminEmail(
-            user.primaryEmailAddress.emailAddress
-          )
-        : false;
+export default clerkMiddleware(async (auth, req) => {
+  const { userId, redirectToSignIn } = await auth();
 
-      if (!isAdmin) {
-        url.pathname = "/";
-        return Response.redirect(url);
-      }
+  // 1. If it's a private route and the user is not logged in, redirect them to sign-in
+  if (!isPublicRoute(req) && !userId) {
+    return redirectToSignIn();
+  }
+
+  // 2. If the user is logged in, perform admin checks on /admin or /dashboard routes
+  const url = req.nextUrl.clone();
+  if (userId && (url.pathname.startsWith("/admin") || url.pathname.startsWith("/dashboard"))) {
+    const { clerkClient } = await import("@clerk/nextjs/server");
+    const client = await clerkClient();
+    const user = await client.users.getUser(userId);
+    const email = user?.primaryEmailAddress?.emailAddress;
+
+    const isAdmin = isAdminEmail(email);
+
+    if (!isAdmin) {
+      url.pathname = "/";
+      return NextResponse.redirect(url);
     }
-  },
+  }
+
+  return NextResponse.next();
 });
 
 export const config = {

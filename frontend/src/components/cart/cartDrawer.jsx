@@ -47,7 +47,7 @@ export default function CartDrawer({ onClose }) {
             />
           )}
         </AnimatePresence>
-        <MatrixRewardsSection />
+        <EliteRewardsSection />
       </section>
 
       {/* FOOTER */}
@@ -166,7 +166,7 @@ const CartRow = ({ item, onRemove, onQty }) => (
   </motion.div>
 );
 
-const MatrixRewardsSection = () => (
+const EliteRewardsSection = () => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     animate={{ opacity: 1, y: 0 }}
@@ -183,13 +183,13 @@ const MatrixRewardsSection = () => (
       </div>
       <div>
         <h3 className="text-sm font-black text-white uppercase tracking-wider leading-none">
-          Matrix VIP Club
+          Elite 3D VIP Club
         </h3>
         <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest leading-none mt-1 block">Exclusive Perks Available</span>
       </div>
     </div>
     <p className="text-xs text-gray-400 mb-4 leading-relaxed relative z-10">
-      Earn **10% Matrix Cashback** on this order! Unlock early access to premium 3D assets, holographic renders, and member-only tech drop discounts.
+      Earn **10% VIP Cashback** on this order! Unlock early access to premium 3D assets, holographic renders, and member-only tech drop discounts.
     </p>
     
     <div className="space-y-3 relative z-10">

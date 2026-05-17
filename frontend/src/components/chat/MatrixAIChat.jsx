@@ -14,12 +14,12 @@ const PRESETS = [
   {
     label: "🎧 Best Audio Gear",
     query: "What is the best audiophile gear available?",
-    response: "🎵 **Acoustics Matrix Active:** The **Sony XM5 Premium** ($750.00) is the pinnacle of active noise cancellation with a **30-hour battery life** and LDAC support. For high comfort spatial audio, check out the **Bose Ultra Comfort** ($650.00) featuring CustomTune sound matching."
+    response: "🎵 **Acoustics Engine Active:** The **Sony XM5 Premium** ($750.00) is the pinnacle of active noise cancellation with a **30-hour battery life** and LDAC support. For high comfort spatial audio, check out the **Bose Ultra Comfort** ($650.00) featuring CustomTune sound matching."
   },
   {
     label: "🎁 VIP Discount Code",
-    query: "Do you have a Matrix member discount code?",
-    response: "🎟️ **Decryption Successful:** Apply code **`MATRIX20`** at checkout to unlock an instant **20% discount** on any high-tier hardware. Matrix members also receive 10% cashback on all orders!"
+    query: "Do you have a 3D Tech member discount code?",
+    response: "🎟️ **Decryption Successful:** Apply code **`3DTECH20`** at checkout to unlock an instant **20% discount** on any high-tier hardware. VIP members also receive 10% cashback on all orders!"
   },
   {
     label: "🔒 Secured Payments",
@@ -33,7 +33,7 @@ export default function MatrixAIChat() {
   const [messages, setMessages] = useState([
     {
       sender: "aria",
-      text: "Welcome to Matrix Core v2.4. I am A.R.I.A., your custom neural tech assistant. How can I augment your hardware layout today?",
+      text: "Welcome to 3D Tech Core v1.2. I am A.R.I.A., your custom neural tech assistant. How can I augment your hardware layout today?",
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -66,7 +66,7 @@ export default function MatrixAIChat() {
       setIsTyping(false);
       const responseText = matchedPreset 
         ? matchedPreset.response 
-        : `🤖 **Neural Process Response:** I have logged your request: "${text}". The Matrix database is analyzing your payload. For immediate assistance, feel free to use code **MATRIX20** to save 20% on all orders!`;
+        : `🤖 **Neural Process Response:** I have logged your request: "${text}". The system database is analyzing your request. For immediate assistance, feel free to use code **3DTECH20** to save 20% on all orders!`;
 
       setMessages((prev) => [
         ...prev,
@@ -126,12 +126,19 @@ export default function MatrixAIChat() {
                 </div>
                 <div>
                   <h3 className="text-base font-black text-white italic tracking-tighter">A.R.I.A.</h3>
-                  <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest block mt-0.5">Matrix Neural Assist</span>
+                  <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest block mt-0.5">3D Tech Neural Assist</span>
                 </div>
               </div>
               <button
-                onClick={() => setIsOpen(false)}
-                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all cursor-pointer relative z-20 pointer-events-auto"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsOpen(false);
+                }}
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  setIsOpen(false);
+                }}
+                className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-all cursor-pointer relative z-30 pointer-events-auto"
               >
                 <HiXMark size={16} />
               </button>
