@@ -14,6 +14,7 @@ export const metadata = {
 };
 
 import CartSuccessModal from "@/components/common/CartSuccessModal";
+import MatrixAIChat from "@/components/chat/MatrixAIChat";
 
 export default function RootLayout({ children }) {
   return (
@@ -24,18 +25,12 @@ export default function RootLayout({ children }) {
             <WishlistProvider>
               <ThemeProvider attribute="class" disableTransitionOnChange>
                 <CartSuccessModal />
+                <MatrixAIChat />
                 {children}
               </ThemeProvider>
             </WishlistProvider>
           </CartProvider>
         </ClerkProvider>
-
-        {/* Fixed Tidio script */}
-        <Script
-          id="tidio-chat"
-          strategy="afterInteractive"
-          src="https://code.tidio.co/rk4qsic4el6iktppctyqjpdhofjcndtm.js"
-        />
       </body>
     </html>
   );
