@@ -7,13 +7,15 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "./Button";
 import { useCart } from "../../contexts/cardContext";
+import { useWishlist } from "../../contexts/wishlistContext";
 
 const ProductCard = ({ product }) => {
   const router = useRouter();
   const { addItem } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const cardRef = useRef(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+  const isSaved = isInWishlist(product._id);
 
   // 3D Tilt Values
   const x = useMotionValue(0);
@@ -93,7 +95,7 @@ const ProductCard = ({ product }) => {
             whileTap={{ scale: 0.8 }}
             onClick={(e) => {
               e.preventDefault();
-              setIsSaved(!isSaved);
+              toggleWishlist(product);
             }}
             className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 ${
               isSaved 

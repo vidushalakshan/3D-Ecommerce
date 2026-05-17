@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useCart } from "../../contexts/cardContext";
-import { FiTrash2, FiX, FiDownload, FiArrowRight, FiShoppingCart } from "react-icons/fi";
+import { FiTrash2, FiX, FiArrowRight, FiShoppingCart, FiGift } from "react-icons/fi";
 import { Button } from "../common/Button";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,7 +17,7 @@ export default function CartDrawer({ onClose }) {
   };
 
   return (
-    <>
+    <div className="flex flex-col h-full text-white bg-[#050505] overflow-hidden">
       <header className="flex items-center justify-between p-6 border-b border-white/10 bg-black/50 backdrop-blur-xl sticky top-0 z-20">
         <div>
           <h2 className="text-2xl font-black text-white italic tracking-tighter">YOUR CART.</h2>
@@ -47,7 +47,7 @@ export default function CartDrawer({ onClose }) {
             />
           )}
         </AnimatePresence>
-        <DownloadSection />
+        <MatrixRewardsSection />
       </section>
 
       {/* FOOTER */}
@@ -75,7 +75,7 @@ export default function CartDrawer({ onClose }) {
           </Button>
         </footer>
       )}
-    </>
+    </div>
   );
 }
 
@@ -166,37 +166,46 @@ const CartRow = ({ item, onRemove, onQty }) => (
   </motion.div>
 );
 
-const DownloadSection = () => (
+const MatrixRewardsSection = () => (
   <motion.div
     initial={{ opacity: 0, y: 30 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.2 }}
-    className="mt-10 p-6 bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-2xl border border-gray-700"
+    className="mt-10 p-6 bg-gradient-to-br from-blue-950/40 to-purple-950/40 rounded-3xl border border-white/5 relative overflow-hidden"
   >
-    <div className="flex items-center gap-3 mb-3">
-      <FiDownload size={22} className="text-blue-400" />
-      <h3 className="text-lg font-semibold text-white">
-        Download Our 3D Catalogue
-      </h3>
-    </div>
-    <p className="text-sm text-gray-300 mb-4">
-      Get the full product list, specs, and high‑resolution renders in one PDF.
-    </p>
-    <Button
-      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-full font-medium flex items-center justify-center gap-2"
-      onClick={() => window.open("/catalogue.pdf", "_blank")}
-    >
-      Download Catalogue
-      <FiDownload size={18} />
-    </Button>
+    {/* Glow decoration */}
+    <div className="absolute -top-10 -right-10 w-24 h-24 bg-blue-500/20 rounded-full blur-2xl pointer-events-none" />
+    <div className="absolute -bottom-10 -left-10 w-24 h-24 bg-purple-500/20 rounded-full blur-2xl pointer-events-none" />
 
-    <div className="mt-4 text-center">
-      <button
-        onClick={() => (window.location.href = "/products")}
-        className="text-sm text-blue-400 hover:text-blue-300 underline"
+    <div className="flex items-center gap-3 mb-3 relative z-10">
+      <div className="p-2 bg-blue-500/10 rounded-xl border border-blue-500/30">
+        <FiGift size={20} className="text-blue-400" />
+      </div>
+      <div>
+        <h3 className="text-sm font-black text-white uppercase tracking-wider leading-none">
+          Matrix VIP Club
+        </h3>
+        <span className="text-[8px] font-black text-blue-400 uppercase tracking-widest leading-none mt-1 block">Exclusive Perks Available</span>
+      </div>
+    </div>
+    <p className="text-xs text-gray-400 mb-4 leading-relaxed relative z-10">
+      Earn **10% Matrix Cashback** on this order! Unlock early access to premium 3D assets, holographic renders, and member-only tech drop discounts.
+    </p>
+    
+    <div className="space-y-3 relative z-10">
+      <Button
+        className="w-full !py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-bold flex items-center justify-center gap-2 text-xs uppercase tracking-wider"
+        onClick={() => window.open("/vip-signup", "_blank")}
       >
-        Continue Shopping
-      </button>
+        Unlock Member Perks
+        <FiArrowRight size={14} />
+      </Button>
+
+      <div className="flex items-center justify-center gap-2 text-[9px] text-gray-500 font-bold uppercase tracking-widest pt-2">
+        <span>🛡️ SSL Encrypted</span>
+        <span>•</span>
+        <span>⚡ Instant Access</span>
+      </div>
     </div>
   </motion.div>
 );

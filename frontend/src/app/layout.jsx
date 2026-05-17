@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { CartProvider } from "../contexts/cardContext";
+import { WishlistProvider } from "../contexts/wishlistContext";
 import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,10 +21,12 @@ export default function RootLayout({ children }) {
       <body className={inter.className} suppressHydrationWarning>
         <ClerkProvider>
           <CartProvider>
-            <ThemeProvider attribute="class" disableTransitionOnChange>
-              <CartSuccessModal />
-              {children}
-            </ThemeProvider>
+            <WishlistProvider>
+              <ThemeProvider attribute="class" disableTransitionOnChange>
+                <CartSuccessModal />
+                {children}
+              </ThemeProvider>
+            </WishlistProvider>
           </CartProvider>
         </ClerkProvider>
 
